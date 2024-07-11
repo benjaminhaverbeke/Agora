@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les utilisateurs{% endblock %}
+
+{% block body %}
+
+
+    <h2>Tous les utilisateurs</h2>
+    <table>
+        <thead>
+        <tr>
+           <th>id</th>
+            <th>username</th>
+            <th>email</th>
+            <th>mot de passe</th>
+            <th>roles</th>
+            <th>Date d'inscription</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.password }}</td>
+            <td>
+                {% for role in user.roles %}
+            <td>{{ role }}</td>
+            {% endfor %}
+
+            </td>
+
+            <td>{{ user.createdAt|date("m/d/Y") }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+{% endblock %}

@@ -14,11 +14,18 @@
 
     <nav>
         <ul>
-            <li><a href="/">Accueil</a></li>
-            <li><a href="/search">Recherche</a></li>
-            <li><a href="/register">Inscription</a></li>
-            <li><a href="/login">Connexion</a></li>
-            <li><a href="/logout">Déconnexion</a></li>
+            <li><a href="{{ path('home') }}">Accueil</a></li>
+
+            {% if app.user %}
+                <li><a href="">Mon Compte</a></li>
+                <li><a href="">Mes salons</a></li>
+                <li>
+                    Vous êtes connecté en tant que {{ app.user.username }}, <a href="{{ path('logout') }}">Déconnexion</a>
+                </li>
+            {% else %}
+                <li><a href="{{ path('register') }}">Inscription</a></li>
+                <li><a href="{{ path('login') }}">Connexion</a></li>
+            {% endif %}
         </ul>
     </nav>
     <div class="container">

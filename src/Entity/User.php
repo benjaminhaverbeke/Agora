@@ -4,13 +4,20 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
+#[UniqueEntity(fields: ['email'], message: "Cette adresse email existe déjà")]
+#[UniqueEntity(fields: ['username'], message: "Ce nom d'utilisateur existe déjà")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public function __construct(){
+        $this->created_at = new \DateTimeImmutable();
+    }
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
