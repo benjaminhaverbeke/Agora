@@ -11,16 +11,19 @@
         {% endblock %}
     </head>
     <body>
+
+    <nav>
+        <ul>
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/search">Recherche</a></li>
+            <li><a href="/register">Inscription</a></li>
+            <li><a href="/login">Connexion</a></li>
+            <li><a href="/logout">Déconnexion</a></li>
+        </ul>
+    </nav>
     <div class="container">
-        <nav>
-            <ul>
-                <li><a href="/">Accueil</a></li>
-                <li><a href="/search">Recherche</a></li>
-                <li><a href="/register">Inscription</a></li>
-                <li><a href="/login">Connexion</a></li>
-                <li><a href="/logout">Déconnexion</a></li>
-            </ul>
-        </nav>
+        {% include 'partials/flash.html.twig' %}
+
 
 
 

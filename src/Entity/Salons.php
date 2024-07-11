@@ -20,7 +20,7 @@ class Salons
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: "salons")]
-    private ?Users $user = null;
+    private ?User $user = null;
 
     #[ORM\Column(length: 255)]
     private ?string $privacy = null;
@@ -57,12 +57,12 @@ class Salons
         return $this;
     }
 
-    public function getUser(): ?Users
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(Users $user): static
+    public function setUser(User $user): static
     {
         $this->user = $user;
 

@@ -3,7 +3,12 @@
 {% block title %}Salon{% endblock %}
 
 {% block body %}
-    <h1>{{ salon.title }}</h1>
-    <p>{{ salon.description }}</p>
+    <h1>Titre : {{ salon.title }}</h1>
+    <p>Description : {{ salon.description }}</p>
+    <p>Type de salon : {{ salon.privacy }}</p>
+    <p>{{ salon.user().getUsername() }}</p>
+    <p><a href="{{ path('salon.edit', {id: salon.id}) }}">Editer le salon</a></p>
+
+
 
 {% endblock %}

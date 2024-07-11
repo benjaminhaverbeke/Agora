@@ -29,19 +29,23 @@ class Sujets
     #[ORM\Column]
     private ?\DateTimeImmutable $vote_date = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getSalonId(): ?int
+    public function getSalon(): ?int
     {
-        return $this->salon_id;
+        return $this->salon;
     }
 
-    public function setSalonId(int $salon_id): static
+    public function setSalon(int $salon): static
     {
-        $this->salon_id = $salon_id;
+        $this->salon = $salon;
 
         return $this;
     }
@@ -90,6 +94,18 @@ class Sujets
     public function setVoteDate(\DateTimeImmutable $vote_date): static
     {
         $this->vote_date = $vote_date;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

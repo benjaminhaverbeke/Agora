@@ -35,7 +35,7 @@ class SalonController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             $em->flush();
             $this->addFlash('success', 'Les paramètres du Salon ont bien été modifiés');
-            return $this->redirectToRoute('salon.edit', ['id' => $salons->getId()]);
+            return $this->redirectToRoute('salon.index', ['id' => $salons->getId()]);
         }
         return $this->render('salon/edit.html.twig', [
             'salons'=> $salons,
@@ -43,5 +43,24 @@ class SalonController extends AbstractController
         ]);
 
     }
+
+    #[Route('/salon/create', name: 'salon.create')]
+    public function create(Request $request, EntityManagerInterface $em): Response
+    {
+            $salon = new Salons();
+            $form = $this->createForm(SalonType::class);
+            if($form->isSubmitted() && $form->isValid()) {
+                $salon->setCreatedAt(new \DateTimeImmutable());
+                $em->persist($salon);
+                $em->flush();
+                $this->addFlash('success', 'Le salon a bien été crée');
+                return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
+            }
+           return $this->render('salon/create.html.twig', [
+               'form' => $form
+           ]);
+
+    }
+
 
 }

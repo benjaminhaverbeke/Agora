@@ -15,7 +15,7 @@ class Messages
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
-    private ?Users $user = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
     private ?Salons $salon = null;
@@ -31,12 +31,12 @@ class Messages
         return $this->id;
     }
 
-    public function getUser(): ?Users
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?Users $user): static
+    public function setUser(?User $user): static
     {
         $this->user = $user;
 

@@ -4,11 +4,13 @@ namespace App\Form;
 
 use App\Entity\Salons;
 use App\Entity\Users;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -28,12 +30,15 @@ class SalonType extends AbstractType
             ->add('description', TextType::class, [
                 'label' => "Description"
             ])
-            ->add('user', EntityType::class, [ // Use EntityType for user association
-                'class' => Users::class,
-                'choice_label' => 'username',
-                'label' => 'Utilisateur'
-            ])
-            ->add('privacy')
+            ->add('user', HiddenType::class)
+            ->add('privacy',
+                ChoiceType::class, [
+                    'choices'  => [
+
+                        'Public' => 'PUBLIC',
+                        'Privé' => 'PRIVATE',
+                    ]]
+            )
             ->add('createdAt', DateTimeType::class)
             ->add('save', SubmitType::class,
                 ['label' => 'Enregistrer'])
