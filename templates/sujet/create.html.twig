@@ -1,14 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Création de Salon{% endblock %}
+{% block title %}Sujet{% endblock %}
 
 {% block body %}
-    <h1>Créer un nouveau salon</h1>
+    <h1>Créer un nouveau sujet</h1>
+
+
     {{ form_start(form) }}
         {{ form_row(form.title) }}
         {{ form_row(form.description) }}
-
+        {{ form_row(form.campagne_date) }}
+        {{ form_row(form.vote_date) }}
         {{ form_row(form.save) }}
     {{ form_end(form) }}
+
+
+
+
+
 
 {% endblock %}

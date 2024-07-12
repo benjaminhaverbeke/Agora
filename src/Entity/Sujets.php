@@ -14,8 +14,8 @@ class Sujets
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $salon_id = null;
+    #[ORM\ManyToOne(inversedBy: "sujets")]
+    private ?Salons $salon = null;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -38,12 +38,12 @@ class Sujets
         return $this->id;
     }
 
-    public function getSalon(): ?int
+    public function getSalon(): ?Salons
     {
         return $this->salon;
     }
 
-    public function setSalon(int $salon): static
+    public function setSalon(Salons $salon): static
     {
         $this->salon = $salon;
 
