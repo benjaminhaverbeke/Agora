@@ -7,7 +7,7 @@ class ElectionManager
 
     private string $victoire;
 
-    public function IsElected(array $proposalsArray): string
+    public function IsElected(array $proposalsArray)
     {
 
 
@@ -26,22 +26,3 @@ class ElectionManager
 
 
 }
-
-$sujet = [
-    [
-        "name" => "name",
-        "description" => "description",
-    ]
-
-
-
-    },
-    {
-
-
-    }
-
-
-
-
-]
