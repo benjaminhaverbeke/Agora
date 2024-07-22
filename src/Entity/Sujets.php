@@ -23,11 +23,6 @@ class Sujets
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $campagne_date = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $vote_date = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -74,29 +69,6 @@ class Sujets
         return $this;
     }
 
-    public function getCampagneDate(): ?\DateTimeImmutable
-    {
-        return $this->campagne_date;
-    }
-
-    public function setCampagneDate(\DateTimeImmutable $campagne_date): static
-    {
-        $this->campagne_date = $campagne_date;
-
-        return $this;
-    }
-
-    public function getVoteDate(): ?\DateTimeImmutable
-    {
-        return $this->vote_date;
-    }
-
-    public function setVoteDate(\DateTimeImmutable $vote_date): static
-    {
-        $this->vote_date = $vote_date;
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {

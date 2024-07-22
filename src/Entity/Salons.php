@@ -22,11 +22,16 @@ class Salons
     #[ORM\ManyToOne(inversedBy: "salons")]
     private ?User $user = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $privacy = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $date_campagne = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $date_vote = null;
+
 
     public function getId(): ?int
     {
@@ -69,17 +74,6 @@ class Salons
         return $this;
     }
 
-    public function getPrivacy(): ?string
-    {
-        return $this->privacy;
-    }
-
-    public function setPrivacy(string $privacy): static
-    {
-        $this->privacy = $privacy;
-
-        return $this;
-    }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -92,4 +86,29 @@ class Salons
 
         return $this;
     }
+
+    public function getDateCampagne(): ?\DateTimeImmutable
+    {
+        return $this->date_campagne;
+    }
+
+    public function setDateCampagne(\DateTimeImmutable $date_campagne): static
+    {
+        $this->date_campagne = $date_campagne;
+
+        return $this;
+    }
+
+    public function getDateVote(): ?\DateTimeImmutable
+    {
+        return $this->date_vote;
+    }
+
+    public function setDateVote(\DateTimeImmutable $date_vote): static
+    {
+        $this->date_vote = $date_vote;
+
+        return $this;
+    }
+
 }

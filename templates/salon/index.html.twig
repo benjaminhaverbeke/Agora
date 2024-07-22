@@ -5,8 +5,8 @@
 {% block body %}
     <h1>Titre : {{ salon.title }}</h1>
     <p>Description : {{ salon.description }}</p>
-    <p>Type de salon : {{ salon.privacy }}</p>
-    <p>{{ salon.user.username }}</p>
+
+    <p>Username :{{ salon.user.username }}</p>
 
 <button><a href="{{ path('salon.edit', {id: salon.id}) }}">Editer le salon</a></button>
     <button><a href="{{ path('salon.delete', {id: salon.id}) }}">Supprimer le salon</a></button>
@@ -20,8 +20,7 @@
             <p>
                 {{ sujet.description }}
             </p>
-            <p>Date limite de campagne : {{ sujet.campagneDate|date('d/m/Y/H:i') }}</p>
-            <p>Date limite de  vote : {{ sujet.voteDate|date('d/m/Y/H:i') }}</p>
+
             <button><a href="{{ path('sujet.edit', {id: sujet.id}) }}">Modifier le sujet</a></button>
             <button><a href="{{ path('sujet.delete', {id: sujet.id}) }}">Supprimer le sujet</a></button>
         </article>

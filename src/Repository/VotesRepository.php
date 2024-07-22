@@ -19,17 +19,16 @@ class VotesRepository extends ServiceEntityRepository
     //    /**
     //     * @return Votes[] Returns an array of Votes objects
     //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('v')
-    //            ->andWhere('v.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('v.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+        public function findAllVotesByProposal(int $id): array
+        {
+            return $this->createQueryBuilder('v')
+                ->andWhere('v.proposal = :id')
+                ->setParameter('id', $id)
+                ->orderBy('v.id', 'ASC')
+                ->getQuery()
+                ->getResult()
+            ;
+        }
 
     //    public function findOneBySomeField($value): ?Votes
     //    {

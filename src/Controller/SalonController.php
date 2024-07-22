@@ -6,8 +6,12 @@ use App\Form\SalonType;
 use App\Entity\Salons;
 use App\Entity\Sujets;
 use App\Form\SujetType;
+use App\Repository\ProposalsRepository;
 use App\Repository\SalonsRepository;
 use App\Repository\SujetsRepository;
+use App\Repository\VotesRepository;
+use App\Service\ElectionManager;
+use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,10 +21,19 @@ use Symfony\Component\Routing\Attribute\Route;
 class SalonController extends AbstractController
 {
     #[Route('/salon/{id}', name: 'salon.index', requirements: ['id' => '\d+'])]
-    public function index(Request $request, int $id, SujetsRepository $sujet, SalonsRepository $salonRepository, EntityManagerInterface $em): Response
+    public function index(Request $request, int $id,
+                          SujetsRepository $sujet,
+                          ProposalsRepository $pm,
+                          SalonsRepository $salonRepository,
+                          VotesRepository $vm,
+                          ElectionManager $election,
+                          EntityManagerInterface $em): Response
     {
+
         $salon = $salonRepository->find($id);
         $allSujets = $sujet->findAll();
+
+        $result = $election->IsElected(75);
 
         return $this->render('salon/index.html.twig', [
             'controller_name' => 'SalonController',

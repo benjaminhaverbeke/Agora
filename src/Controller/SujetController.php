@@ -24,6 +24,7 @@ class SujetController extends AbstractController
     {
         $sujet = $sujet->find($id);
 
+
         return $this->render('sujet/index.html.twig', [
             'controller_name' => 'SujetController',
             'sujet'

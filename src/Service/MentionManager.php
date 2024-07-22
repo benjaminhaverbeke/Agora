@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Service;
+use App\Entity\Votes;
 class MentionManager
 {
 
@@ -60,6 +61,7 @@ class MentionManager
             "excellent" => 0
         ];
 
+
         foreach ($arraynotes as $note) {
 
             switch ($note) {
@@ -94,11 +96,11 @@ class MentionManager
 
 
         $pourcent = [
-            "inadapte" => (int)(($mentions['inadapte'] * 100) / $total),
-            "passable" => (int)(($mentions['passable'] * 100) / $total),
-            "bien" => (int)(($mentions['bien'] * 100) / $total),
-            "tresbien" => (int)(($mentions['tresbien'] * 100) / $total),
-            "excellent" => (int)(($mentions['excellent'] * 100) / $total)
+            "inadapte" => ($mentions['inadapte'] > 0) ? (int)(($mentions['inadapte'] * 100) / $total) : 0,
+            "passable" => ($mentions['passable'] > 0) ? (int)(($mentions['passable'] * 100) / $total) :0,
+            "bien" => ($mentions['bien'] > 0) ? (int)(($mentions['bien'] * 100) / $total) : 0,
+            "tresbien" => ($mentions['tresbien'] > 0) ? (int)(($mentions['tresbien'] * 100) / $total) : 0,
+            "excellent" => ($mentions['excellent'] > 0) ? (int)(($mentions['excellent'] * 100) / $total) : 0
         ];
 
 

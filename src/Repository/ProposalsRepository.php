@@ -19,17 +19,16 @@ class ProposalsRepository extends ServiceEntityRepository
     //    /**
     //     * @return Proposals[] Returns an array of Proposals objects
     //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+        public function AllPropositionSujet(int $id): array
+        {
+            return $this->createQueryBuilder('p')
+                ->andWhere('p.sujet = :id')
+                ->setParameter('id', $id)
+                ->orderBy('p.id', 'ASC')
+                ->getQuery()
+                ->getResult();
+
+        }
 
     //    public function findOneBySomeField($value): ?Proposals
     //    {
