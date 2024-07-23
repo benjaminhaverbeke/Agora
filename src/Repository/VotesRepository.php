@@ -21,13 +21,16 @@ class VotesRepository extends ServiceEntityRepository
     //     */
         public function findAllVotesByProposal(int $id): array
         {
-            return $this->createQueryBuilder('v')
-                ->andWhere('v.proposal = :id')
-                ->setParameter('id', $id)
-                ->orderBy('v.id', 'ASC')
-                ->getQuery()
-                ->getResult()
-            ;
+            $qb = $this->createQueryBuilder('v');
+
+
+            $qb->andWhere('v.proposal = :id')
+                ->setParameter('id', $id);
+
+
+            return $qb->getQuery()->getResult();
+
+
         }
 
     //    public function findOneBySomeField($value): ?Votes

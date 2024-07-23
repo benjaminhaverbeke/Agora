@@ -25,39 +25,65 @@ class ElectionManager
 
         $allprops = $this->pm->AllPropositionSujet($id);
 
-        $voteArray =[];
+        $votearray = [];
 
         foreach ($allprops as $prop) {
 
 
             $votes = $this->vm->findAllVotesByProposal($prop->getId());
 
-            $votearray = [];
 
-            foreach($votes as $vote) {
+            if (count($votes) > 0) {
 
-                   $votearray[] = $vote->getNotes();
+                $resultprop = [];
+                $notearray = [];
+
+                foreach ($votes as $vote) {
+
+
+                    $notearray[] = $vote->getNotes();
+
+
+                }
+                $result = $this->mm->calculMention($notearray);
+
+                $resultprop[] = [
+                    "proposalId" => $prop->getId(),
+                    "mention_win" => $result->getMentionMajoritaire()
+                ];
+
+                $votearray[] = $resultprop;
+
             }
 
-
-                $result = $this->mm->calculMention($votearray);
-
-
-
-            $votearray = [
-                "proposalId" => $prop->getId(),
-                "note" => $votearray,
-                "mention_win" => $result->getMentionMajoritaire()
-            ];
-
-            var_dump($votearray);
         }
 
 
+        $comparearray = ["inadapte", "passable", "bien", "tresbien", "excellent"];
+
+        $matchingVotes = [];
+        for ($i = count($comparearray) - 1; $i >= 0; $i--) {
+            $currentMentionWin = $comparearray[$i];
+
+
+
+            foreach ($votearray as $value) {
+
+                if ($value[0]['mention_win'] === $currentMentionWin) {
+
+                    $matchingVotes[] = $value;
+
+                }
 
 
 
 
+
+            }
+
+
+        }
+        var_dump($matchingVotes);
 
     }
 }
