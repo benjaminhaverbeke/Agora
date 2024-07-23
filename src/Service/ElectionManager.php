@@ -25,8 +25,7 @@ class ElectionManager
 
         $allprops = $this->pm->AllPropositionSujet($id);
 
-        $votearray = [];
-
+        $resultprop = [];
         foreach ($allprops as $prop) {
 
 
@@ -35,7 +34,7 @@ class ElectionManager
 
             if (count($votes) > 0) {
 
-                $resultprop = [];
+
                 $notearray = [];
 
                 foreach ($votes as $vote) {
@@ -49,10 +48,11 @@ class ElectionManager
 
                 $resultprop[] = [
                     "proposalId" => $prop->getId(),
-                    "mention_win" => $result->getMentionMajoritaire()
+                    "mention_win" => $result->getMentionMajoritaire(),
+                    "pourcent" => $result->getPourcent()
+
                 ];
 
-                $votearray[] = $resultprop;
 
             }
 
@@ -66,24 +66,73 @@ class ElectionManager
             $currentMentionWin = $comparearray[$i];
 
 
+            foreach ($resultprop as $value) {
 
-            foreach ($votearray as $value) {
+                if ($value['mention_win'] === $currentMentionWin) {
 
-                if ($value[0]['mention_win'] === $currentMentionWin) {
 
                     $matchingVotes[] = $value;
 
+
                 }
 
+            }
 
+            if (!empty($matchingVotes)) {
 
-
+                break;
 
             }
 
 
         }
-        var_dump($matchingVotes);
+
+        /****Une seule mention gagnante = mention majoritaire*********/
+
+        if (count($matchingVotes) === 1) {
+
+
+            return $matchingVotes[0];
+        } /*****sinon comparaison entre mentions par pourcentages********/
+        else {
+            $winmention = $matchingVotes[0]['mention_win'];
+
+            foreach ($matchingVotes as $index => $vote) {
+
+                $key = array_search($winmention, $comparearray);
+
+
+                $superior = array_splice($vote['pourcent'], $key + 1);
+                $inferior = array_splice($vote['pourcent'], 0, $key);
+
+
+                $opposition = array_sum($inferior);
+                $partisan = array_sum($superior);
+
+
+                $matchingVotes[$index]["opposition"] = $opposition;
+                $matchingVotes[$index]["partisan"] = $partisan;
+
+
+            }
+
+////            if(count($opposition) > 1)
+////            {
+////
+////                array_intersect_ukey()
+////
+////
+////            }
+//
+//
+//                $keyBigPart = array_search(max($partisan), $partisan);
+
+
+g
+            return $matchingVotes[$keyBigPart];
+
+
+        }
 
     }
 }
