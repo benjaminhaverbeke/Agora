@@ -52,6 +52,8 @@ class MentionManager
 
     public function calculMention(array $arraynotes): MentionManager
     {
+        /***** rajouter parametres nb de mention******/
+
 
         $mentions = [
             "inadapte" => 0,
@@ -61,23 +63,45 @@ class MentionManager
             "excellent" => 0
         ];
 
+        /********comparer tableau nbmentions et tableau notes ********/
+
+        /***incremeter valeurs mentions avec les notes correspondantes trouvées*********/
+        /***TROUVER LE MOYEN D'automatiser sans changer dans un premier temps les parametres de la méthode*******/
+        /***fariquer tableau deux dimensions ??***/
+
+        /*
+         * $mentionsUsed = ['inadapte, 'passsable', 'bien', 'tresbien'];
+         * $notes = ['tresbien', 'bien', 'bien', bien', 'passable']
+         *
+         *
+         * $notesCount = [$mentionsUsed, $notes];
+         *foreach($notesCount as $sous_notes){
+         *
+         *              foreach($sous_notes[0] as $mentions){
+         *
+         *              $mentions
+         * }
+         *
+         * }
+         */
+
 
         foreach ($arraynotes as $note) {
 
             switch ($note) {
-                case "E":
+                case "excellent":
                     $mentions['excellent']++;
                     break;
-                case "TB":
+                case "tresbien":
                     $mentions['tresbien']++;
                     break;
-                case "B":
+                case "bien":
                     $mentions['bien']++;
                     break;
-                case "P":
+                case "passable":
                     $mentions['passable']++;
                     break;
-                case "I":
+                case "inadapte":
                     $mentions['inadapte']++;
                     break;
 
@@ -85,6 +109,10 @@ class MentionManager
 
 
         }
+            /********calcul cumul effectif ******/
+        /**adapter le calcul du cumul au nb de mentions****/
+
+
 
         $inadaptecumul = $mentions['inadapte'];
         $passablecumul = $mentions['passable'] + $inadaptecumul;
@@ -92,9 +120,11 @@ class MentionManager
         $tresbiencumul = $mentions['tresbien'] + $biencumul;
         $excellentcumul = $mentions['excellent'] + $tresbiencumul;
 
+
+        /****total toujours bon*******c'est pour le pourcent ****/
         $total = count($arraynotes);
 
-
+        /******a revoir ? a la fin***/
         $pourcent = [
             "inadapte" => ($mentions['inadapte'] > 0) ? (int)(($mentions['inadapte'] * 100) / $total) : 0,
             "passable" => ($mentions['passable'] > 0) ? (int)(($mentions['passable'] * 100) / $total) :0,
@@ -108,6 +138,7 @@ class MentionManager
 
         $mentionMajoritaire = "bien";
 
+/*********a revoir avec de nouvelle valeur pour cumul***************/
 
         if ($mediane <= $inadaptecumul) {
             $mentionMajoritaire = "inadapté";

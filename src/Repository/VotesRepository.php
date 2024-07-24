@@ -33,13 +33,15 @@ class VotesRepository extends ServiceEntityRepository
 
         }
 
-    //    public function findOneBySomeField($value): ?Votes
-    //    {
-    //        return $this->createQueryBuilder('v')
-    //            ->andWhere('v.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        public function findNotesWithoutSpecificMention(int $id, array $mentions): array
+        {
+            return $this->createQueryBuilder('v')
+                ->andWhere('v.proposal = :id')
+                ->setParameter('id', $id)
+                ->andWhere('v.notes NOT IN (:mentions)')
+                ->setParameter('mentions', $mentions)
+                ->getQuery()
+                ->getResult()
+            ;
+        }
 }
