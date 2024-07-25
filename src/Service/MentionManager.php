@@ -32,12 +32,12 @@ class MentionManager
 
     public function getMentionGagnante(): ?string
     {
-        return $this->mentionMajoritaire;
+        return $this->mentionGagnante;
     }
 
-    public function setMentionGagnante(?string $mentionMajoritaire): void
+    public function setMentionGagnante(?string $mentionGagnante): void
     {
-        $this->mentionMajoritaire = $mentionMajoritaire;
+        $this->mentionGagnante = $mentionGagnante;
     }
 
     public function getPourcent(): ?array

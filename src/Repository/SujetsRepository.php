@@ -30,7 +30,7 @@ class SujetsRepository extends ServiceEntityRepository
 //
 //    }
 
-//        public function findOneBySomeField($value): ?Sujets
+//        public function findLast($value): ?Sujets
 //        {
 //            return $this->createQueryBuilder('s')
 //                ->andWhere('s.exampleField = :val')
@@ -40,4 +40,14 @@ class SujetsRepository extends ServiceEntityRepository
 //                ->getOneOrNullResult()
 //            ;
 //        }
+
+    public function findLastInserted()
+    {
+        return $this
+            ->createQueryBuilder("e")
+            ->orderBy("e.id", "DESC")
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

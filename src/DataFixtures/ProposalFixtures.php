@@ -104,7 +104,7 @@ class ProposalFixtures extends Fixture
 
         $manager->persist($proposal2);
 
-        $notesArray = ['bien', 'passable'];
+        $notesArray = ['bien', 'passable', 'tresbien', 'excellent'];
 
         for ($i = 0; $i < 5; $i++) {
             $vote = new Votes();

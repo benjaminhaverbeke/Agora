@@ -30,13 +30,15 @@ class SalonController extends AbstractController
                           EntityManagerInterface $em): Response
     {
 
+        $lastsujet = $sujet->findLastInserted();
+
         $salon = $salonRepository->find($id);
         $allSujets = $sujet->findAll();
-        $props = $pm->AllPropositionSujet(185);
+        $props = $pm->AllPropositionSujet($lastsujet->getId());
         $result = $election->allMentionsByProposal($props);
         $winners = $election->allWinnerMentions($result);
         $thewinner = $election->departageMentions($winners);
-
+        var_dump($thewinner);
 
         return $this->render('salon/index.html.twig', [
             'controller_name' => 'SalonController',
