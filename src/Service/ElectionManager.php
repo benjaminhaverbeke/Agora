@@ -21,6 +21,8 @@ class ElectionManager
 
     public function allMentionsByProposal(array $props): array
     {
+        $mentions_depart = ['inadapte', 'passable', 'bien', 'tresbien', 'excellent'];
+
 
         $resultprop = [];
         foreach ($props as $prop) {
@@ -35,7 +37,6 @@ class ElectionManager
                 $notearray = [];
 
 
-
                 foreach ($votes as $vote) {
 
 
@@ -44,11 +45,11 @@ class ElectionManager
 
                 }
 
-                $result = $this->mm->calculMention($notearray);
+                $result = $this->mm->calculMention($notearray, $mentions_depart);
 
                 $resultprop[] = [
                     "proposalId" => $prop->getId(),
-                    "mention_win" => $result->getMentionMajoritaire(),
+                    "mention_win" => $result->getMentionGagnante(),
                     "pourcent" => $result->getPourcent()
 
                 ];
@@ -67,17 +68,19 @@ class ElectionManager
     {
 
 
-        $comparearray = ["inadapte", "passable", "bien", "tresbien", "excellent"];
+        /****itération de la mention la plus grande à la plus petite***/
 
+        $comparearray = ["inadapte", "passable", "bien", "tresbien", "excellent"];
+        /***stock le ou les résultats***/
         $matchingVotes = [];
         for ($i = count($comparearray) - 1; $i >= 0; $i--) {
-
+            /**stocke la plus grande mention a chaque iteration***/
             $currentMentionWin = $comparearray[$i];
 
 
             foreach ($mentionsarray as $mention) {
-
-
+                /***compare la mention du tableau en input a la plus grande mention stockee***/
+                /***il peut donc y en avoir plusieurs***/
                 if ($mention['mention_win'] === $currentMentionWin) {
 
 
@@ -87,6 +90,8 @@ class ElectionManager
                 }
 
             }
+
+            /***sortie du foreach sur le tableau en input, on regarde si le tableau matchingVotes possede au moins une valeur, si oui on break***/
 
             if (!empty($matchingVotes)) {
 
@@ -98,115 +103,94 @@ class ElectionManager
 
         }
 
-
         return $matchingVotes;
-
-
 
     }
 
 
-    /****Une seule mention gagnante = mention majoritaire*********/
-
     public function departageMentions(array $matchingVotes)
     {
+        /***mentions de départ***/
+        $mentions = ['inadapte', 'passable', 'bien', 'tresbien', 'excellent'];
 
+        /***on stock le match dans un tableau qui sera vérifié chaque tour, si sa valeur est unique alors il y a un candidat gagnant***/
 
-        $lastresult = [];
-        $winmention = $matchingVotes[0]['mention_win'];
+        $lastresult = $matchingVotes;
+
+        /***la mention gagnante ou a égalité en entrée ***/
+        $winmention = $lastresult[0]['mention_win'];
+
+        /***tableau a remplir avec les mention exclue qui a precedemment gagne****/
         $mentionsExcluded = [];
 
+        /***seulement 3 tours possibles***/
 
-            if (count($matchingVotes) === 1) {
+        for ($i = 0; $i < 3; $i++) {
+
+
+            if (count($lastresult) === 1) {
 
                 /***si une seule valeur dans matchingvotes alors le candidat a gagne ***/
 
-                return $matchingVotes[0];
+                return $lastresult[0];
 
-            }
-            else {
+            } else {
 
+                /***si c'est 2eme tour ou 3eme alors on stock la mention gagnante précédente dans winmention pour pouvoir l'exclure du vote***/
+                $winmention = $lastresult[0]["mention_win"];
 
-                /*******soit le premier choix est gagnant c'est a dire un seul resultat, soit ca itere, un tour deja fait, 4 tours maximum ***/
-                for($i = 0 ; $i < 4 ; $i++){
+                /***on rajoute la derniere mention gagnante au tableau pour l'exclure de la query SQL ***/
+                $mentionsExcluded[] = $winmention;
 
-                    /***tableau a remplir avec la mention exclue qui a precedemment gagne****/
+                $newresult = [];
 
+                foreach ($lastresult as $match) {
 
+                    /****on trouve les objets votes qui sont liés à la proposition, et on exclue les mentions qui ont déjà gagné***/
 
-
-                        if($i === 0){
-
-                            $current_match = $matchingVotes;
-
-                        }
-
-                        else
-                        {
-
-                            $winmention = $lastresult[0]["mention_win"];
-                            $current_match = $lastresult;
-
-                        }
+                    $newvotes = $this->vm->findNotesWithoutSpecificMention($match['proposalId'], $mentionsExcluded);
 
 
-                        $mentionsExcluded[] = $winmention;
+                    $notesarray = [];
 
-                        $newresult = [];
+                    foreach ($newvotes as $vote) {
 
-                        foreach ($current_match as $match) {
-
-
-                            $newvotes = $this->vm->findNotesWithoutSpecificMention($match['proposalId'], $mentionsExcluded);
+                        $notesarray[] = $vote->getNotes();
 
 
-                            $notesarray = [];
-
-                            foreach($newvotes as $vote){
-
-                                $notesarray[]= $vote->getNotes();
+                    }
 
 
-                            }
+                    $result = $this->mm->calculMention($notesarray, $mentions);
+//                            var_dump($result);
 
 
-                            $result = $this->mm->calculMention($notesarray);
+                    $newresult[] =
+                        [
+                            "proposalId" => $vote->getProposal()->getId(),
+                            "mention_win" => $result->getMentionGagnante(),
+                            "pourcent" => $result->getPourcent()
 
-
-
-                            $newresult[]=
-                                [
-                                    "proposalId" => $vote->getProposal()->getId(),
-                                "mention_win" => $result->getMentionMajoritaire(),
-                                "pourcent" => $result->getPourcent()
-
-                            ];
-
-
-                        }
-
-
-
-                        $lastresult = $this->allWinnerMentions($newresult);
-                        var_dump($lastresult);
-                        if(count($lastresult) === 1){
-
-                            echo $lastresult[0]["mention_win"];
-                            return $lastresult;
-                        }
-
+                        ];
 
 
                 }
+
+
+                $lastresult = $this->allWinnerMentions($newresult);
+
+                if (count($lastresult) === 1) {
+
+                    echo $lastresult[0]["mention_win"];
+                    return $lastresult;
+                }
+
 
                 echo "egalite";
                 return $lastresult;
 
 
             }
-
-
-
 
 
 //            $winmention = $matchingVotes[0]['mention_win'];
@@ -243,7 +227,7 @@ class ElectionManager
 //            }
 
 
-        /* cherche la plus grande opposition et partisan pour chaque match **/
+            /* cherche la plus grande opposition et partisan pour chaque match **/
 
 
 //            foreach ($matchingVotes as $match) {
@@ -270,9 +254,10 @@ class ElectionManager
 //                    }
 //
 //
+        }
+//
+//
     }
-//
-//
 }
 
 /*regarde si il y a plus d'une valeur dans partisan, si une valeur ca retourne cette valeur, si plus d'une valeur, ca regarde la plus grande opposition*/

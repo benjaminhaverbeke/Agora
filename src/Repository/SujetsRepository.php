@@ -30,13 +30,14 @@ class SujetsRepository extends ServiceEntityRepository
 //
 //    }
 
-    //    public function findOneBySomeField($value): ?Sujets
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+//        public function findOneBySomeField($value): ?Sujets
+//        {
+//            return $this->createQueryBuilder('s')
+//                ->andWhere('s.exampleField = :val')
+//                ->orderBy('s.id', 'DESC')
+//                ->setParameter('val', $value)
+//                ->getQuery()
+//                ->getOneOrNullResult()
+//            ;
+//        }
 }

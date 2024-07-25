@@ -32,7 +32,6 @@ class SalonController extends AbstractController
 
         $salon = $salonRepository->find($id);
         $allSujets = $sujet->findAll();
-
         $props = $pm->AllPropositionSujet(185);
         $result = $election->allMentionsByProposal($props);
         $winners = $election->allWinnerMentions($result);
