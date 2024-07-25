@@ -34,18 +34,13 @@ class SalonController extends AbstractController
 
         $salon = $salonRepository->find($id);
         $allSujets = $sujet->findAll();
-        $props = $pm->AllPropositionSujet($lastsujet->getId());
-        $result = $election->allMentionsByProposal($props);
-        $winners = $election->allWinnerMentions($result);
-        $thewinner = $election->departageMentions($winners);
-        var_dump($thewinner);
+       $result =  $election->isElected($lastsujet->getId());
+       var_dump($result);
 
         return $this->render('salon/index.html.twig', [
             'controller_name' => 'SalonController',
             'salon' => $salon,
             'allsujets' => $allSujets
-
-
 
         ]);
     }

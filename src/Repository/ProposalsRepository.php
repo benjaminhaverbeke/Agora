@@ -19,7 +19,7 @@ class ProposalsRepository extends ServiceEntityRepository
     //    /**
     //     * @return Proposals[] Returns an array of Proposals objects
     //     */
-        public function AllPropositionSujet(int $id): array
+        public function allPropositionSujet(int $id): array
         {
             return $this->createQueryBuilder('p')
                 ->andWhere('p.sujet = :id')

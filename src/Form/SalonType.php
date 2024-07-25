@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Salons;
 use App\Entity\User;
+use IntlDateFormatter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,6 +24,13 @@ class SalonType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
+            ])
+            ->add('dateCampagne', DateTimeType::class, [
+                'label' => "Fin de la campagne",
+            ])
+            ->add('dateVote', DateTimeType::class, [
+                'label' => "Cloture des votes",
+
             ])
             ->add('save', SubmitType::class ,[
                 'label' => 'Enregistrer',

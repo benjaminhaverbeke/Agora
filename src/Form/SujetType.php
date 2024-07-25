@@ -25,14 +25,6 @@ class SujetType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
             ])
-            ->add('campagne_date', DateTimeType::class, [
-                'label' => "Fin de la campagne",
-                'widget' => 'choice',
-            ])
-            ->add('vote_date', DateTimeType::class, [
-                'label' => "Cloture des votes",
-                'widget' => 'choice',
-            ])
             ->add('save', SubmitType::class, [
                 'label' => 'Créer'
             ]);

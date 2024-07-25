@@ -15,14 +15,18 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Repository\SujetsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
+
 class ProposalFixtures extends Fixture
 {
+
+
     public function __construct(
         private readonly UserPasswordHasherInterface $hasher,
     )
     {
 
     }
+
 
     public function load(ObjectManager $manager): void
     {
@@ -61,73 +65,49 @@ class ProposalFixtures extends Fixture
 
 
         }
-        $sujet = new Sujets();
-        $sujet->setTitle('title')
-            ->setDescription('description')
-            ->setSalon($salon)
-            ->setUser($user);
 
-        $manager->persist($sujet);
-        for ($i = 0; $i < 3; $i++) {
+        $manager->flush();
+
+        $sm = $manager->getRepository(Sujets::class);
+        $lastsujet = $sm->findLastInserted();
+
+        for ($i = 0; $i < 4; $i++) {
 
             $proposals = new Proposals();
 
             $proposals
                 ->setTitle('title' . $i)
                 ->setDescription('description' . $i)
-                ->setSujet($sujet)
+                ->setSujet($lastsujet)
                 ->setSalon($salon)
                 ->setUser($user);
 
             $manager->persist($proposals);
         }
 
-        $proposals = new Proposals();
+        $manager->flush();
 
-        $proposals
-            ->setTitle('title' . $i)
-            ->setDescription('description' . $i)
-            ->setSujet($sujet)
-            ->setSalon($salon)
-            ->setUser($user);
+        $pm = $manager->getRepository(Proposals::class);
+        $allprops = $pm->AllPropositionSujet($lastsujet->getId());
 
-        $manager->persist($proposals);
+        $notesArray = ['passable', 'bien','tresbien'];
+        $nbVotants = 5;
 
-        $proposal2 = new Proposals();
+        foreach ($allprops as $prop) {
 
-        $proposal2
-            ->setTitle('title' . $i)
-            ->setDescription('description' . $i)
-            ->setSujet($sujet)
-            ->setSalon($salon)
-            ->setUser($user);
+            for ($i = 0; $i < $nbVotants; $i++) {
+                $vote = new Votes();
+                $randnote = array_rand($notesArray);
+                $vote->setSujet($lastsujet)
+                    ->setProposal($prop)
+                    ->setNotes($notesArray[$randnote]);
 
-        $manager->persist($proposal2);
+                $manager->persist($vote);
 
-        $notesArray = ['bien', 'passable', 'tresbien', 'excellent'];
-
-        for ($i = 0; $i < 5; $i++) {
-            $vote = new Votes();
-            $randnote = array_rand($notesArray);
-            $vote->setSujet($sujet)
-                ->setProposal($proposals)
-                ->setNotes($notesArray[$randnote]);
+            }
 
 
-            $manager->persist($vote);
         }
-
-        for ($i = 0; $i < 5; $i++) {
-            $vote = new Votes();
-            $randnote = array_rand($notesArray);
-            $vote->setSujet($sujet)
-                ->setProposal($proposal2)
-                ->setNotes($notesArray[$randnote]);
-
-
-            $manager->persist($vote);
-        }
-
 
         $manager->flush();
     }

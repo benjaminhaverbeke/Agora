@@ -66,6 +66,7 @@ class ElectionManager
                 $resultprop[] = [
                     "proposalId" => $prop->getId(),
                     "mention_win" => $result->getMentionGagnante(),
+                    "mediane" => $result->getMediane(),
                     "pourcent" => $result->getPourcent()
 
                 ];
@@ -136,31 +137,60 @@ class ElectionManager
         /***on stock le match dans un tableau qui sera vérifié chaque tour, si sa valeur est unique alors il y a un candidat gagnant***/
 
         $lastresult = $matchingVotes;
+        $winmention = $lastresult[0]["mention_win"];
 
 
         /***tableau a remplir avec les mention exclue qui a precedemment gagne****/
         $mentionsExcluded = [];
 
-        /***seulement 3 tours possibles***/
+        /****stock les tours********/
+        $stocklastresult = [];
+        /***seulement 4 tours possibles***/
 
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 4; $i++) {
+
+            $stocklastresult[] = $lastresult;
 
             /***on commence par reparder combien de valeurs dans le tableau lastresult****/
 
             if (count($lastresult) === 1) {
 
                 /***si une seule valeur alors le candidat a gagne ***/
+                /***retourne les differents tours****la derniere valeur est la gagnante****/
 
-                return $lastresult[0];
+                return $stocklastresult;
 
             } else {
 
                 /***si c'est 2eme tour ou 3eme alors on stock la mention gagnante précédente dans winmention pour pouvoir l'exclure du vote***/
-                $winmention = $lastresult[0]["mention_win"];
+
+
+
+                /***vérifie si il y a une mention gagnante*existe si iln'y en a pas alors il n'y avait qu'en mention et elle a déjà été stockée
+                 * alors égalité**
+                 */
+
+                    if(isset($lastresult[0]["mention_win"])){
+
+                        $winmention = $lastresult[0]["mention_win"];
+                    }
+                    else
+                    {
+                        /*** si aucune mention gagnante n'est stockée alors c'est que tous les votes
+                         * ne portaient qu'une seule mention** pas de mention majoritaire**
+                         * il y a donc égalité parfaite
+                         * stockresult retourne les
+                         */
+
+//                        var_dump($stocklastresult[0]);
+                        return $stocklastresult[0];
+
+                    }
+
 
                 /***on rajoute la derniere mention gagnante au tableau pour l'exclure de la query SQL ***/
                 $mentionsExcluded[] = $winmention;
-//                var_dump($mentionsExcluded);
+//             var_dump($mentionsExcluded);
                 $newresult = [];
 
                 foreach ($lastresult as $match) {
@@ -184,19 +214,22 @@ class ElectionManager
 
                     $new_mentions =  array_diff($mentions, $mentionsExcluded);
 
-
+//                    var_dump($new_mentions);
 
                     $result = $this->mm->calculMention($notesarray, $new_mentions);
-//                   var_dump($result);
+//                  var_dump($result);
+
+                        $newresult[] =
+                            [
+                                "proposalId" => $match['proposalId'],
+                                "mention_win" => $result->getMentionGagnante(),
+                                "mediane" => $result->getMediane(),
+                                "pourcent" => $result->getPourcent()
+
+                            ];
 
 
-                    $newresult[] =
-                        [
-                            "proposalId" => $match['proposalId'],
-                            "mention_win" => $result->getMentionGagnante(),
-                            "pourcent" => $result->getPourcent()
 
-                        ];
 
 
                 }
@@ -206,13 +239,41 @@ class ElectionManager
 
             }
 
+
+
         }
 
-        /****si on sort de la boucle (3tours max) alors les propositions sont à égalité,
+        /****si on sort de la boucle (4tours max) alors les propositions sont à égalité,
          * dans ce cas on retourne un tableau avec plusieurs valeurs***
          */
 
-        return $lastresult;
+        return $stocklastresult;
 
     }
+
+
+    /*******prend un id de sujet en parametre*****/
+    public function isElected(int $id) : array {
+
+        /***retourne toutes les propositions pour un sujet donné***/
+        $all_props = $this->pm->allPropositionSujet($id);
+
+
+        /***retourne toutes les mentions gagnantes pour chaque proposition du sujet***/
+        $all_mentions = $this->allMentionsByProposal($all_props);
+//        var_dump($all_mentions);
+
+        /***retourne la ou les propositions arrivées égalités avec la même mention*****/
+        $all_win_mentions = $this->allWinnerMentions($all_mentions);
+        //var_dump($all_win_mentions);
+
+        /***retourne la ou les propositions arrivées en tête après départage***/
+        $result = $this->departageMentions($all_win_mentions);
+//       var_dump($result);
+
+        return $result;
+
+    }
+
+
 }
