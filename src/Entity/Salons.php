@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SalonsRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: SalonsRepository::class)]
 class Salons
 {
@@ -27,9 +27,13 @@ class Salons
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column]
+    #[Assert\GreaterThan('today')]
     private ?\DateTimeImmutable $date_campagne = null;
 
     #[ORM\Column]
+    #[Assert\DateTime]
+    #[Assert\GreaterThan('today')]
+    #[Assert\GreaterThan(propertyPath: 'date_campagne')]
     private ?\DateTimeImmutable $date_vote = null;
 
 
