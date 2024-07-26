@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SalonsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: SalonsRepository::class)]
@@ -19,7 +21,7 @@ class Salons
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $user = null;
 
 
@@ -35,10 +37,15 @@ class Salons
     #[Assert\GreaterThan(propertyPath: 'date_campagne', message : "La date de clôture des votes doit être supérieure à la date de fin de campagne")]
     private ?\DateTimeImmutable $date_vote;
 
-    public function __construct(){
+    /**
+     * @var Collection<int, user>
+     */
+    #[ORM\ManyToMany(targetEntity: user::class, inversedBy: 'salons')]
+    private Collection $users;
 
-
-
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,6 +122,31 @@ class Salons
     public function setDateVote(\DateTimeImmutable $date_vote): static
     {
         $this->date_vote = $date_vote;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, user>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(user $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+
+        }
+
+        return $this;
+    }
+
+    public function removeUser(user $user): static
+    {
+        $this->users->removeElement($user);
 
         return $this;
     }

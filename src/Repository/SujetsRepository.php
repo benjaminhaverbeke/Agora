@@ -19,16 +19,16 @@ class SujetsRepository extends ServiceEntityRepository
     //    /**
     //     * @return Sujets[] Returns an array of Sujets objects
     //     */
-//    public function findAllPropositions(int $id): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.id = :id')
-//            ->setParameter('id', $id)
-//            ->orderBy('s.id', 'ASC')
-//            ->getQuery()
-//            ->getResult();
-//
-//    }
+    public function findAllSujetsBySalon(int $id): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.salon = :id')
+            ->setParameter('id', $id)
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+    }
 
 //        public function findLast($value): ?Sujets
 //        {

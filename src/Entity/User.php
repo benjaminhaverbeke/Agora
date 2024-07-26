@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -18,6 +20,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public function __construct(){
         $this->created_at = new \DateTimeImmutable();
+        $this->salons = new ArrayCollection();
     }
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -44,6 +47,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
+
+    /**
+     * @var Collection<int, Salons>
+     */
+    #[ORM\ManyToMany(targetEntity: Salons::class, mappedBy: 'users')]
+    private Collection $salons;
 
     public function getId(): ?int
     {
@@ -140,6 +149,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Salons>
+     */
+    public function getSalons(): Collection
+    {
+        return $this->salons;
+    }
+
+    public function addSalon(Salons $salon): static
+    {
+        if (!$this->salons->contains($salon)) {
+            $this->salons->add($salon);
+            $salon->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSalon(Salons $salon): static
+    {
+        if ($this->salons->removeElement($salon)) {
+            $salon->removeUser($this);
+        }
 
         return $this;
     }

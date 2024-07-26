@@ -15,10 +15,10 @@
         {% for sujet in allsujets %}
         <article>
             <h3>
-                Sujet n°{{ sujet.id }} {{ sujet.title }}
+                Sujet : {{ sujet.title }}
             </h3>
             <p>
-                {{ sujet.description }}
+                Description : {{ sujet.description }}
             </p>
 
             <button><a href="{{ path('sujet.edit', {id: sujet.id}) }}">Modifier le sujet</a></button>

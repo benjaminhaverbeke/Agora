@@ -13,10 +13,10 @@ class Proposals
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'proposals')]
+    #[ORM\ManyToOne(targetEntity: Salons::class)]
     private ?Salons $salon = null;
 
-    #[ORM\ManyToOne(inversedBy: 'proposals')]
+    #[ORM\ManyToOne(targetEntity: Sujets::class)]
     private ?Sujets $sujet = null;
 
     #[ORM\Column(length: 255)]
@@ -25,8 +25,7 @@ class Proposals
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $user = null;
 
     public function setId(int $id) : self

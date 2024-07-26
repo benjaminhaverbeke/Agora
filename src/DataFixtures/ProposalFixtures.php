@@ -7,6 +7,8 @@ use App\Entity\Proposals;
 use App\Entity\Salons;
 use App\Entity\Sujets;
 use App\Entity\Votes;
+use App\Repository\SalonsRepository;
+use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
@@ -21,7 +23,7 @@ class ProposalFixtures extends Fixture
 
 
     public function __construct(
-        private readonly UserPasswordHasherInterface $hasher,
+        private readonly UserPasswordHasherInterface $hasher, UserRepository $um
     )
     {
 
@@ -47,7 +49,9 @@ class ProposalFixtures extends Fixture
             ->setUser($user)
             ->setCreatedAt(new \DateTimeImmutable())
             ->setDateCampagne(new \DateTimeImmutable())
-            ->setDateVote(new \DateTimeImmutable());
+            ->setDateVote(new \DateTimeImmutable())
+            ->addUser($user);
+
 
 
         $manager->persist($salon);

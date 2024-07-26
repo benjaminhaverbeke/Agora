@@ -18,7 +18,7 @@
 
             {% if app.user %}
                 <li><a href="{{ path('profile') }}">Mon Compte</a></li>
-                <li><a href="">Mes salons</a></li>
+                <li><a href="{{ path('salon.list') }}">Mes salons</a></li>
                 <li>
                     Vous êtes connecté en tant que {{ app.user.username }}, <a href="{{ path('logout') }}">Déconnexion</a>
                 </li>

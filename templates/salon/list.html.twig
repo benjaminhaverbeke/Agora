@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes salons{% endblock %}
+
+{% block body %}
+    <table class="table">
+        <thead>
+
+        <tr>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Date de fin de la campagne</th>
+            <th>Date de clôture des votes</th>
+            <th>Créé par</th>
+            <th>Date de création</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for salon in salonlist %}
+        <tr>
+            <td>
+               {{ salon.title }}
+            </td>
+            <td>
+                {{ salon.description }}
+            </td>
+
+            <td>
+                {{ salon.dateCampagne|date("d/m/Y H:m") }}
+            </td>
+            <td>
+                {{ salon.dateVote|date("d/m/Y H:m") }}
+            </td>
+            <td>
+                {{ salon.user.username }}
+            </td>
+            <td>
+                {{ salon.createdAt|date("d/m/Y") }}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+
+
+
+
+    </table>
+
+{% endblock %}

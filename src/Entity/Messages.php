@@ -14,10 +14,10 @@ class Messages
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'messages')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'messages')]
+    #[ORM\ManyToOne(targetEntity: Salons::class)]
     private ?Salons $salon = null;
 
     #[ORM\Column(type: "datetime")]

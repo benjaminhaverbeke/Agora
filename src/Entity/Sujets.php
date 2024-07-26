@@ -14,7 +14,7 @@ class Sujets
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: "sujets")]
+    #[ORM\ManyToOne(targetEntity: Salons::class)]
     private ?Salons $salon = null;
 
     #[ORM\Column(length: 255)]
@@ -24,8 +24,7 @@ class Sujets
     private ?string $description = null;
 
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $user = null;
 
     public function getId(): ?int

@@ -13,10 +13,10 @@ class Votes
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'votes')]
+    #[ORM\ManyToOne(targetEntity: Proposals::class)]
     private ?Proposals $proposal = null;
 
-    #[ORM\ManyToOne(inversedBy: 'votes')]
+    #[ORM\ManyToOne(targetEntity: Sujets::class)]
     private ?Sujets $sujet = null;
 
     #[ORM\Column(length: 255)]
