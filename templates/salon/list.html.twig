@@ -37,6 +37,9 @@
             <td>
                 {{ salon.createdAt|date("d/m/Y") }}
             </td>
+            <td>
+                <a href="{{ path('salon.index', {id: salon.id}) }}">Rejoindre</a>
+            </td>
         </tr>
         {% endfor %}
         </tbody>

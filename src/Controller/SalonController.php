@@ -23,19 +23,22 @@ class SalonController extends AbstractController
 
     #[Route('/salon/{id}', name: 'salon.index', requirements: ['id' => '\d+'])]
     public function index(
-                          int                    $id,
-                          SujetsRepository       $sujet,
-                          ProposalsRepository    $pm,
-                          SalonsRepository       $sm,
-                          VotesRepository        $vm,
-                          ElectionManager        $election,
-                          EntityManagerInterface $em): Response
+        int                    $id,
+        SujetsRepository       $sujet,
+        ProposalsRepository    $pm,
+        SalonsRepository       $sm,
+        VotesRepository        $vm,
+        ElectionManager        $election,
+        EntityManagerInterface $em): Response
     {
 
         $lastsujet = $sujet->findLastInserted();
 
         $salon = $sm->find($id);
 
+        $time = $this->timeProcess($salon);
+
+        if($time )
 
         $allsujets = $sujet->findAllSujetsBySalon($salon->getId());
 //        $result = $election->isElected($lastsujet->getId());
@@ -117,26 +120,25 @@ class SalonController extends AbstractController
     }
 
     #[Route('salon/list', name: 'salon.list', requirements: ['id' => '\d+'])]
-    public function salonlist_index():Response
+    public function salonlist_index(): Response
     {
 
-            $session_user = $this->getUser();
-            $collection = $session_user->getSalons();
+        $session_user = $this->getUser();
+        $collection = $session_user->getSalons();
 
-            $salonlist = [];
-                foreach($collection as $value){
+        $salonlist = [];
+        foreach ($collection as $value) {
 
-                $salonlist[] = $value;
+            $salonlist[] = $value;
 
-                }
+        }
 
-        if(empty($session_user)){
+        if (empty($session_user)) {
             {
                 return $this->redirectToRoute('home');
             }
 
-        }
-        else{
+        } else {
             return $this->render('salon/list.html.twig', [
 
                 'salonlist' => $salonlist
@@ -144,5 +146,57 @@ class SalonController extends AbstractController
         }
 
     }
+
+    private function timeProcess(Salons $salon)
+    {
+
+        /*méthode qui
+         * soit affiche le décompte fin de campagne,
+         * soit affiche le décompte fin de vote,
+         * soit autorise le résultat des votes (??a passer en paramètre de isElected ??)
+         * */
+
+        /***init variable qui stock le resultat***/
+
+        $displaytime = null;
+
+        /*prend le salon en parametre pour recuperer les dates*/
+
+        $campagne = $salon->getDateCampagne();
+        $vote = $salon->getDateVote();
+
+        /*on stock la date actuelle*/
+
+        $now = new \DateTimeImmutable('now');
+
+
+
+        /***si la date actuelle est plus grande que la cloture de campagne
+         * alors on affiche un décompte jusqu'à la fin de la camapgne**
+         */
+
+        if ($now > $campagne) {
+
+            $interval = $campagne->diff($now);
+            $displaytime = $interval->format("%H:%I:%S (Jours restants: %a)");
+
+        }
+        elseif($now < $vote){
+
+            $interval = $vote->diff($now);
+            $displaytime = $interval->format("%H:%I:%S (Jours restants: %a)");
+
+        }
+        else{
+
+            $displaytime = "Le temps de vote est terminé, merci d'avoir voté";
+        }
+
+        return $displaytime;
+    }
+
+
+
+
 
 }
