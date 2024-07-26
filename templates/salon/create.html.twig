@@ -4,11 +4,7 @@
 
 {% block body %}
     <h1>Créer un nouveau salon</h1>
-    {{ form_start(form) }}
-        {{ form_row(form.title) }}
-        {{ form_row(form.description) }}
+    {{ form(form) }}
 
-        {{ form_row(form.save) }}
-    {{ form_end(form) }}
 
 {% endblock %}

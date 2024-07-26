@@ -16,6 +16,13 @@ class SalonsRepository extends ServiceEntityRepository
         parent::__construct($registry, Salons::class);
     }
 
+    public function timeProcess(Salons $salon){
+
+
+        dump($salon);
+
+    }
+
     //    /**
     //     * @return Salons[] Returns an array of Salons objects
     //     */

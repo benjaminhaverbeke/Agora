@@ -24,7 +24,7 @@ class SalonController extends AbstractController
     public function index(Request $request, int $id,
                           SujetsRepository $sujet,
                           ProposalsRepository $pm,
-                          SalonsRepository $salonRepository,
+                          SalonsRepository $sm,
                           VotesRepository $vm,
                           ElectionManager $election,
                           EntityManagerInterface $em): Response
@@ -32,10 +32,12 @@ class SalonController extends AbstractController
 
         $lastsujet = $sujet->findLastInserted();
 
-        $salon = $salonRepository->find($id);
+        $salon = $sm->find($id);
         $allSujets = $sujet->findAll();
        $result =  $election->isElected($lastsujet->getId());
-       var_dump($result);
+
+       $time_salon = $sm->timeProcess($salon);
+
 
         return $this->render('salon/index.html.twig', [
             'controller_name' => 'SalonController',
@@ -73,8 +75,9 @@ class SalonController extends AbstractController
             $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()) {
                 $user = $this->getUser();
+                dump($user);
+
                 $salon->setUser($user);
-                $salon->setPrivacy('PRIVATE');
                 $salon->setCreatedAt(new \DateTimeImmutable());
 
                 $em->persist($salon);

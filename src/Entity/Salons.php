@@ -19,7 +19,7 @@ class Salons
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: "salons")]
+    #[ORM\ManyToOne]
     private ?User $user = null;
 
 
@@ -27,15 +27,19 @@ class Salons
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column]
-    #[Assert\GreaterThan('today')]
-    private ?\DateTimeImmutable $date_campagne = null;
+    #[Assert\GreaterThan(value : 'today', message : "Date de campagne trop courte")]
+    private ?\DateTimeImmutable $date_campagne;
 
     #[ORM\Column]
-    #[Assert\DateTime]
-    #[Assert\GreaterThan('today')]
-    #[Assert\GreaterThan(propertyPath: 'date_campagne')]
-    private ?\DateTimeImmutable $date_vote = null;
+    #[Assert\GreaterThan(value : 'today', message: "Date de vote trop courte")]
+    #[Assert\GreaterThan(propertyPath: 'date_campagne', message : "La date de clôture des votes doit être supérieure à la date de fin de campagne")]
+    private ?\DateTimeImmutable $date_vote;
 
+    public function __construct(){
+
+
+
+    }
 
     public function getId(): ?int
     {

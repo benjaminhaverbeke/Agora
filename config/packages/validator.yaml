@@ -10,20 +10,3 @@ when@test:
         validation:
             not_compromised_password: false
 
-#App\Entity\Salons:
-#    properties:
-#        dateVote:
-#            type: DateTime
-#            options:
-#                label: "Delais"
-#                widget: single_text
-#                format: 'dd-MM-yyyy HH:mm'
-#                attr:
-#                    placeholder: 'JJ-MM-AAAA HH:mm'
-#                constraints:
-#                    NotBlank:
-#                        message: "Veuillez saisir une date de clôture."
-#                    DateTime:
-#                        - GreaterThan :
-#                              value: "@datetime.now|date_modify('-1 hour')|format('d-m-Y H:m')"
-#                              message: "La date paramétrée doit être supérieure à la date actuelle"
