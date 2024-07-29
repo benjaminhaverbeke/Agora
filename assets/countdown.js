@@ -121,6 +121,7 @@ function convertStringToSeconds(timeString) {
 async function countdown() {
 
     const id = document.getElementById('salon-container').dataset.salonId;
+    const message = document.getElementById('time_message');
     const countdownElement = document.getElementById("countdown");
 
     fetch(`/salon/get-duration/${id}`)
@@ -128,7 +129,9 @@ async function countdown() {
         .then((data) => {
             let duration = data.duration;
 
-            console.log(duration.time);
+            let type = duration.type;
+            message.innerHTML = duration.time_message;
+
             if (duration.time !== null) {
                 timeleft = convertStringToSeconds(duration.time);
 
@@ -140,18 +143,19 @@ async function countdown() {
                     const minutes = Math.floor((timeleft % 3600) / 60);
                     const remainingSeconds = timeleft % 60;
 
-                    countdownElement.innerText = `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')} (Jours restants: ${days})`;
+                    countdownElement.innerHTML = `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')} (Jours restants: ${days})`;
 
                     timeleft--;
-                    console.log(timeleft);
-                    if(timeleft === 0){
-                        clearInterval(intervalId);
 
-                        fetch(`/salon/get-duration/${id}`)
-                            .then((response) => response.json())
-                            .then((data) => {
-                                duration = data.duration;
-                            })
+                    console.log(duration.type);
+                    if(timeleft <= 0 && type !== "results"){
+                        clearInterval(intervalId);
+                        countdown();
+
+                    }
+                    else if(timeleft <= 0 && type === "results")
+                    {
+                        clearInterval(intervalId);
 
                     }
                 }, 1000);

@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Repository\ProposalsRepository;
 use App\Repository\SalonsRepository;
 use App\Repository\SujetsRepository;
+use App\Repository\UserRepository;
 use App\Repository\VotesRepository;
 use App\Service\ElectionManager;
 
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+
 class SalonController extends AbstractController
 {
 
@@ -149,31 +151,47 @@ class SalonController extends AbstractController
 
     }
 
-    #[Route('salon/get-duration/{id}', name:"salon.get-duration", requirements: ['id' => '\d+'])]
-    public function duration(int $id, SalonsRepository $sm) : JsonResponse {
+    #[Route('salon/get-duration/{id}', name: "salon.get-duration", requirements: ['id' => '\d+'])]
+    public function duration(int $id, SalonsRepository $sm): JsonResponse
+    {
 
         $salon = $sm->find($id);
 
-        if(!$salon) {
+        if (!$salon) {
 
             throw $this->createNotFoundException('Salon non trouvé');
 
         }
-            try{
-                $time = $this->timeProcess($salon);
-                return new JsonResponse(['duration' => $time]);
+        try {
+            $time = $this->timeProcess($salon);
+            return new JsonResponse(['duration' => $time]);
 
 
-            } catch (\Exception $e) {
-                throw $this->createNotFoundException('Problème dans le calcul du temps');
-            }
+        } catch (\Exception $e) {
+            throw $this->createNotFoundException('Problème dans le calcul du temps');
+        }
 
 
+    }
+    #[Route('salon/invit/{id}', name: "salon.invit", requirements: ['id' => '\d+'])]
+    public function invit(int $id, EntityManagerInterface $em, UserRepository $um) :Response
+    {
+        $form = $this->createForm(
+
+        );
 
 
-}
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            $this->addFlash('success', "L'utilisateur a bien été invité sur le salon");
+            return $this->redirectToRoute('salon.index', ['id' => $salons->getId()]);
+        }
 
+        return $this->render('salon/invit.html.twig', [
 
+        ]);
+
+    }
 
     private function timeProcess(Salons $salon): array
     {
@@ -198,7 +216,6 @@ class SalonController extends AbstractController
         $now = new \DateTimeImmutable('now');
 
 
-
         /***si la date actuelle est plus grande que la cloture de campagne
          * alors on affiche un décompte jusqu'à la fin de la camapgne**
          */
@@ -220,7 +237,7 @@ class SalonController extends AbstractController
 
         } else {
 
-            $displaytime["time"] = null;
+            $displaytime["time"] = "";
             $displaytime["time_message"] = "Temps terminé ! Merci d'avoir voté !";
             $displaytime["type"] = "results";
         }
