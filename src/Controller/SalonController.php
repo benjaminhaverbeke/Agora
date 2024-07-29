@@ -161,12 +161,15 @@ class SalonController extends AbstractController
         }
             try{
                 $time = $this->timeProcess($salon);
+                return new JsonResponse(['duration' => $time]);
+
+
             } catch (\Exception $e) {
                 throw $this->createNotFoundException('Problème dans le calcul du temps');
             }
 
 
-        return new JsonResponse(['duration' => $time]);
+
 
 }
 
