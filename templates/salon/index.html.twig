@@ -2,8 +2,15 @@
 
 {% block title %}Salon{% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('countdown.js') }}"></script>
+{% endblock %}
+
 {% block body %}
+    <p>{{ time.time_message }} <span>test{{ time.time }}</span></p>
     <h1>Titre : {{ salon.title }}</h1>
+    <div id="salon-container" data-salon-id="{{ salon.id }}"></div>
+    <p>{{ time.time_message }} <span id="countdown"></span></p>
     <p>Description : {{ salon.description }}</p>
 
 {#    <p>Username :{{ salon.user.username }}</p>#}

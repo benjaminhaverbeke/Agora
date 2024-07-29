@@ -12,11 +12,12 @@ use App\Repository\VotesRepository;
 use App\Service\ElectionManager;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-
 class SalonController extends AbstractController
 {
 
@@ -38,9 +39,9 @@ class SalonController extends AbstractController
 
         $time = $this->timeProcess($salon);
 
-        if($time )
+        if ($time)
 
-        $allsujets = $sujet->findAllSujetsBySalon($salon->getId());
+            $allsujets = $sujet->findAllSujetsBySalon($salon->getId());
 //        $result = $election->isElected($lastsujet->getId());
 
 //        $time_salon = $sm->timeProcess($salon);
@@ -49,7 +50,8 @@ class SalonController extends AbstractController
         return $this->render('salon/index.html.twig', [
             'controller_name' => 'SalonController',
             'salon' => $salon,
-            'allsujets' => $allsujets
+            'allsujets' => $allsujets,
+            'time' => $time
 
         ]);
     }
@@ -147,7 +149,30 @@ class SalonController extends AbstractController
 
     }
 
-    private function timeProcess(Salons $salon)
+    #[Route('salon/get-duration/{id}', name:"salon.get-duration", requirements: ['id' => '\d+'])]
+    public function duration(int $id, SalonsRepository $sm) : JsonResponse {
+
+        $salon = $sm->find($id);
+
+        if(!$salon) {
+
+            throw $this->createNotFoundException('Salon non trouvé');
+
+        }
+            try{
+                $time = $this->timeProcess($salon);
+            } catch (\Exception $e) {
+                throw $this->createNotFoundException('Problème dans le calcul du temps');
+            }
+
+
+        return new JsonResponse(['duration' => $time]);
+
+}
+
+
+
+    private function timeProcess(Salons $salon): array
     {
 
         /*méthode qui
@@ -158,7 +183,7 @@ class SalonController extends AbstractController
 
         /***init variable qui stock le resultat***/
 
-        $displaytime = null;
+        $displaytime = [];
 
         /*prend le salon en parametre pour recuperer les dates*/
 
@@ -175,28 +200,30 @@ class SalonController extends AbstractController
          * alors on affiche un décompte jusqu'à la fin de la camapgne**
          */
 
-        if ($now > $campagne) {
+
+        if ($now < $campagne) {
 
             $interval = $campagne->diff($now);
-            $displaytime = $interval->format("%H:%I:%S (Jours restants: %a)");
+            $displaytime["time"] = $interval->format("%H:%I:%S (Jours restants: %a)");
+            $displaytime["time_message"] = "Temps de délibération restant :";
+            $displaytime["type"] = "campagne";
 
-        }
-        elseif($now < $vote){
+        } elseif ($now < $vote) {
 
             $interval = $vote->diff($now);
-            $displaytime = $interval->format("%H:%I:%S (Jours restants: %a)");
+            $displaytime["time"] = $interval->format("%H:%I:%S (Jours restants: %a)");
+            $displaytime["time_message"] = "Temps pour voter restant :";
+            $displaytime["type"] = "vote";
 
-        }
-        else{
+        } else {
 
-            $displaytime = "Le temps de vote est terminé, merci d'avoir voté";
+            $displaytime["time"] = null;
+            $displaytime["time_message"] = "Temps terminé ! Merci d'avoir voté !";
+            $displaytime["type"] = "results";
         }
 
         return $displaytime;
     }
-
-
-
 
 
 }
