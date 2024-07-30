@@ -49,7 +49,7 @@ class SujetController extends AbstractController
         ]);
     }
 
-    #[Route('sujet/create/{id}', name: 'sujet.create')]
+    #[Route('sujet/create/{id}', name: 'sujet.create', requirements: ['id' => '\d+'])]
     public function create(Request $request, int $id, SalonsRepository $salonsRepository, EntityManagerInterface $em): Response
     {
         $salon = $salonsRepository->find($id);

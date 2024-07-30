@@ -2,33 +2,34 @@
 
 namespace App\Form;
 
+use App\Entity\Proposals;
+use App\Entity\Salons;
+use App\Entity\Sujets;
+use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class InvitType extends AbstractType
+class ProposalType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', SearchType::class, [
-                'label' => 'Adresse email',
-
-            ])
+            ->add('title')
+            ->add('description')
             ->add('save', SubmitType::class, [
-                'label' => 'Inviter',
+                "label" => "Enregistrer"
             ])
+
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            'data_class' => Proposals::class,
         ]);
     }
-
-
 }

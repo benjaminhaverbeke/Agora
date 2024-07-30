@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Salons;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\User;
 
 /**
  * @extends ServiceEntityRepository<Salons>
@@ -16,27 +17,21 @@ class SalonsRepository extends ServiceEntityRepository
         parent::__construct($registry, Salons::class);
     }
 
-    public function timeProcess(Salons $salon){
 
-
-        dump($salon);
-
-    }
-
-    //    /**
-    //     * @return Salons[] Returns an array of Salons objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+//        /**
+//         * @return Salons[] Returns an array of Salons objects
+//         */
+//        public function findByUserField(User $user): array
+//        {
+//            return $this->createQueryBuilder('s')
+//                ->andWhere('s.user = :val')
+//                ->setParameter('val', $value)
+//                ->orderBy('s.id', 'ASC')
+//                ->setMaxResults(10)
+//                ->getQuery()
+//                ->getResult()
+//            ;
+//        }
 
     //    public function findOneBySomeField($value): ?Salons
     //    {

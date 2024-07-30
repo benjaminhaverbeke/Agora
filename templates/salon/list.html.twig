@@ -13,40 +13,50 @@
             <th>Date de clôture des votes</th>
             <th>Créé par</th>
             <th>Date de création</th>
+            <th>Nombre de sujets</th>
+            <th>Nombre de membres</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
         {% for salon in salonlist %}
-        <tr>
-            <td>
-               {{ salon.title }}
-            </td>
-            <td>
-                {{ salon.description }}
-            </td>
+            <tr>
 
-            <td>
-                {{ salon.dateCampagne|date("d/m/Y H:m") }}
-            </td>
-            <td>
-                {{ salon.dateVote|date("d/m/Y H:m") }}
-            </td>
-            <td>
-                {{ salon.user.username }}
-            </td>
-            <td>
-                {{ salon.createdAt|date("d/m/Y") }}
-            </td>
-            <td>
-                <a href="{{ path('salon.index', {id: salon.id}) }}">Rejoindre</a>
-            </td>
-        </tr>
+                <td>
+                    {{ salon["salon"].title }}
+                </td>
+                <td>
+                    {{ salon["salon"].description }}
+                </td>
+
+                <td>
+                    {{ salon["salon"].dateCampagne|date("d/m/Y H:m") }}
+                </td>
+                <td>
+                    {{ salon["salon"].dateVote|date("d/m/Y H:m") }}
+                </td>
+                <td>
+                    {{ salon["salon"].user.username }}
+                </td>
+                <td>
+                    {{ salon["salon"].createdAt|date("d/m/Y") }}
+                </td>
+
+                <td>
+                    {{ salon["nbSujets"] }}
+                </td>
+
+                <td>
+                    {{ salon["nbUsers"] }}
+                </td>
+
+
+                <td>
+                    <a href="{{ path('salon.index', {id: salon["salon"].id}) }}">Rejoindre</a>
+                </td>
+            </tr>
         {% endfor %}
         </tbody>
-
-
-
-
     </table>
 
 {% endblock %}

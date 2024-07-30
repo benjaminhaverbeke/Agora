@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\SujetsRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: SujetsRepository::class)]
 class Sujets
@@ -26,6 +28,15 @@ class Sujets
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $user = null;
+
+    #[ORM\OneToMany(targetEntity: Proposals::class, mappedBy: "sujet")]
+    private Collection $proposals;
+
+
+    public function __construct()
+    {
+        $this->proposals = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -80,4 +91,10 @@ class Sujets
 
         return $this;
     }
+
+    public function getProposals(): Collection
+    {
+        return $this->proposals;
+    }
+
 }

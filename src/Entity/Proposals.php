@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ProposalsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: ProposalsRepository::class)]
 class Proposals
@@ -16,7 +18,7 @@ class Proposals
     #[ORM\ManyToOne(targetEntity: Salons::class)]
     private ?Salons $salon = null;
 
-    #[ORM\ManyToOne(targetEntity: Sujets::class)]
+    #[ORM\ManyToOne(targetEntity: Sujets::class, inversedBy: 'proposals')]
     private ?Sujets $sujet = null;
 
     #[ORM\Column(length: 255)]
@@ -27,6 +29,16 @@ class Proposals
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $user = null;
+
+    #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: 'proposal', cascade:["remove"])]
+    private Collection $votes;
+
+    public function __construct(){
+
+        $this->votes = new ArrayCollection();
+
+
+    }
 
     public function setId(int $id) : self
     {
@@ -97,6 +109,34 @@ class Proposals
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    /**
+     * @param Collection $votes
+     */
+    public function addVote(Votes $vote): static
+    {
+        if (!$this->votes->contains($vote)) {
+            $this->votes->add($vote);
+
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Votes $vote): static
+    {
+        $this->votes->removeElement($vote);
 
         return $this;
     }

@@ -59,12 +59,14 @@
                 <td>{{ invit.sender.username }}</td>
                 <td>{{ invit.salon.title }}</td>
                 <td>{{ invit.createdAt|date("d/m/Y") }}</td>
-                <td>{{ form(form) }}</td>
+                <td><a href="{{ path('profile.invit', {id: invit.id}) }}">Rejoindre</a></td>
+                <td><a href="{{ path('profile.refuse', {id: invit.id}) }}">Refuser</a></td>
             {% endfor %}
             <tr>
 
             </tr>
             </tbody>
             </tbody>
+        </table>
     </section>
 {% endblock %}

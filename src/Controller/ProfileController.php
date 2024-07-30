@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\InvitationType;
 use App\Form\RejoinType;
 use App\Repository\InvitationRepository;
 use App\Repository\SalonsRepository;
@@ -19,40 +20,49 @@ class ProfileController extends AbstractController
     {
         $user = $this->getUser();
 
-        $salons = $sm->findAll();
+        $salons = $user->getSalons();
         $invits = $im->findByReceiverField($user);
 
-        $form = $this->createForm(RejoinType::class);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $salonId = $form->getData()->getSalon()->getId();
-
-            $invitation = $im->find($salonId);
-            if (!$invitation) {
-                // Gestion de l'erreur : invitation non trouvée
-                return $this->redirectToRoute('profile');
-            }
-
-
-            $salon = $invitation->getSalon();
-            $salon->addUser($user);
-
-            // Supprimer l'invitation
-            $em->remove($invitation);
-
-            $em->flush();
-
-            // Redirection vers le salon
-            return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
-        }
 
         return $this->render('profile/index.html.twig', [
             'controller_name' => 'ProfileController',
             'salons' => $salons,
             'invits' => $invits,
-            'form' =>$form
         ]);
     }
+
+    #[Route('/profile/invit/{id}', name: 'profile.invit', requirements: ['id' => '\d+'])]
+    public function invit(int $id, EntityManagerInterface $em, InvitationRepository $im): Response
+    {
+        $user = $this->getUser();
+        $invit = $im->find($id);
+
+        $salon = $invit->getSalon();
+        $salon->addUser($user);
+
+        $em->persist($salon);
+
+        $em->remove($invit);
+
+        $em->flush();
+
+
+        return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
+
+    }
+
+    #[Route('/profile/invit/{id}/refuse', name: 'profile.refuse', requirements: ['id' => '\d+'])]
+    public function refuse(int $id, EntityManagerInterface $em, InvitationRepository $im): Response
+    {
+
+        $invit = $im->find($id);
+        $salon = $invit->getSalon();
+
+        $em->remove($invit);
+
+        $em->flush();
+
+        return $this->redirectToRoute('profile');
+    }
+
 }

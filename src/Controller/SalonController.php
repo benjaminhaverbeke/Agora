@@ -35,7 +35,7 @@ class SalonController extends AbstractController
         SalonsRepository $sm,
         UserRepository   $um,
         EntityManagerInterface $em,
-        InvitationRepository $im,
+        ProposalsRepository $pm,
     ): Response
     {
 
@@ -61,7 +61,6 @@ class SalonController extends AbstractController
 
                 $sender = $this->getUser();
                 $invit = new Invitation($sender, $receiver, $salon);
-
                 $em->persist($invit);
                 $em->flush();
                 $this->addFlash('success', "L'utilisateur a bien été invité sur le salon");
@@ -70,9 +69,10 @@ class SalonController extends AbstractController
 
         }
 
-        if ($time)
+        $sujets = $sujet->findAllSujetsBySalon($salon->getId());
 
-            $allsujets = $sujet->findAllSujetsBySalon($salon->getId());
+
+
 //        $result = $election->isElected($lastsujet->getId());
 
 //        $time_salon = $sm->timeProcess($salon);
@@ -81,7 +81,7 @@ class SalonController extends AbstractController
         return $this->render('salon/index.html.twig', [
             'controller_name' => 'SalonController',
             'salon' => $salon,
-            'allsujets' => $allsujets,
+            'allsujets' => $sujets,
             'time' => $time,
             'form' => $form
 
@@ -154,21 +154,29 @@ class SalonController extends AbstractController
 
     }
 
-    #[Route('salon/list', name: 'salon.list', requirements: ['id' => '\d+'])]
-    public function salonlist_index(): Response
+    #[Route('salon/list', name: 'salon.list')]
+    public function salonlist_index(SujetsRepository $sm): Response
     {
 
-        $session_user = $this->getUser();
-        $collection = $session_user->getSalons();
+        $user = $this->getUser();
+        $salons = $user->getSalons();
 
         $salonlist = [];
-        foreach ($collection as $value) {
 
-            $salonlist[] = $value;
+        foreach ($salons as $salon) {
 
+            $sujets = $sm->findAllSujetsBySalon($salon->getId());
+
+            $salonTab["salon"] = $salon;
+            $salonTab["nbUsers"] = count($salon->getUsers());
+            $salonTab["nbSujets"] = count($sujets);
+
+
+            $salonlist[] = $salonTab;
         }
 
-        if (empty($session_user)) {
+
+        if (empty($user)) {
             {
                 return $this->redirectToRoute('home');
             }
