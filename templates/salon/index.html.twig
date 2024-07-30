@@ -6,14 +6,22 @@
     <script src="{{ asset('countdown.js') }}"></script>
 {% endblock %}
 
+{% block invitation %}
+    <p>Inviter un utilisateur sur le salon :</p>
+    {{ form(form) }}
+    {% endblock %}
+
+
+
+
+
 {% block body %}
-    <p>{{ time.time_message }} <span>test{{ time.time }}</span></p>
+
+
     <h1>Titre : {{ salon.title }}</h1>
     <div id="salon-container" data-salon-id="{{ salon.id }}"></div>
     <p><span id="time_message"></span><span id="countdown"></span></p>
     <p>Description : {{ salon.description }}</p>
-
-{#    <p>Username :{{ salon.user.username }}</p>#}
 
 <button><a href="{{ path('salon.edit', {id: salon.id}) }}">Editer le salon</a></button>
     <button><a href="{{ path('salon.delete', {id: salon.id}) }}">Supprimer le salon</a></button>

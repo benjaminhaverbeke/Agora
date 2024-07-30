@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\InvitType;
 use App\Form\SalonType;
 use App\Entity\Salons;
 use App\Entity\User;
@@ -26,20 +27,43 @@ class SalonController extends AbstractController
 
     #[Route('/salon/{id}', name: 'salon.index', requirements: ['id' => '\d+'])]
     public function index(
-        int                    $id,
-        SujetsRepository       $sujet,
-        ProposalsRepository    $pm,
-        SalonsRepository       $sm,
-        VotesRepository        $vm,
-        ElectionManager        $election,
-        EntityManagerInterface $em): Response
+        int              $id,
+        SujetsRepository $sujet,
+        Request          $request,
+        SalonsRepository $sm,
+        UserRepository   $um,
+        EntityManagerInterface $em,
+    ): Response
     {
-
-        $lastsujet = $sujet->findLastInserted();
 
         $salon = $sm->find($id);
 
         $time = $this->timeProcess($salon);
+
+
+        $form = $this->createForm(InvitType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $email = $form->get('email')->getData();
+            $user = $um->findOneBy(['email' => $email]);
+
+            if($user === null){
+
+                $this->addFlash('error', "Utilisateur introuvable");
+            }
+            else{
+
+                $salon->addUser($user);
+                $em->persist($salon);
+                $em->flush();
+                $this->addFlash('success', "L'utilisateur a bien été invité sur le salon");
+            }
+
+
+        }
 
         if ($time)
 
@@ -53,7 +77,9 @@ class SalonController extends AbstractController
             'controller_name' => 'SalonController',
             'salon' => $salon,
             'allsujets' => $allsujets,
-            'time' => $time
+            'time' => $time,
+            'form' => $form
+
 
         ]);
     }
@@ -173,18 +199,20 @@ class SalonController extends AbstractController
 
 
     }
+
     #[Route('salon/invit/{id}', name: "salon.invit", requirements: ['id' => '\d+'])]
-    public function invit(int $id, EntityManagerInterface $em, UserRepository $um) :Response
+    public function invit(int $id, EntityManagerInterface $em, UserRepository $um, Request $request): Response
     {
-        $form = $this->createForm(
+        $form = $this->createForm(InvitType::class);
 
-        );
-
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
             $this->addFlash('success', "L'utilisateur a bien été invité sur le salon");
-            return $this->redirectToRoute('salon.index', ['id' => $salons->getId()]);
+            return $this->redirectToRoute('salon.index', ['id' => $id]);
+        } else {
+            $this->addFlash('error', "Utilisateur introuvable");
         }
 
         return $this->render('salon/invit.html.twig', [
