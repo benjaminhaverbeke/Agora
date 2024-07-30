@@ -47,15 +47,23 @@
             <thead>
             <tr>
 
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Auteur</th>
-                <th>Date de création</th>
+                <th>Invité par</th>
+                <th>Titre de l'assemblée</th>
+                <th>Date  de l'invitation</th>
                 <th>Action</th>
 
             </tr>
             </thead>
             <tbody>
+            {% for invit in invits %}
+                <td>{{ invit.sender.username }}</td>
+                <td>{{ invit.salon.title }}</td>
+                <td>{{ invit.createdAt|date("d/m/Y") }}</td>
+                <td>{{ form(form) }}</td>
+            {% endfor %}
+            <tr>
+
+            </tr>
             </tbody>
             </tbody>
     </section>

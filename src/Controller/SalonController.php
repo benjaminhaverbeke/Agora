@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Invitation;
 use App\Form\InvitType;
 use App\Form\SalonType;
 use App\Entity\Salons;
 use App\Entity\User;
+use App\Repository\InvitationRepository;
 use App\Repository\ProposalsRepository;
 use App\Repository\SalonsRepository;
 use App\Repository\SujetsRepository;
@@ -33,6 +35,7 @@ class SalonController extends AbstractController
         SalonsRepository $sm,
         UserRepository   $um,
         EntityManagerInterface $em,
+        InvitationRepository $im,
     ): Response
     {
 
@@ -48,16 +51,18 @@ class SalonController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $email = $form->get('email')->getData();
-            $user = $um->findOneBy(['email' => $email]);
+            $receiver = $um->findOneBy(['email' => $email]);
 
-            if($user === null){
+            if($receiver === null){
 
                 $this->addFlash('error', "Utilisateur introuvable");
             }
             else{
 
-                $salon->addUser($user);
-                $em->persist($salon);
+                $sender = $this->getUser();
+                $invit = new Invitation($sender, $receiver, $salon);
+
+                $em->persist($invit);
                 $em->flush();
                 $this->addFlash('success', "L'utilisateur a bien été invité sur le salon");
             }

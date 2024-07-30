@@ -27,8 +27,16 @@ class Invitation
     #[ORM\ManyToOne(targetEntity: Salons::class)]
     private ?Salons $salon = null;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
+
+    public function __construct(User $sender, User $receiver, Salons $salon){
+
+        $this->createdAt = new \DateTimeImmutable();
+        $this->sender = $sender;
+        $this->receiver = $receiver;
+        $this->salon = $salon;
+    }
 
     public function getSender(): ?User
     {
