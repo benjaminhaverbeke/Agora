@@ -19,13 +19,14 @@ class SalonsRepository extends ServiceEntityRepository
         parent::__construct($registry, Salons::class);
     }
 
-    public function paginateSalons(User $user, int $page, int $limit): Paginator
+    public function paginateSalons(int $userId, int $page, int $limit): Paginator
     {
 
         return new Paginator(
             $this->createQueryBuilder('s')
-                ->andWhere('s.user = :user')
-                ->setParameter('user', $user)
+                ->leftJoin('s.users', 'u')
+                ->andWhere('u.id = :userId')
+                ->setParameter('userId', $userId)
                 ->setFirstResult(($page - 1) * $limit)
                 ->setMaxResults($limit)
                 ->getQuery()

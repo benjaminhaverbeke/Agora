@@ -159,12 +159,12 @@ class SalonController extends AbstractController
     {
 
         $user = $this->getUser();
+        $userId = $user->getId();
 //        $salons = $user->getSalons();
         /***pagination***/
         $limit = 2;
         $page = $request->query->getInt('page', 1);
-        $salons = $salm->paginateSalons($page, $limit);
-
+        $salons = $salm->paginateSalons($userId, $page, $limit);
         $maxPage = ceil($salons->count() / $limit);
 
 
