@@ -3,13 +3,14 @@
 {% block title %}Salon{% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('countdown.js') }}"></script>
+    {% block importmap %}{{ importmap('app') }}{% endblock %}
+ <script src="{{ asset('countdown.js') }}" defer></script>}
 {% endblock %}
 
 {% block invitation %}
     <p>Inviter un utilisateur sur le salon :</p>
     {{ form(form) }}
-    {% endblock %}
+{% endblock %}
 
 
 
@@ -23,36 +24,48 @@
     <p><span id="time_message"></span><span id="countdown"></span></p>
     <p>Description : {{ salon.description }}</p>
 
-<button><a href="{{ path('salon.edit', {id: salon.id}) }}">Editer le salon</a></button>
+    <button><a href="{{ path('salon.edit', {id: salon.id}) }}">Editer le salon</a></button>
     <button><a href="{{ path('salon.delete', {id: salon.id}) }}">Supprimer le salon</a></button>
     <section>
         <h2>Liste des sujets à voter</h2>
         {% for sujet in allsujets %}
-        <article>
-            <h3>
-                Sujet : {{ sujet.title }}
-            </h3>
-            <p>
-                Description : {{ sujet.description }}
-            </p>
+            <article>
+                <h3>
+                    Sujet : {{ sujet.title }}
+                </h3>
+                <p>
+                    Description : {{ sujet.description }}
+                </p>
 
-            <button><a href="{{ path('sujet.edit', {id: sujet.id}) }}">Modifier le sujet</a></button>
-            <button><a href="{{ path('sujet.delete', {id: sujet.id}) }}">Supprimer le sujet</a></button>
-            <a href="{{ path('proposal.create', {id: sujet.id}) }}">Créer une proposition</a>
-            <ul>
-                {% for proposal in sujet.proposals %}
-                    <li><p>{{ proposal.title }} </p>
-                        <p>{{ proposal.description }}</p>
-                   <a href="{{ path('proposal.edit', {id: proposal.id}) }}">Editer</a>
-                   <a href="{{ path('proposal.delete', {id: proposal.id}) }}">Supprimer</a>
-                    </li>
-                {% endfor %}
+                <button><a href="{{ path('sujet.edit', {id: sujet.id}) }}">Modifier le sujet</a></button>
+                <button><a href="{{ path('sujet.delete', {id: sujet.id}) }}">Supprimer le sujet</a></button>
+                <a href="{{ path('proposal.create', {id: sujet.id}) }}">Créer une proposition</a>
+                <ul>
+                    {% for proposal in sujet.proposals %}
+                        <li><p>{{ proposal.title }} </p>
+                            <p>{{ proposal.description }}</p>
+                            <a href="{{ path('proposal.edit', {id: proposal.id}) }}">Editer</a>
+                            <a href="{{ path('proposal.delete', {id: proposal.id}) }}">Supprimer</a>
+                        </li>
+                    {% endfor %}
 
-            </ul>
-        </article>
+                </ul>
+            </article>
         {% endfor %}
         <button><a href="{{ path('sujet.create', {id: salon.id}) }}">Créer un nouveau sujet</a></button>
     </section>
+    {% block chat %}
+        <aside>
+            <section id="messages">
+                <article>Test</article>
+                <article>Test</article>
+                <article>Test</article>
+            </section>
+            <section id="chat_send">
+                {{ form(messageForm) }}
+            </section>
 
+        </aside>
+    {% endblock %}
 
 {% endblock %}

@@ -4,10 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Invitation;
 use App\Form\InvitType;
+use App\Form\MessageType;
 use App\Form\SalonType;
 use App\Entity\Salons;
+use App\Entity\Messages;
 use App\Entity\User;
 use App\Repository\InvitationRepository;
+use App\Repository\MessagesRepository;
 use App\Repository\ProposalsRepository;
 use App\Repository\SalonsRepository;
 use App\Repository\SujetsRepository;
@@ -22,10 +25,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\UX\Turbo\TurboBundle;
+
+
+
 
 class SalonController extends AbstractController
 {
+    private $mm;
 
+    public function __construct(MessagesRepository $mm){
+
+        $this->mm = $mm;
+    }
 
     #[Route('/salon/{id}', name: 'salon.index', requirements: ['id' => '\d+'])]
     public function index(
@@ -40,9 +52,44 @@ class SalonController extends AbstractController
     {
 
         $salon = $sm->find($id);
+/***chat test***/
+        $messageForm = $this->createForm(MessageType::class);
+
+
+        $messageForm->handleRequest($request);
+
+        if($messageForm->isSubmitted() && $messageForm->isValid()){
+
+            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+            $message = new Messages();
+            $content = $messageForm->getData()->getContent();
+            $message->setContent($content);
+            $message->setUser($this->getUser());
+            $message->setCreatedAt();
+            $message->setSalon($salon);
+
+            if($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
+
+                $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+
+                return $this->render(
+                    'salon/message.stream.html.twig',
+                    ["message" => $message]
+                );
+            }
+
+
+
+        }
+        else {
+            $this->redirectToRoute('salon.index', ["id" => $id]);
+        }
+
+
+
+
 
         $time = $this->timeProcess($salon);
-
 
         $form = $this->createForm(InvitType::class);
 
@@ -79,7 +126,7 @@ class SalonController extends AbstractController
 
 
         return $this->render('salon/index.html.twig', [
-            'controller_name' => 'SalonController',
+            'messageForm' => $messageForm,
             'salon' => $salon,
             'allsujets' => $sujets,
             'time' => $time,
@@ -94,6 +141,7 @@ class SalonController extends AbstractController
     {
         $form = $this->createForm(SalonType::class, $salons);
 
+        $messages = $this->mm->findBySalons($salons->getId());
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -102,6 +150,7 @@ class SalonController extends AbstractController
             return $this->redirectToRoute('salon.index', ['id' => $salons->getId()]);
         }
         return $this->render('salon/edit.html.twig', [
+            'messages' => $messages,
             'salons' => $salons,
             'form' => $form
         ]);

@@ -19,17 +19,17 @@ class MessagesRepository extends ServiceEntityRepository
     //    /**
     //     * @return Messages[] Returns an array of Messages objects
     //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('m.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+        public function findBySalons(int $id): array
+        {
+            return $this->createQueryBuilder('m')
+                ->andWhere('m.salons = :id')
+                ->setParameter('id', $id)
+                ->orderBy('m.id', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult()
+            ;
+        }
 
     //    public function findOneBySomeField($value): ?Messages
     //    {
