@@ -4,8 +4,10 @@ namespace App\Repository;
 
 use App\Entity\Salons;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @extends ServiceEntityRepository<Salons>
@@ -17,6 +19,19 @@ class SalonsRepository extends ServiceEntityRepository
         parent::__construct($registry, Salons::class);
     }
 
+    public function paginateSalons(User $user, int $page, int $limit): Paginator
+    {
+
+        return new Paginator(
+            $this->createQueryBuilder('s')
+                ->andWhere('s.user = :user')
+                ->setParameter('user', $user)
+                ->setFirstResult(($page - 1) * $limit)
+                ->setMaxResults($limit)
+                ->getQuery()
+                ->setHint(Paginator::HINT_ENABLE_DISTINCT, false)
+        );
+    }
 
 //        /**
 //         * @return Salons[] Returns an array of Salons objects

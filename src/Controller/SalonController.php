@@ -155,27 +155,34 @@ class SalonController extends AbstractController
     }
 
     #[Route('salon/list', name: 'salon.list')]
-    public function salonlist_index(SujetsRepository $sm): Response
+    public function salonlist(SujetsRepository $sujm, SalonsRepository $salm, Request $request): Response
     {
 
         $user = $this->getUser();
-        $salons = $user->getSalons();
+//        $salons = $user->getSalons();
+        /***pagination***/
+        $limit = 2;
+        $page = $request->query->getInt('page', 1);
+        $salons = $salm->paginateSalons($page, $limit);
+
+        $maxPage = ceil($salons->count() / $limit);
+
 
         $salonlist = [];
 
         foreach ($salons as $salon) {
 
-            $sujets = $sm->findAllSujetsBySalon($salon->getId());
+            $sujets = $sujm->findAllSujetsBySalon($salon->getId());
 
             $salonTab["salon"] = $salon;
             $salonTab["nbUsers"] = count($salon->getUsers());
             $salonTab["nbSujets"] = count($sujets);
 
-
             $salonlist[] = $salonTab;
         }
 
 
+        /***vérifie que l'utilisateur est connecté***/
         if (empty($user)) {
             {
                 return $this->redirectToRoute('home');
@@ -184,7 +191,9 @@ class SalonController extends AbstractController
         } else {
             return $this->render('salon/list.html.twig', [
 
-                'salonlist' => $salonlist
+                'salonlist' => $salonlist,
+                'maxPage' => $maxPage,
+                'page' => $page
             ]);
         }
 

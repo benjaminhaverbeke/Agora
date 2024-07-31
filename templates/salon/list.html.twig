@@ -58,5 +58,12 @@
         {% endfor %}
         </tbody>
     </table>
-
+<div>
+    {% if page > 1 %}
+        <a href="{{ path('salon.list', {page: page - 1 }) }}">Page précédente</a>
+    {% endif %}
+    {% if page < maxPage %}
+        <a href="{{ path('salon.list', {page: page + 1 }) }}">Page suivante</a>
+    {% endif %}
+</div>
 {% endblock %}
