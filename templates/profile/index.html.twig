@@ -7,7 +7,8 @@
         <h2>Mes informations</h2>
         <p>Mon nom d'utilisateur : {{ app.user.username }}</p>
         <p>Mon Email : {{ app.user.email }}</p>
-        <p>Modifier mon mot de passe</p>
+        <a href="{{ path('profile.edit') }}">Modifier mes informations</a>
+
     </section>
     <section>
         <h2>Mes salons</h2>
