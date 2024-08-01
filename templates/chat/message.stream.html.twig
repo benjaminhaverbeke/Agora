@@ -1,0 +1,11 @@
+
+<turbo-stream action="append" target="messages">
+    <template>
+        <article>
+            <p>{{ message.user.username }}</p>
+            <p>{{ message.content }}</p>
+            <p>{{ message.createdAt|date("H:m") }}</p>
+        </article>
+    </template>
+</turbo-stream>
+

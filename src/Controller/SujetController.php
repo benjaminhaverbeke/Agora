@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Messages;
 use App\Entity\Salons;
 use App\Entity\Sujets;
 use App\Entity\User;
+use App\Form\MessageType;
 use App\Form\SujetType;
+use App\Repository\MessagesRepository;
 use App\Repository\SalonsRepository;
 use App\Repository\SujetsRepository;
 use Symfony\Bridge\Twig\AppVariable;
@@ -19,41 +22,98 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class SujetController extends AbstractController
 {
-    #[Route('sujet/{id}', name: 'sujet.index', requirements: ['id' => '\d+'])]
-    public function index(int $id, SujetsRepository $sujet): Response
-    {
-        $sujet = $sujet->find($id);
+    private $mm;
+    private $em;
 
+    private $sujm;
+
+    private $sm;
+
+    public function __construct(EntityManagerInterface $em, MessagesRepository $mm, SujetsRepository $sujm, SalonsRepository $sm)
+    {
+        $this->em = $em;
+        $this->mm = $mm;
+        $this->sujm = $sujm;
+        $this->sm = $sm;
+
+    }
+    #[Route('sujet/{id}', name: 'sujet.index', requirements: ['id' => '\d+'])]
+    public function index(int $id, Request $request): Response
+    {
+        $sujet = $this->sujm->find($id);
+        $salonId = $sujet->getSalon()->getId();
+
+        /***chat envoi message***/
+        $message = new Messages();
+        $messageForm = $this->createForm(MessageType::class, $message);
+
+        $messageForm->handleRequest($request);
+
+        /***chat display messages***/
+
+        $messages = $this->mm->findBySalons($salonId);
+
+        /******/
 
         return $this->render('sujet/index.html.twig', [
-            'controller_name' => 'SujetController',
-            'sujet'
+            'sujet',
+            'messages' => $messages,
+
         ]);
     }
 
     #[Route('sujet/{id}/edit', name: 'sujet.edit', requirements: ['id' => '\d+'])]
-    public function edit(Request $request, Sujets $sujet, EntityManagerInterface $em): Response
+    public function edit(int $id, Request $request): Response
     {
+        $sujet = $this->sujm->find($id);
+        $salon = $sujet->getSalon();
+
+        /***chat envoi message***/
+        $message = new Messages();
+        $messageForm = $this->createForm(MessageType::class, $message);
+
+        $messageForm->handleRequest($request);
+
+        /***chat display messages***/
+
+        $messages = $this->mm->findBySalons($salon->getId());
+
+        /******/
+
         $form = $this->createForm(SujetType::class, $sujet);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $em->flush();
+            $this->em->flush();
             $this->addFlash('success', "Les paramètres du sujet ont bien été modifiés");
-            return $this->redirectToRoute('salon.index', ['id' => $sujet->getSalon()->getId()]);
+            return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
         }
 
         return $this->render('sujet/edit.html.twig', [
             'sujet' =>$sujet,
-            'form' =>$form
+            'form' =>$form,
+            'messages'=> $messages,
+            'messageForm' => $messageForm,
+            'salon' => $salon
         ]);
     }
 
     #[Route('sujet/create/{id}', name: 'sujet.create', requirements: ['id' => '\d+'])]
-    public function create(Request $request, int $id, SalonsRepository $salonsRepository, EntityManagerInterface $em): Response
+    public function create(Request $request, int $id): Response
     {
-        $salon = $salonsRepository->find($id);
+        $salon = $this->sm->find($id);
 
+        /***chat envoi message***/
+        $message = new Messages();
+        $messageForm = $this->createForm(MessageType::class, $message);
+
+        $messageForm->handleRequest($request);
+
+        /***chat display messages***/
+
+        $messages = $this->mm->findBySalons($id);
+
+        /******/
 
         $sujet = new Sujets();
 
@@ -66,13 +126,16 @@ class SujetController extends AbstractController
             $sujet->setSalon($salon);
             $user = $this->getUser();
             $sujet->setUser($user);
-            $em->persist($sujet);
-            $em->flush();
+            $this->em->persist($sujet);
+            $this->em->flush();
             $this->addFlash('success', 'Le sujet a bien été crée');
             return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
         }
         return $this->render('sujet/create.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'messages'=> $messages,
+            'messageForm' => $messageForm,
+            'salon' => $salon
 
         ]);
 
@@ -80,6 +143,7 @@ class SujetController extends AbstractController
 
     #[Route('sujet/{id}/delete', name: 'sujet.delete')]
     public function delete(int $id, SujetsRepository $sujet, EntityManagerInterface $em): Response {
+
 
             $sujetTodelete = $sujet->find($id);
 

@@ -55,17 +55,7 @@
         <button><a href="{{ path('sujet.create', {id: salon.id}) }}">Créer un nouveau sujet</a></button>
     </section>
     {% block chat %}
-        <aside>
-            <section id="messages">
-                <article>Test</article>
-                <article>Test</article>
-                <article>Test</article>
-            </section>
-            <section id="chat_send">
-                {{ form(messageForm) }}
-            </section>
-
-        </aside>
+    {{ include('chat/chat.html.twig') }}
     {% endblock %}
 
 {% endblock %}

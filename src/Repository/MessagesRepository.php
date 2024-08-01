@@ -22,7 +22,7 @@ class MessagesRepository extends ServiceEntityRepository
         public function findBySalons(int $id): array
         {
             return $this->createQueryBuilder('m')
-                ->andWhere('m.salons = :id')
+                ->andWhere('m.salon = :id')
                 ->setParameter('id', $id)
                 ->orderBy('m.id', 'ASC')
                 ->setMaxResults(10)

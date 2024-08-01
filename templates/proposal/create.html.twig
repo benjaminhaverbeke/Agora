@@ -8,5 +8,7 @@
 
     {{ form(form) }}
 
-
+    {% block chat %}
+        {{ include('chat/chat.html.twig') }}
+    {% endblock %}
 {% endblock %}

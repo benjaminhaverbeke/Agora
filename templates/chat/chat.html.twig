@@ -1,0 +1,17 @@
+{% block chat %}
+    <aside>
+        <section id="messages">
+            {% for message in messages %}
+                <article>
+                    <p>{{ message.user.username }}</p>
+                    <p>{{ message.content }}</p>
+                    <p>{{ message.createdAt|date("H:m") }}</p>
+                </article>
+            {% endfor %}
+        </section>
+        <section id="chat_send">
+            {{ form(messageForm, {'action': path('salon.chat', {id: salon.id}) }) }}
+        </section>
+
+    </aside>
+{% endblock %}

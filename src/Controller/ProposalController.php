@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Messages;
 use App\Entity\Proposals;
 use App\Entity\Sujets;
+use App\Form\MessageType;
 use App\Form\ProposalType;
 use App\Form\SujetType;
+use App\Repository\MessagesRepository;
 use App\Repository\ProposalsRepository;
 use App\Repository\SujetsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,26 +19,56 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ProposalController extends AbstractController
 {
+    private $mm;
+    private $em;
 
-    #[Route('proposal/{id}', name: 'proposal.index', requirements: ['id' => '\d+'])]
-    public function index(int $id, ProposalsRepository $pm): Response
+    private $sujm;
+
+    private $pm;
+
+    public function __construct(MessagesRepository $mm, EntityManagerInterface $em, ProposalsRepository $pm, SujetsRepository $sujm)
     {
-        $proposal = $pm->find($id);
+        $this->em = $em;
+        $this->mm = $mm;
+        $this->pm = $pm;
+        $this->sujm = $sujm;
+    }
+    #[Route('proposal/{id}', name: 'proposal.index', requirements: ['id' => '\d+'])]
+    public function index(int $id): Response
+    {
 
+        $proposal = $this->pm->find($id);
 
         return $this->render('sujet/index.html.twig', [
             'proposal' => $proposal
+
         ]);
     }
 
     #[Route('/proposal/create/{id}', name: 'proposal.create', requirements: ['id' => '\d+'])]
-    public function create(int $id, Request $request, EntityManagerInterface $em, SujetsRepository $sm): Response
+    public function create(int $id, Request $request): Response
     {
 
-        $sujet = $sm->find($id);
+        $sujet = $this->sujm->find($id);
         $salon = $sujet->getSalon();
 
+
+        /***chat envoi message***/
+        $message = new Messages();
+        $messageForm = $this->createForm(MessageType::class, $message);
+
+        $messageForm->handleRequest($request);
+
+        /***chat display messages***/
+
+        $messages = $this->mm->findBySalons($salon->getId());
+
+        /******/
+
+
+
         $user = $this->getUser();
+
         $proposal = new Proposals();
 
         $form = $this->createForm(ProposalType::class, $proposal);
@@ -48,9 +81,10 @@ class ProposalController extends AbstractController
             $proposal->setSalon($salon);
             $proposal->setSujet($sujet);
 
-            $em->persist($proposal);
+            $this->em->persist($proposal);
 
-            $em->flush();
+            $this->em->flush();
+
             $this->addFlash('success', 'La proposition a bien été crée');
             return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
 
@@ -58,31 +92,56 @@ class ProposalController extends AbstractController
 
 
         return $this->render('proposal/create.html.twig', [
-            'form' => $form
-
+            'form' => $form,
+            'messages' => $messages,
+            'messageForm' => $messageForm,
+            'salon' => $salon
         ]);
     }
 
     #[Route('proposal/{id}/edit', name: 'proposal.edit', requirements: ['id' => '\d+'])]
-    public function edit(int $id, SujetsRepository $sm, Request $request, Proposals $proposal, EntityManagerInterface $em): Response
+    public function edit(int $id, Request $request): Response
     {
-        $sujet = $proposal->getSujet();
 
+        $proposal = $this->pm->find($id);
+        $sujet = $proposal->getSujet();
         $salon = $sujet->getSalon();
+
+
+        /***chat envoi message***/
+        $message = new Messages();
+        $messageForm = $this->createForm(MessageType::class, $message);
+
+        $messageForm->handleRequest($request);
+
+        /***chat display messages***/
+
+        $messages = $this->mm->findBySalons($salon->getId());
+
+        /******/
+
+
 
         $form = $this->createForm(ProposalType::class, $proposal);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $em->flush();
+
+            $this->em->persist($proposal);
+
+            $this->em->flush();
+
             $this->addFlash('success', "Les paramètres de la proposition ont bien été modifiés");
             return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
         }
 
         return $this->render('proposal/edit.html.twig', [
             'proposal' => $proposal,
-            'form' =>$form
+            'form' =>$form,
+            'messages' => $messages,
+            'messageForm' => $messageForm,
+            'salon'=> $salon
         ]);
     }
 

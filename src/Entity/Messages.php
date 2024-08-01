@@ -20,7 +20,7 @@ class Messages
     #[ORM\ManyToOne(targetEntity: Salons::class)]
     private ?Salons $salon = null;
 
-    #[ORM\Column(type: "datetime")]
+    #[ORM\Column(type: "datetime_immutable")]
     private ?\DateTimeImmutable $created_at;
 
     #[ORM\Column(type: Types::TEXT)]
