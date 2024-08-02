@@ -147,7 +147,6 @@ async function countdown() {
 
                     timeleft--;
 
-                    console.log(duration.type);
                     if(timeleft <= 0 && type !== "results"){
                         clearInterval(intervalId);
                         countdown();

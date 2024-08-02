@@ -26,7 +26,7 @@ class SujetType extends AbstractType
                 'label' => 'Description',
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Créer'
+                'label' => 'Enregistrer'
             ]);
     }
 

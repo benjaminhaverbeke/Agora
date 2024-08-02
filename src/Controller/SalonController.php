@@ -28,8 +28,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\UX\Turbo\TurboBundle;
 
 
-
-
 class SalonController extends AbstractController
 {
     private $mm;
@@ -37,19 +35,23 @@ class SalonController extends AbstractController
 
     private $em;
 
-    public function __construct(MessagesRepository $mm, SalonsRepository $sm, EntityManagerInterface $em){
+    private $um;
+
+    public function __construct(MessagesRepository $mm, SalonsRepository $sm, EntityManagerInterface $em, UserRepository $um)
+    {
 
         $this->mm = $mm;
         $this->sm = $sm;
         $this->em = $em;
+        $this->um = $um;
     }
 
     #[Route('/salon/{id}', name: 'salon.index', requirements: ['id' => '\d+'])]
     public function index(
-        int              $id,
-        SujetsRepository $sujet,
-        Request          $request,
-        UserRepository   $um,
+        int                 $id,
+        SujetsRepository    $sujet,
+        Request             $request,
+        UserRepository      $um,
         ProposalsRepository $pm,
     ): Response
     {
@@ -57,17 +59,17 @@ class SalonController extends AbstractController
         $salon = $this->sm->find($id);
 
 
-/***chat envoi message***/
+        /***chat envoi message***/
         $message = new Messages();
         $messageForm = $this->createForm(MessageType::class, $message);
 
         $messageForm->handleRequest($request);
 
-/***chat display messages***/
+        /***chat display messages***/
 
-       $messages = $this->mm->findBySalons($id);
+        $messages = $this->mm->findBySalons($id);
 
-/******/
+        /******/
 
         /*** compte a rebours ***/
 
@@ -79,30 +81,32 @@ class SalonController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $email = $form->get('email')->getData();
-            $receiver = $um->findOneBy(['email' => $email]);
-
-            if($receiver === null){
-
-                $this->addFlash('error', "Utilisateur introuvable");
-            }
-            else{
-
-                $sender = $this->getUser();
-                $invit = new Invitation($sender, $receiver, $salon);
-                $this->em->persist($invit);
-                $this->em->flush();
-                $this->addFlash('success', "L'utilisateur a bien été invité sur le salon");
-            }
-
-
-        }
+//        if ($form->isSubmitted() && $form->isValid()) {
+//
+//            $email = $form->getData()["email"];
+//
+//
+//            $receiver = $um->findOneBy(['email' => $email]);
+//
+//            if ($receiver === null) {
+//
+//                $this->addFlash('error', "Utilisateur introuvable");
+//            } else {
+//
+//                $sender = $this->getUser();
+//                $invit = new Invitation($sender, $receiver, $salon);
+//
+//
+//                $this->em->persist($invit);
+//                $this->em->flush();
+//                $this->addFlash('success', "L'utilisateur a bien été invité sur le salon");
+//            }
+//
+//
+//        }
 
 
         $sujets = $sujet->findAllSujetsBySalon($salon->getId());
-
 
 
 //        $result = $election->isElected($lastsujet->getId());
@@ -115,8 +119,8 @@ class SalonController extends AbstractController
             'salon' => $salon,
             'allsujets' => $sujets,
             'time' => $time,
-            'form' => $form,
-            'messages' => $messages
+            'messages' => $messages,
+            'form' => $form
 
 
         ]);
@@ -139,7 +143,6 @@ class SalonController extends AbstractController
         $salon = $this->sm->find($id);
 
         $form = $this->createForm(SalonType::class, $salon);
-
 
 
         $form->handleRequest($request);
@@ -272,23 +275,51 @@ class SalonController extends AbstractController
     }
 
     #[Route('salon/invit/{id}', name: "salon.invit", requirements: ['id' => '\d+'])]
-    public function invit(int $id, EntityManagerInterface $em, UserRepository $um, Request $request): Response
+    public function invit(int $id, Request $request): Response
     {
         $form = $this->createForm(InvitType::class);
+        $salon = $this->sm->find($id);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
-            $this->addFlash('success', "L'utilisateur a bien été invité sur le salon");
-            return $this->redirectToRoute('salon.index', ['id' => $id]);
-        } else {
-            $this->addFlash('error', "Utilisateur introuvable");
+
+            $email = $form->getData()["email"];
+
+            $receiver = $this->um->findOneBy(['email' => $email]);
+            if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
+                $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+
+
+                if ($receiver === null) {
+
+                    $this->addFlash('error', "Utilisateur introuvable");
+
+                } else {
+
+                    $sender = $this->getUser();
+
+                    $invit = new Invitation($sender, $receiver, $salon);
+
+
+                    $this->em->persist($invit);
+
+                    $this->em->flush();
+
+                    $this->addFlash('success', "L'utilisateur a bien été invité sur le salon");
+
+                }
+
+                return $this->render('salon/invit.html.twig',
+                    ["id" => $id,
+                        "form" => $form,
+                        "salon" => $salon
+                    ]);
+
+            }
         }
 
-        return $this->render('salon/invit.html.twig', [
-
-        ]);
+        return $this->redirectToRoute('salon.index', ["id" => $id]);
 
     }
 
@@ -345,7 +376,8 @@ class SalonController extends AbstractController
     }
 
     #[Route('salon/chat/{id}', name: "salon.chat", requirements: ['id' => '\d+'])]
-    public function chat(request $request, int $id): Response {
+    public function chat(request $request, int $id): Response
+    {
         dump('test');
         $salon = $this->sm->find($id);
         $message = new Messages();
@@ -354,7 +386,7 @@ class SalonController extends AbstractController
         $messageForm->handleRequest($request);
 
 
-        if($messageForm->isSubmitted() && $messageForm->isValid()){
+        if ($messageForm->isSubmitted() && $messageForm->isValid()) {
 
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
@@ -369,7 +401,7 @@ class SalonController extends AbstractController
             $this->em->flush();
 
 
-            if($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
+            if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
 
                 $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
@@ -380,10 +412,9 @@ class SalonController extends AbstractController
             }
 
 
-
         }
 
-            return $this->redirectToRoute('salon.index', ["id" => $id]);
+        return $this->redirectToRoute('salon.index', ["id" => $id]);
 
 
     }

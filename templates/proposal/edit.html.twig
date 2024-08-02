@@ -4,8 +4,10 @@
 
 {% block body %}
     <h1>{{ proposal.title }}</h1>
+<turbo-frame id="proposal_{{ proposal.id }}">
+    {{ form(form, {action: path('proposal.edit', {id: proposal.id})}) }}
+</turbo-frame>
 
-    {{ form(form) }}
 
     {% block chat %}
         {{ include('chat/chat.html.twig') }}

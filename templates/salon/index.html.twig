@@ -9,7 +9,13 @@
 
 {% block invitation %}
     <p>Inviter un utilisateur sur le salon :</p>
-    {{ form(form) }}
+   <div id="invitation">
+       {{ form(form, {action: path('salon.invit', {id: salon.id })}) }}
+   </div>
+
+
+
+
 {% endblock %}
 
 
@@ -30,9 +36,12 @@
         <h2>Liste des sujets à voter</h2>
         {% for sujet in allsujets %}
             <article>
-                <h3>
-                    Sujet : {{ sujet.title }}
-                </h3>
+
+                    <turbo-frame id="sujet_{{ sujet.id }}">
+                        <a href="{{ path('sujet.edit', {id: sujet.id}) }}"><h3>Sujet : {{ sujet.title }}</h3></a>
+                    </turbo-frame>
+
+
                 <p>
                     Description : {{ sujet.description }}
                 </p>
@@ -42,8 +51,11 @@
                 <a href="{{ path('proposal.create', {id: sujet.id}) }}">Créer une proposition</a>
                 <ul>
                     {% for proposal in sujet.proposals %}
-                        <li><p>{{ proposal.title }} </p>
-                            <p>{{ proposal.description }}</p>
+                        <li><turbo-frame id="proposal_{{ proposal.id }}">
+                                <a href="{{ path('proposal.edit', {id: proposal.id}) }}"><p>{{ proposal.title }} </p></a>
+                                <p>{{ proposal.description }}</p>
+                            </turbo-frame>
+
                             <a href="{{ path('proposal.edit', {id: proposal.id}) }}">Editer</a>
                             <a href="{{ path('proposal.delete', {id: proposal.id}) }}">Supprimer</a>
                         </li>
