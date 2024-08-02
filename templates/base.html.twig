@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="turbo-refresh-method" content="morph">
         <meta charset="UTF-8">
         <title>{% block title %}Accueil{% endblock %}</title>
         {% block stylesheets %}
@@ -23,9 +24,9 @@
                 <li>
                     Vous êtes connecté en tant que {{ app.user.username }}, <a href="{{ path('logout') }}">Déconnexion</a>
                 </li>
-                <li>{% block invitation %}
+                {% block invitation %}
                     {% endblock %}
-                </li>
+
             {% else %}
                 <li><a href="{{ path('register') }}">Inscription</a></li>
                 <li><a href="{{ path('login') }}">Connexion</a></li>

@@ -8,24 +8,19 @@ use App\Form\MessageType;
 use App\Form\SalonType;
 use App\Entity\Salons;
 use App\Entity\Messages;
-use App\Entity\User;
-use App\Repository\InvitationRepository;
 use App\Repository\MessagesRepository;
 use App\Repository\ProposalsRepository;
 use App\Repository\SalonsRepository;
 use App\Repository\SujetsRepository;
 use App\Repository\UserRepository;
-use App\Repository\VotesRepository;
-use App\Service\ElectionManager;
-
 use Doctrine\ORM\EntityManagerInterface;
-use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\UX\Turbo\TurboBundle;
+
 
 
 class SalonController extends AbstractController
@@ -81,29 +76,29 @@ class SalonController extends AbstractController
 
         $form->handleRequest($request);
 
-//        if ($form->isSubmitted() && $form->isValid()) {
-//
-//            $email = $form->getData()["email"];
-//
-//
-//            $receiver = $um->findOneBy(['email' => $email]);
-//
-//            if ($receiver === null) {
-//
-//                $this->addFlash('error', "Utilisateur introuvable");
-//            } else {
-//
-//                $sender = $this->getUser();
-//                $invit = new Invitation($sender, $receiver, $salon);
-//
-//
-//                $this->em->persist($invit);
-//                $this->em->flush();
-//                $this->addFlash('success', "L'utilisateur a bien été invité sur le salon");
-//            }
-//
-//
-//        }
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $email = $form->getData()["email"];
+
+
+            $receiver = $um->findOneBy(['email' => $email]);
+
+            if ($receiver === null) {
+
+                $this->addFlash('error', "Utilisateur introuvable");
+            } else {
+
+                $sender = $this->getUser();
+                $invit = new Invitation($sender, $receiver, $salon);
+
+
+                $this->em->persist($invit);
+                $this->em->flush();
+                $this->addFlash('success', "L'utilisateur a bien été invité sur le salon");
+            }
+
+
+        }
 
 
         $sujets = $sujet->findAllSujetsBySalon($salon->getId());
@@ -279,7 +274,7 @@ class SalonController extends AbstractController
     {
         $form = $this->createForm(InvitType::class);
         $salon = $this->sm->find($id);
-
+        dd($form);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -287,8 +282,7 @@ class SalonController extends AbstractController
             $email = $form->getData()["email"];
 
             $receiver = $this->um->findOneBy(['email' => $email]);
-            if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
-                $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+
 
 
                 if ($receiver === null) {
@@ -310,13 +304,8 @@ class SalonController extends AbstractController
 
                 }
 
-                return $this->render('salon/invit.html.twig',
-                    ["id" => $id,
-                        "form" => $form,
-                        "salon" => $salon
-                    ]);
 
-            }
+
         }
 
         return $this->redirectToRoute('salon.index', ["id" => $id]);

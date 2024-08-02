@@ -4,14 +4,20 @@
 
 {% block javascripts %}
     {% block importmap %}{{ importmap('app') }}{% endblock %}
- <script src="{{ asset('countdown.js') }}" defer></script>}
+    <script src="{{ asset('countdown.js') }}" defer></script>}
 {% endblock %}
 
 {% block invitation %}
-    <p>Inviter un utilisateur sur le salon :</p>
-   <div id="invitation">
-       {{ form(form, {action: path('salon.invit', {id: salon.id })}) }}
-   </div>
+    <li data-turbo="false">
+        <p>Inviter un utilisateur sur le salon :</p>
+
+        {{ form_start(form, {'attr': {'id': 'invitation'}}) }}
+        {{ form_row(form.email,{'label': 'Email'}) }}
+        {{ form_row(form.save, {'label': 'Inviter'}) }}
+        {{ form_end(form) }}
+
+    </li>
+
 
 
 
@@ -27,19 +33,24 @@
 
     <h1>Titre : {{ salon.title }}</h1>
     <div id="salon-container" data-salon-id="{{ salon.id }}"></div>
-    <p><span id="time_message"></span><span id="countdown"></span></p>
-    <p>Description : {{ salon.description }}</p>
+    <turbo-frame id="time">
+        <p><span id="time_message"></span><span id="countdown"></span></p>
 
+    </turbo-frame>
+
+    <p>Description : {{ salon.description }}</p>
+<turbo-frame id="salon_{{ salon.id }}">
     <button><a href="{{ path('salon.edit', {id: salon.id}) }}">Editer le salon</a></button>
+</turbo-frame>
     <button><a href="{{ path('salon.delete', {id: salon.id}) }}">Supprimer le salon</a></button>
     <section>
         <h2>Liste des sujets à voter</h2>
         {% for sujet in allsujets %}
             <article>
 
-                    <turbo-frame id="sujet_{{ sujet.id }}">
-                        <a href="{{ path('sujet.edit', {id: sujet.id}) }}"><h3>Sujet : {{ sujet.title }}</h3></a>
-                    </turbo-frame>
+                <turbo-frame id="sujet_{{ sujet.id }}">
+                    <a href="{{ path('sujet.edit', {id: sujet.id}) }}"><h3>Sujet : {{ sujet.title }}</h3></a>
+                </turbo-frame>
 
 
                 <p>
@@ -51,8 +62,10 @@
                 <a href="{{ path('proposal.create', {id: sujet.id}) }}">Créer une proposition</a>
                 <ul>
                     {% for proposal in sujet.proposals %}
-                        <li><turbo-frame id="proposal_{{ proposal.id }}">
-                                <a href="{{ path('proposal.edit', {id: proposal.id}) }}"><p>{{ proposal.title }} </p></a>
+                        <li>
+                            <turbo-frame id="proposal_{{ proposal.id }}">
+                                <a href="{{ path('proposal.edit', {id: proposal.id}) }}"><p>{{ proposal.title }} </p>
+                                </a>
                                 <p>{{ proposal.description }}</p>
                             </turbo-frame>
 
@@ -67,7 +80,7 @@
         <button><a href="{{ path('sujet.create', {id: salon.id}) }}">Créer un nouveau sujet</a></button>
     </section>
     {% block chat %}
-    {{ include('chat/chat.html.twig') }}
+        {{ include('chat/chat.html.twig') }}
     {% endblock %}
 
 {% endblock %}

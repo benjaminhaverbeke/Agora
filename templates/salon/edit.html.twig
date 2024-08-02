@@ -5,8 +5,10 @@
 {% block body %}
     <h1>{{ salon.title }}</h1>
 
+<turbo-frame id="salon_{{ salon.id }}">
+    {{ form(form, {action: path('salon.edit', {id: salon.id})}) }}
+</turbo-frame>
 
-    {{ form(form) }}
 
 
 

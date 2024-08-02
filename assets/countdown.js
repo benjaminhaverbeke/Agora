@@ -131,7 +131,7 @@ async function countdown() {
 
             let type = duration.type;
             message.innerHTML = duration.time_message;
-
+            console.log(duration.time)
             if (duration.time !== null) {
                 timeleft = convertStringToSeconds(duration.time);
 
@@ -144,7 +144,7 @@ async function countdown() {
                     const remainingSeconds = timeleft % 60;
 
                     countdownElement.innerHTML = `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')} (Jours restants: ${days})`;
-
+                    console.log(days)
                     timeleft--;
 
                     if(timeleft <= 0 && type !== "results"){
