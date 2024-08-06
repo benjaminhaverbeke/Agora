@@ -118,57 +118,63 @@ function convertStringToSeconds(timeString) {
 
 }
 
-async function countdown() {
-
-    const id = document.getElementById('salon-container').dataset.salonId;
-    const message = document.getElementById('time_message');
-    const countdownElement = document.getElementById("countdown");
+async function fetchDuration(id) {
 
     fetch(`/salon/get-duration/${id}`)
         .then((response) => response.json())
         .then((data) => {
-            let duration = data.duration;
-
-            let type = duration.type;
-            message.innerHTML = duration.time_message;
-            console.log(duration.time)
-            if (duration.time !== null) {
-                timeleft = convertStringToSeconds(duration.time);
-
-                const intervalId = setInterval(() => {
 
 
-                    const days = Math.floor(timeleft / 86400); // 86400 secondes dans une journée
-                    const hours = Math.floor((timeleft % 86400) / 3600);
-                    const minutes = Math.floor((timeleft % 3600) / 60);
-                    const remainingSeconds = timeleft % 60;
-
-                    countdownElement.innerHTML = `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')} (Jours restants: ${days})`;
-                    console.log(days)
-                    timeleft--;
-
-                    if(timeleft <= 0 && type !== "results"){
-                        clearInterval(intervalId);
-                        countdown();
-
-                    }
-                    else if(timeleft <= 0 && type === "results")
-                    {
-                        clearInterval(intervalId);
-
-                    }
-                }, 1000);
-            }
+            return data.duration;
 
         })
 
-
 }
 
+function countdown(duration) {
+
+
+    const message = document.getElementById('time_message');
+    const countdownElement = document.getElementById("countdown");
+
+
+    if (duration.time !== null) {
+
+        let _sec = 1000;
+        let _min = _sec * 60;
+        let _hour = _min * 60;
+        let _day = _hour * 24;
+        let timer;
+
+        let now = new Date();
+        let end = duration.time;
+        let distance = end - now;
+
+        if (distance < 0) {
+
+            clearInterval(timer);
+            countdown();
+
+        }
+
+        let days = Math.floor(distance / _day);
+        let hours = Math.floor((distance % _day) / _hour);
+        let minutes = Math.floor((distance % _hour) / _min);
+        let seconds = Math.floor((distance % _min) / _sec);
+
+        countdownElement.innerHTML = `Jours: ${days} ${hours}:${minutes}:${seconds}`
+
+    }
+    let timer = setInterval(countdown, 1000);
+}
+
+
 document.addEventListener("DOMContentLoaded", function () {
-
-    countdown();
-
+    const id = document.getElementById('salon-container').dataset.salonId;
+console.log(id);
+    let duration = fetchDuration(id)
+    // countdown(duration);
+    console.log(duration);
 
 
 });

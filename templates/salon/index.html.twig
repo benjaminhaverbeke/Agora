@@ -33,10 +33,10 @@
 
     <h1>Titre : {{ salon.title }}</h1>
     <div id="salon-container" data-salon-id="{{ salon.id }}"></div>
-    <turbo-frame id="time">
+    <div id="time">
         <p><span id="time_message"></span><span id="countdown"></span></p>
 
-    </turbo-frame>
+    </div>
 
     <p>Description : {{ salon.description }}</p>
 <turbo-frame id="salon_{{ salon.id }}">

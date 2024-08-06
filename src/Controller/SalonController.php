@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\UX\Turbo\TurboBundle;
+use Symfony\Component\HttpClient\Response\MockResponse;
 
 
 
@@ -252,19 +253,23 @@ class SalonController extends AbstractController
 
         $salon = $sm->find($id);
 
-        if (!$salon) {
-
-            throw $this->createNotFoundException('Salon non trouvé');
-
-        }
-        try {
             $time = $this->timeProcess($salon);
-            return new JsonResponse(['duration' => $time]);
+            var_dump($time);
 
 
-        } catch (\Exception $e) {
-            throw $this->createNotFoundException('Problème dans le calcul du temps');
-        }
+
+
+
+            return new JsonResponse($time);
+
+
+
+
+
+
+
+
+
 
 
     }
@@ -274,7 +279,7 @@ class SalonController extends AbstractController
     {
         $form = $this->createForm(InvitType::class);
         $salon = $this->sm->find($id);
-        dd($form);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -343,14 +348,15 @@ class SalonController extends AbstractController
         if ($now < $campagne) {
 
             $interval = $campagne->diff($now);
-            $displaytime["time"] = $interval->format("%H:%I:%S (Jours restants: %a)");
+            $displaytime["time"] = $campagne;
+
             $displaytime["time_message"] = "Temps de délibération restant :";
             $displaytime["type"] = "campagne";
 
         } elseif ($now < $vote) {
 
             $interval = $vote->diff($now);
-            $displaytime["time"] = $interval->format("%H:%I:%S (Jours restants: %a)");
+            $displaytime["time"] = $vote;
             $displaytime["time_message"] = "Temps pour voter restant :";
             $displaytime["type"] = "vote";
 
