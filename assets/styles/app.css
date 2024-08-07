@@ -1,3 +1,30 @@
-body {
-    background-color: skyblue;
+/*couleurs*/
+/*fonts*/
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+/*graisses*/
+.inter-regular {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
 }
+
+html {
+  font-size: 62.5%;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  font-size: 1.4rem;
+}
+
+/*inputs*/
+label {
+  color: #808080;
+}
+
+input {
+  border-radius: 20px;
+}
+
+/*# sourceMappingURL=app.css.map */

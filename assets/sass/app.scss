@@ -1,0 +1,63 @@
+
+/*couleurs*/
+
+$white: #FFFFFF;
+$darkpurpule: #805D93;
+$lightpurple: #BCBCF0;
+$lightgrey: #D9D9D9;
+$darkgrey: #808080;
+$darkblue: #6215C6;
+$purple: #9747FF;
+$red: #F50000;
+$green: #05FF00;
+$brown: #C2902D;
+$orange: #FF9900;
+$yellow: #FFE500;
+
+/*fonts*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+// <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 100 to 900
+$inter: "Inter", sans-serif;
+
+/*graisses*/
+$regular: 500;
+$bold: 800;
+$light: 200;
+
+
+.inter-regular {
+          font-family: $inter;
+          font-optical-sizing: auto;
+          font-weight: $regular;
+          font-style: normal;
+        }
+
+
+html {
+
+  font-size: 62.5%;
+
+  font-family: $inter;
+
+}
+
+body {
+
+  font-size: 1.4rem;
+
+}
+
+/*inputs*/
+
+label {
+  color: $darkgrey;
+
+}
+
+input {
+
+  border-radius: 20px;
+
+}
