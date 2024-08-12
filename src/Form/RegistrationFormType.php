@@ -31,16 +31,6 @@ class RegistrationFormType extends AbstractType
                 'label' => "Nom d'utilisateur",
 
             ])
-            ->add('RGPDConsent', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => "En m'inscrivant à ce site j'accepte la charte RGPD",
-                    ]),
-
-                ],
-                'label' => "En m'inscrivant à ce site j'accepte la charte RGPD"
-            ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Mot de passe'],

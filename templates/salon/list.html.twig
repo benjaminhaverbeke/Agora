@@ -52,7 +52,7 @@
 
 
                 <td>
-                    <a href="{{ path('salon.index', {id: salon["salon"].id}) }}">Rejoindre</a>
+                    <a class="btn" href="{{ path('salon.index', {id: salon["salon"].id}) }}">Rejoindre</a>
                 </td>
             </tr>
         {% endfor %}
@@ -60,17 +60,17 @@
     </table>
 <div>
     {% if page > 1 %}
-        <a href="{{ path('salon.list', {page: page - 1 }) }}">Page précédente</a>
+        <a class="btn" href="{{ path('salon.list', {page: page - 1 }) }}">Page précédente</a>
     {% endif %}
     {% if page < maxPage %}
-        <a href="{{ path('salon.list', {page: page + 1 }) }}">Page suivante</a>
+        <a class="btn" href="{{ path('salon.list', {page: page + 1 }) }}">Page suivante</a>
     {% endif %}
 </div>
 
 
 
     <section>
-        <button><a href="{{ path('salon.create') }}">Créer un nouveau salon</a></button>
+        <a class="btn" href="{{ path('salon.create') }}">Créer un nouveau salon</a>
 
     </section>
 {% endblock %}

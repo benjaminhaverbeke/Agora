@@ -7,7 +7,7 @@
         <h2>Mes informations</h2>
         <p>Mon nom d'utilisateur : {{ app.user.username }}</p>
         <p>Mon Email : {{ app.user.email }}</p>
-        <a href="{{ path('profile.edit') }}">Modifier mes informations</a>
+        <a class="btn" href="{{ path('profile.edit') }}">Modifier mes informations</a>
 
     </section>
     <section>
@@ -31,7 +31,7 @@
                     <td>{{ salon.description }}</td>
                     <td>{{ salon.user.username }}</td>
                     <td>{{ salon.createdAt|date("m/d/Y") }}</td>
-                    <td><a href="{{ path('salon.index', {id: salon.id}) }}">Rejoindre</a></td>
+                    <td><a class="btn" href="{{ path('salon.index', {id: salon.id}) }}">Rejoindre</a></td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -39,7 +39,7 @@
     </section>
 
     <section>
-        <button><a href="{{ path('salon.create') }}">Créer un nouveau salon</a></button>
+        <a class="btn" href="{{ path('salon.create') }}">Créer un nouveau salon</a>
 
     </section>
     <section>
@@ -61,8 +61,8 @@
                     <td>{{ invit.sender.username }}</td>
                     <td>{{ invit.salon.title }}</td>
                     <td>{{ invit.createdAt|date("d/m/Y") }}</td>
-                    <td><a href="{{ path('profile.invit', {id: invit.id}) }}">Rejoindre</a></td>
-                    <td><a href="{{ path('profile.refuse', {id: invit.id}) }}">Refuser</a></td>
+                    <td><a class="btn" href="{{ path('profile.invit', {id: invit.id}) }}">Rejoindre</a></td>
+                    <td><a class="btn" href="{{ path('profile.refuse', {id: invit.id}) }}">Refuser</a></td>
                 </tr>
 
             {% endfor %}
