@@ -1,4 +1,3 @@
-
 /*couleurs*/
 
 $white: #FFFFFF;
@@ -24,27 +23,25 @@ $inter: "Inter", sans-serif;
 /*graisses*/
 $regular: 500;
 $bold: 800;
-$light: 200;
+$light: 300;
 
 
 .inter-regular {
-          font-family: $inter;
-          font-optical-sizing: auto;
-          font-weight: $regular;
-          font-style: normal;
-        }
+  font-family: $inter;
+  font-optical-sizing: auto;
+  font-weight: $regular;
+  font-style: normal;
+}
 
 
 html {
-
+  margin: 0;
   font-size: 62.5%;
-
   font-family: $inter;
-
 }
 
 body {
-
+  margin: 0;
   font-size: 1.4rem;
 
 }
@@ -89,7 +86,6 @@ textarea {
   padding-top: .5rem;
 
 
-
 }
 
 .btn:hover {
@@ -100,17 +96,16 @@ textarea {
 
 
 h2 {
-
+  word-wrap: break-word;
   font-size: 3rem;
   font-weight: $regular;
-  margin: auto;
+
 }
 
 h1 {
   text-align: center;
   font-weight: $regular;
 }
-
 
 
 @media screen and (max-width: 425px) {
@@ -158,10 +153,8 @@ h1 {
   }
 
 
-
-
-
 }
+
 .rememberbox {
   text-align: left;
   display: flex;
@@ -175,23 +168,43 @@ h1 {
   position: relative;
 }
 
+/*salon list*/
 
+.salonlist {
+
+  h2 {
+    white-space: normal;
+    margin: 0;
+    font-weight: $light;
+
+  }
+
+  margin-bottom: 1.5rem;
+
+  p {
+    color: $darkgrey;
+    text-align: left;
+  }
+
+}
+
+.pagination {
+
+  margin: 1rem;
+}
+
+.create-salon {
+  background-color: $lightpurple;
+  width: 100%;
+  padding: 1em;
+
+  text-align: center;
+}
 
 @media screen and (max-width: 1600px) {
 
 
-
-
-
-
-
 }
-
-
-
-
-
-
 
 
 /* for desktop */

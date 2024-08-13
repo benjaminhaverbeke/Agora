@@ -3,62 +3,28 @@
 {% block title %}Mes salons{% endblock %}
 
 {% block body %}
-    <table class="table">
-        <thead>
+    <h1>Mes assemblées</h1>
 
-        <tr>
-            <th>Titre</th>
-            <th>Description</th>
-            <th>Date de fin de la campagne</th>
-            <th>Date de clôture des votes</th>
-            <th>Créé par</th>
-            <th>Date de création</th>
-            <th>Nombre de sujets</th>
-            <th>Nombre de membres</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
         {% for salon in salonlist %}
-            <tr>
-
-                <td>
-                    {{ salon["salon"].title }}
-                </td>
-                <td>
-                    {{ salon["salon"].description }}
-                </td>
-
-                <td>
-                    {{ salon["salon"].dateCampagne|date("d/m/Y H:m") }}
-                </td>
-                <td>
-                    {{ salon["salon"].dateVote|date("d/m/Y H:m") }}
-                </td>
-                <td>
-                    {{ salon["salon"].user.username }}
-                </td>
-                <td>
-                    {{ salon["salon"].createdAt|date("d/m/Y") }}
-                </td>
-
-                <td>
-                    {{ salon["nbSujets"] }}
-                </td>
-
-                <td>
-                    {{ salon["nbUsers"] }}
-                </td>
-
-
-                <td>
-                    <a class="btn" href="{{ path('salon.index', {id: salon["salon"].id}) }}">Rejoindre</a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<article class="box salonlist">
+    <h2>{{ salon["salon"].title }}</h2>
 <div>
+    <p>Nombre de sujets : {{ salon["nbSujets"] }}</p>
+
+    <p>Nombre d'utilisateurs : {{ salon["nbUsers"] }}</p>
+    <p>Fin de la campagne : {{ salon["salon"].dateCampagne|date("d/m/Y H:m") }}</p>
+    <p>Clôture des votes : {{ salon["salon"].dateVote|date("d/m/Y H:m") }}</p>
+    <p>Crée par : {{ salon["salon"].user.username }}</p>
+</div>
+
+
+    <a class="btn" href="{{ path('salon.index', {id: salon["salon"].id}) }}">Rejoindre</a>
+</article>
+
+
+        {% endfor %}
+
+<div class="pagination">
     {% if page > 1 %}
         <a class="btn" href="{{ path('salon.list', {page: page - 1 }) }}">Page précédente</a>
     {% endif %}
@@ -69,8 +35,8 @@
 
 
 
-    <section>
-        <a class="btn" href="{{ path('salon.create') }}">Créer un nouveau salon</a>
+    <section class="create-salon">
+        <a class="btn" href="{{ path('salon.create') }}">Nouvelle assmeblée</a>
 
     </section>
 {% endblock %}

@@ -10,11 +10,13 @@
 }
 
 html {
+  margin: 0;
   font-size: 62.5%;
   font-family: "Inter", sans-serif;
 }
 
 body {
+  margin: 0;
   font-size: 1.4rem;
 }
 
@@ -57,9 +59,9 @@ textarea {
 }
 
 h2 {
+  word-wrap: break-word;
   font-size: 3rem;
   font-weight: 500;
-  margin: auto;
 }
 
 h1 {
@@ -102,6 +104,31 @@ h1 {
 
 .rememberbox label {
   position: relative;
+}
+
+/*salon list*/
+.salonlist {
+  margin-bottom: 1.5rem;
+}
+.salonlist h2 {
+  white-space: normal;
+  margin: 0;
+  font-weight: 300;
+}
+.salonlist p {
+  color: #808080;
+  text-align: left;
+}
+
+.pagination {
+  margin: 1rem;
+}
+
+.create-salon {
+  background-color: #BCBCF0;
+  width: 100%;
+  padding: 1em;
+  text-align: center;
 }
 
 /* for desktop */
