@@ -1,4 +1,4 @@
-import './bootstrap.js';
+import './menu';
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -11,3 +11,10 @@ import { startStimulusApp } from '@symfony/stimulus-bundle';
 const app = startStimulusApp();
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 
+
+document.addEventListener('DOMContentLoaded', function(){
+
+    menu();
+
+
+});

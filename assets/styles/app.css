@@ -9,6 +9,10 @@
   font-style: normal;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html {
   margin: 0;
   font-size: 62.5%;
@@ -129,6 +133,38 @@ h1 {
   width: 100%;
   padding: 1em;
   text-align: center;
+}
+
+/*header*/
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 1em;
+  padding-right: 1em;
+  background-color: #805D93;
+  position: fixed;
+  top: 0;
+}
+.header #menu {
+  width: 3rem;
+  height: 3rem;
+}
+.header #burger-check {
+  display: none;
+}
+.header #logo {
+  width: 30%;
+}
+.header #burger {
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+  color: white;
+}
+.header #menu-list {
+  display: none;
 }
 
 /* for desktop */
