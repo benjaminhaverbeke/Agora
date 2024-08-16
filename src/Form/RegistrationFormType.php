@@ -26,15 +26,29 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'label' => 'Email',
+                'attr' => [
+                    'placeholder' => 'Email',
+                ]
+
             ])
             ->add('username', TextType::class, [
                 'label' => "Nom d'utilisateur",
-
+                'attr' => [
+                    "placeholder" => "Nom d'utilisateur"
+                ]
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmation du mot de passe'],
+                'first_options' => ['label' => 'Mot de passe',
+                    'attr'=>[
+                        'placeholder' => 'Mot de passe'
+                    ]
+                    ],
+                'second_options' => ['label' => 'Confirmation du mot de passe',
+                    'attr'=> [
+                        'placeholder' => 'Confirmation du mot de passe'
+                    ]
+                ],
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
@@ -65,6 +79,7 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+
         ]);
     }
 }

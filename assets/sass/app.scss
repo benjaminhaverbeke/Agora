@@ -56,6 +56,7 @@ label {
   color: $darkgrey;
   position: absolute;
   left: 50px;
+  display: none;
 }
 
 input {
@@ -63,7 +64,8 @@ input {
   border-radius: 20px;
   border: none;
   width: 100%;
-  padding: 0.2rem;
+  padding: 0.3rem 0 0.3rem 2rem;
+
 
 }
 
@@ -233,7 +235,9 @@ h1 {
     height: 3rem;
     cursor: pointer;
     color: white;
+
   }
+
 
   #menu-list {
     display: none;
@@ -241,7 +245,8 @@ h1 {
     background-color: $lightgrey;
     list-style-type: none;
     left: 0;
-    padding-left: 1.5rem;
+    padding: 0;
+
 
 
 
@@ -250,6 +255,7 @@ h1 {
     li {
 
       line-height: 3;
+      padding-left: 1.5rem;
 
     }
 
@@ -263,13 +269,17 @@ h1 {
 
   }
 
+  li:hover {
+    background-color: $darkgrey;
+  }
 
+}
+.rotate {
+
+  transform: rotate(90deg);
 
 }
 
-li:hover {
-  background-color: blue;
-}
 
 @media screen and (max-width: 1600px) {
 

@@ -29,13 +29,14 @@ label {
   color: #808080;
   position: absolute;
   left: 50px;
+  display: none;
 }
 
 input {
   border-radius: 20px;
   border: none;
   width: 100%;
-  padding: 0.2rem;
+  padding: 0.3rem 0 0.3rem 2rem;
 }
 
 textarea {
@@ -162,20 +163,24 @@ h1 {
   background-color: #D9D9D9;
   list-style-type: none;
   left: 0;
-  padding-left: 1.5rem;
+  padding: 0;
   margin: 0;
   width: 100%;
 }
 .header #menu-list li {
   line-height: 3;
+  padding-left: 1.5rem;
 }
 .header #menu-list a {
   text-decoration: none;
   color: black;
 }
+.header li:hover {
+  background-color: #808080;
+}
 
-li:hover {
-  background-color: blue;
+.rotate {
+  transform: rotate(90deg);
 }
 
 /* for desktop */
