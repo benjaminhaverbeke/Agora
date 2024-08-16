@@ -45,8 +45,8 @@ html {
 }
 
 body {
-  margin: 0;
   font-size: 1.4rem;
+  margin: 0;
 
 }
 
@@ -183,9 +183,10 @@ h1 {
 
   }
 
-  margin-bottom: 1.5rem;
+
 
   p {
+    margin-bottom: 1.5rem;
     color: $darkgrey;
     text-align: left;
   }
@@ -215,19 +216,11 @@ h1 {
   padding-left: 1em;
   padding-right: 1em;
   background-color: $darkpurple;
-  position: fixed;
+  position: sticky;
   top: 0;
+  width: 100%;
+  z-index: 2000;
 
-  #menu {
-    width: 3rem;
-    height: 3rem;
-  }
-
-
-  #burger-check {
-
-    display: none;
-  }
 
   #logo {
 
@@ -244,13 +237,39 @@ h1 {
 
   #menu-list {
     display: none;
+    position: absolute;
+    background-color: $lightgrey;
+    list-style-type: none;
+    left: 0;
+    padding-left: 1.5rem;
+
+
+
+    margin: 0;
+    width: 100%;
+    li {
+
+      line-height: 3;
+
+    }
+
+
+
+    a {
+      text-decoration: none;
+      color: black;
+    }
+
+
   }
 
 
 
 }
 
-
+li:hover {
+  background-color: blue;
+}
 
 @media screen and (max-width: 1600px) {
 

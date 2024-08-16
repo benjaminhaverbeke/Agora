@@ -6,10 +6,11 @@
         <meta charset="UTF-8">
         <title>{% block title %}Accueil{% endblock %}</title>
         {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
         {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+            {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
     <body>
@@ -20,7 +21,7 @@
 
 
         <nav>
-            <img id="logo" src="{{ asset('img/logo.png') }}" alt="logo du site agora"/>
+            <img id="logo" src="{{ asset('build/images/logo.png') }}" alt="logo du site agora"/>
 
             <ul id="menu-list">
                     <li><a href="{{ path('home') }}">Accueil</a></li>
@@ -51,7 +52,7 @@
 
         </nav>
 
-        <img id="burger" src="{{ asset('img/menu.png') }}" alt="menu déroulant du site"/>
+        <img id="burger" src="{{ asset('build/images/menu.png') }}" alt="menu déroulant du site"/>
 
     </header>
 
