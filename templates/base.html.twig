@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-{#        <meta name="turbo-refresh-method" content="morph">#}
+        <meta name="turbo-refresh-method" content="morph">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charset="UTF-8">
         <title>{% block title %}Accueil{% endblock %}</title>
@@ -16,21 +16,23 @@
     <body>
 {#    {% autoescape %}#}
 {% block nav %}
+<turbo-frame id="my-frame" refresh="morph">
     <header class="header" data-controller="menu">
 
 
 
-        <nav>
+
+        <nav >
             <a href="{{ path('home') }}"><img id="logo" src="{{ asset('build/images/logo.png') }}" alt="logo du site agora"/></a>
 
             <ul data-menu-target="list" id="menu-list">
                     <li><a href="{{ path('home') }}">Accueil</a></li>
-
+                <li><a href="{{ path('contact') }}">Contact</a></li>
                     {% if app.user %}
                         <li><a href="{{ path('profile') }}">Mon Compte</a></li>
                         <li><a href="{{ path('salon.list') }}">Mes assemblées</a></li>
                         <li>
-                            Vous êtes connecté en tant que {{ app.user.username }}, <a href="{{ path('logout') }}">Déconnexion</a>
+                            <a href="{{ path('logout') }}">Déconnexion</a>
                         </li>
                         {% block invitation %}
                         {% endblock %}
@@ -40,7 +42,7 @@
                         <li><a href="{{ path('login') }}">Connexion</a></li>
 
                     {% endif %}
-                    <li><a href="{{ path('contact') }}">Contact</a></li>
+
                     {% if is_granted('ROLE_ADMIN') %}
                         <li><a href="{{ path('admin') }}">Administration</a></li>
                     {% endif %}
@@ -55,6 +57,7 @@
         <img id="burger" data-action="click->menu#animate" data-menu-target="burger" src="{{ asset('build/images/menu.png') }}" alt="menu déroulant du site"/>
 
     </header>
+    <turbo-frame/>
 
 {% endblock %}
     <div class="container">
