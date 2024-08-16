@@ -4,11 +4,11 @@
 
 {% block javascripts %}
 
-    <script src="{{ asset('countdown.js') }}" defer></script>}
+    <script src="{{ asset('countdown.js') }}" defer></script>
 {% endblock %}
 
 {% block invitation %}
-    <li data-turbo="false">
+    <li>
         <p>Inviter un utilisateur sur le salon :</p>
 
         {{ form_start(form, {'attr': {'id': 'invitation'}}) }}

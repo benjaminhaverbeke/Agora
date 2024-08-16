@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta name="turbo-refresh-method" content="morph">
+
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charset="UTF-8">
         <title>{% block title %}Accueil{% endblock %}</title>
@@ -16,11 +16,8 @@
     <body>
 {#    {% autoescape %}#}
 {% block nav %}
-<turbo-frame id="my-frame" refresh="morph">
-    <header class="header" data-controller="menu">
 
-
-
+    <header class="header" data-turbo="false" data-controller="menu">
 
         <nav >
             <a href="{{ path('home') }}"><img id="logo" src="{{ asset('build/images/logo.png') }}" alt="logo du site agora"/></a>
@@ -57,7 +54,6 @@
         <img id="burger" data-action="click->menu#animate" data-menu-target="burger" src="{{ asset('build/images/menu.png') }}" alt="menu déroulant du site"/>
 
     </header>
-    <turbo-frame/>
 
 {% endblock %}
     <div class="container">
