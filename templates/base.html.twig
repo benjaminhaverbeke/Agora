@@ -1,78 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+<head>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta charset="UTF-8">
-        <title>{% block title %}Accueil{% endblock %}</title>
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="UTF-8">
+    <title>{% block title %}Accueil{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body data-turbo="false">
-{#    {% autoescape %}#}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body data-turbo="false">
+{#    {% autoescape %} #}
 {% block nav %}
+    <header class="header" data-controller="menu" data-action="turbolinks:before-cache@window->menu#animate">
 
-    <header class="header" data-controller="menu">
-
-        <nav >
-            <a href="{{ path('home') }}"><img id="logo" src="{{ asset('build/images/logo.png') }}" alt="logo du site agora"/></a>
+        <nav id="navbar">
+            <a href="{{ path('home') }}"><img id="logo" src="{{ asset('build/images/logo.png') }}"
+                                              alt="logo du site agora"/></a>
 
             <ul data-menu-target="list" id="menu-list">
-                    <li><a href="{{ path('home') }}">Accueil</a></li>
-                <li><a href="{{ path('contact') }}">Contact</a></li>
-                    {% if app.user %}
-                        <li><a href="{{ path('profile') }}">Mon Compte</a></li>
-                        <li><a href="{{ path('salon.list') }}">Mes assemblées</a></li>
-                        <li>
-                            <a href="{{ path('logout') }}">Déconnexion</a>
-                        </li>
-                        {% block invitation %}
-                        {% endblock %}
+                <li class="nav-item"><a href="{{ path('home') }}">Accueil</a></li>
+                <li class="nav-item"><a href="{{ path('contact') }}">Contact</a></li>
+                {% if app.user %}
+                    <li class="nav-item"><a href="{{ path('profile') }}">Mon Compte</a></li>
+                    <li class="nav-item"><a href="{{ path('salon.list') }}">Mes assemblées</a></li>
+                    <li class="nav-item">
+                        <a href="{{ path('logout') }}">Déconnexion</a>
+                    </li>
+                    {% block invitation %}
+                    {% endblock %}
 
-                    {% else %}
-                        <li><a href="{{ path('register') }}">Inscription</a></li>
-                        <li><a href="{{ path('login') }}">Connexion</a></li>
+                {% else %}
+                    <li class="nav-item"><a href="{{ path('register') }}">Inscription</a></li>
+                    <li class="nav-item"><a href="{{ path('login') }}">Connexion</a></li>
 
-                    {% endif %}
+                {% endif %}
 
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <li><a href="{{ path('admin') }}">Administration</a></li>
-                    {% endif %}
-                </ul>
-
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item"><a href="{{ path('admin') }}">Administration</a></li>
+                {% endif %}
+            </ul>
 
 
 
 
         </nav>
 
-        <img id="burger" data-action="click->menu#animate" data-menu-target="burger" src="{{ asset('build/images/menu.png') }}" alt="menu déroulant du site"/>
+        <img id="burger" data-action="click->menu#animate" data-menu-target="burger"
+             src="{{ asset('build/images/menu.png') }}" alt="menu déroulant du site"/>
 
     </header>
 
 {% endblock %}
-    <div class="container">
-        {% include 'partials/flash.html.twig' %}
+
+<div class="container">
+    {% include 'partials/flash.html.twig' %}
 
 
 
 
-        {% block body %}
+    {% block body %}
 
 
 
-        {% endblock %}
+    {% endblock %}
 
 
+</div>
 
-
-    </div>
-
-    </body>
-{#    {% endautoescape %}#}
+</body>
+{#    {% endautoescape %} #}
 </html>

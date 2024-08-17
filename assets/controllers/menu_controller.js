@@ -4,7 +4,7 @@ import { Controller } from '@hotwired/stimulus';
 export default class extends Controller {
 
 
-    static targets = ['list'];
+    static targets = ['list', 'burger'];
     static values = { isOpen: {type: Boolean, default: false}}
 
 
@@ -24,15 +24,6 @@ export default class extends Controller {
         this.listTarget.style.display = "block";
     }
 
-    disconnect(){
-        document.addEventListener('turbo:before-cache', () => {
-
-                this.menu.hide();
-                  });
-
-
-
-    }
 
 
 
