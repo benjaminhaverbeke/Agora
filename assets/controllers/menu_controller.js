@@ -8,8 +8,6 @@ export default class extends Controller {
     static values = { isOpen: {type: Boolean, default: false}}
 
 
-
-
     animate() {
 
     this.isOpenValue ? this.hide() : this.show();
@@ -19,12 +17,22 @@ export default class extends Controller {
 
     hide() {
         this.listTarget.style.display = "none";
+
     }
 
     show() {
         this.listTarget.style.display = "block";
     }
 
+    disconnect(){
+        document.addEventListener('turbo:before-cache', () => {
+
+                this.menu.hide();
+                  });
+
+
+
+    }
 
 
 
@@ -33,3 +41,4 @@ export default class extends Controller {
 
 
 }
+
