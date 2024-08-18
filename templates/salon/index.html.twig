@@ -2,10 +2,7 @@
 
 {% block title %}Salon{% endblock %}
 
-{% block javascripts %}
 
-    <script src="{{ asset('countdown.js') }}" defer></script>
-{% endblock %}
 
 {% block invitation %}
     <li>
@@ -33,8 +30,8 @@
 
     <h1>Titre : {{ salon.title }}</h1>
     <div id="salon-container" data-salon-id="{{ salon.id }}"></div>
-    <div id="time">
-        <p><span id="time_message"></span><span id="countdown"></span></p>
+    <div data-controller="countdown" id="time" data-countdown-target="id" data-salon-id="{{ salon.id }}">
+        <p><span id="time_message" data-countdown-target="message"></span><span data-countdown-target="count"></span></p>
 
     </div>
 

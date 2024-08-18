@@ -254,11 +254,6 @@ class SalonController extends AbstractController
         $salon = $sm->find($id);
 
             $time = $this->timeProcess($salon);
-            var_dump($time);
-
-
-
-
 
             return new JsonResponse($time);
 
