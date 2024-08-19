@@ -1,19 +1,61 @@
 import {Controller} from '@hotwired/stimulus';
-import {fetchDuration} from "../fetchDuration";
+
 
 "../fetchDuration";
 export default class extends Controller {
 
     static targets = ['count', 'id', 'message'];
+    static values = {
+        date: String,
+    }
 
-
-    connect() {
+    async fetchDuration(){
 
         const id = this.idTarget.dataset.salonId;
-        fetchDuration(id).then(r => {
-                console.log(r)
-                this.countTarget.innerHTML = r.time.date;
-                this.messageTarget.innerHTML = r.time_message;
+        const r = await fetch(`/salon/get-duration/${id}`, {
+            method: 'GET',
+            headers: {
+                "Accept": "application/json",
+                "Content-type": "application/json"
+            }
+        })
+        if(r.ok === true){
+            return r.json();
+
+        }else {
+            throw new Error('Impossible de contacter le serveur')
+        }
+
+    }
+
+    time() {
+
+       let now = new Date().getTime();
+       console.log(now);
+        if(now < this.dateValue){
+
+            let diff = this.dateValue - now;
+            let hours = Math.floor(diff / (1000 * 60 * 60));
+            let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            this.countTarget.innerHTML = hours + 'h ' + minutes + 'm ' + seconds + 's';
+
+        }
+
+
+
+
+    }
+    connect() {
+
+        this.fetchDuration().then(r => {
+
+            this.dateValue = new Date(r.time.date).getTime();
+            this.messageTarget.innerHTML = r.time_message
+                setInterval(this.time, 1000);
+                this.time();
+
             }
         ).catch(e => {
                 throw new Error('Impossible de contacter le serveur')
@@ -22,7 +64,9 @@ export default class extends Controller {
         )
 
 
+
     }
+
 
 
 }
