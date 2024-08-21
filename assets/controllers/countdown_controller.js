@@ -1,13 +1,12 @@
 import {Controller} from '@hotwired/stimulus';
 
 
-
 export default class extends Controller {
 
     static targets = ['count', 'id', 'message'];
     static values = {date: Number, timer: Number, message: String, type: String}
 
-    async fetchDuration(){
+    async fetchDuration() {
 
         const id = this.idTarget.dataset.salonId;
         const r = await fetch(`/salon/get-duration/${id}`, {
@@ -17,10 +16,10 @@ export default class extends Controller {
                 "Content-type": "application/json"
             }
         })
-        if(r.ok === true){
+        if (r.ok === true) {
             return r.json();
 
-        }else {
+        } else {
             throw new Error('Impossible de contacter le serveur')
         }
 
@@ -28,34 +27,36 @@ export default class extends Controller {
 
     time() {
 
-       let now = new Date().getTime();
+        let now = new Date().getTime();
 
-        if(now < this._date){
+        if (now < this._date) {
 
             let diff = this._date - now;
-            let hours = Math.floor(diff / (1000 * 60 * 60));
+            let totalhours = Math.floor(diff / (1000 * 60 * 60));
             let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             let seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-            this.countTarget.innerHTML = hours + 'h ' + minutes + 'm ' + seconds + 's';
+            let days = Math.floor(totalhours/24);
+            let hours = totalhours % 24;
 
-        }
-        else {
+            days === 0 ? (this.countTarget.innerHTML = ` ${hours} h ${minutes} m ${seconds} s`)
+                : (this.countTarget.innerHTML = ` ${days} j ${hours} h ${minutes} m ${seconds} s`)
+
+
+        } else {
             return false
         }
 
 
-
-
-
     }
+
     connect() {
 
         this.fetchDuration().then(r => {
 
-            this._date = new Date(r.time.date).getTime();
-            this.messageTarget.innerHTML = r.time_message;
-            this._type = r.type;
+                this._date = new Date(r.time.date).getTime();
+                this.messageTarget.innerHTML = r.time_message;
+                this._type = r.type;
 
 
             }
@@ -66,53 +67,43 @@ export default class extends Controller {
         )
 
 
-            if(this.time){
+        if (this.time) {
 
 
+            this._timer = setInterval(() => {
+                this.time()
+            }, 1000);
+            this.time();
+        } else if (this._type !== "results") {
 
-                this._timer = setInterval(()=>{
-                    this.time()
-                }, 1000);
-                this.time();
-            }
-            else if(this._type !== "results"){
+            this.fetchDuration().then(r => {
 
-                this.fetchDuration().then(r => {
-
-                        this._date = new Date(r.time.date).getTime();
+                    this._date = new Date(r.time.date).getTime();
                     this.messageTarget.innerHTML = r.time_message
-                        this._type = r.type;
+                    this._type = r.type;
 
 
-                    }
-                ).catch(e => {
-                        throw new Error('Impossible de contacter le serveur')
+                }
+            ).catch(e => {
+                    throw new Error('Impossible de contacter le serveur')
 
-                    }
-                )
-
-
-                this._timer = setInterval(()=>{
-                    this.time()
-                }, 1000);
-                this.time();
+                }
+            )
 
 
-            }
-
-            else {
-                clearInterval(this._timer)
-                this.messageTarget.innerHTML = r.time_message;
-            }
+            this._timer = setInterval(() => {
+                this.time()
+            }, 1000);
+            this.time();
 
 
-
-
-
+        } else {
+            clearInterval(this._timer)
+            this.messageTarget.innerHTML = r.time_message;
+        }
 
 
     }
-
 
 
 }
