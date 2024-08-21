@@ -32,7 +32,8 @@
     <div id="salon-container" data-salon-id="{{ salon.id }}"></div>
     <div data-controller="countdown" id="time" data-countdown-target="id" data-salon-id="{{ salon.id }}">
         <p><span id="time_message" data-countdown-target="message"></span><span data-countdown-target="count"></span></p>
-
+        <p data-content-loader-url-value="/messages.html"
+           data-content-loader-refresh-interval-value="1000"></p>
     </div>
 
     <p>Description : {{ salon.description }}</p>

@@ -1,13 +1,11 @@
 import {Controller} from '@hotwired/stimulus';
 
 
-"../fetchDuration";
+
 export default class extends Controller {
 
     static targets = ['count', 'id', 'message'];
-    static values = {
-        date: String,
-    }
+    static values = {date: Number, timer: Number, message: String, type: String}
 
     async fetchDuration(){
 
@@ -31,10 +29,10 @@ export default class extends Controller {
     time() {
 
        let now = new Date().getTime();
-       console.log(now);
-        if(now < this.dateValue){
 
-            let diff = this.dateValue - now;
+        if(now < this._date){
+
+            let diff = this._date - now;
             let hours = Math.floor(diff / (1000 * 60 * 60));
             let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             let seconds = Math.floor((diff % (1000 * 60)) / 1000);
@@ -42,6 +40,10 @@ export default class extends Controller {
             this.countTarget.innerHTML = hours + 'h ' + minutes + 'm ' + seconds + 's';
 
         }
+        else {
+            return false
+        }
+
 
 
 
@@ -51,10 +53,10 @@ export default class extends Controller {
 
         this.fetchDuration().then(r => {
 
-            this.dateValue = new Date(r.time.date).getTime();
-            this.messageTarget.innerHTML = r.time_message
-                setInterval(this.time, 1000);
-                this.time();
+            this._date = new Date(r.time.date).getTime();
+            this.messageTarget.innerHTML = r.time_message;
+            this._type = r.type;
+
 
             }
         ).catch(e => {
@@ -62,6 +64,50 @@ export default class extends Controller {
 
             }
         )
+
+
+            if(this.time){
+
+
+
+                this._timer = setInterval(()=>{
+                    this.time()
+                }, 1000);
+                this.time();
+            }
+            else if(this._type !== "results"){
+
+                this.fetchDuration().then(r => {
+
+                        this._date = new Date(r.time.date).getTime();
+                    this.messageTarget.innerHTML = r.time_message
+                        this._type = r.type;
+
+
+                    }
+                ).catch(e => {
+                        throw new Error('Impossible de contacter le serveur')
+
+                    }
+                )
+
+
+                this._timer = setInterval(()=>{
+                    this.time()
+                }, 1000);
+                this.time();
+
+
+            }
+
+            else {
+                clearInterval(this._timer)
+                this.messageTarget.innerHTML = r.time_message;
+            }
+
+
+
+
 
 
 
