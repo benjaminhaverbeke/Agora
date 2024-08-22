@@ -16,13 +16,14 @@
 <body data-turbo="false">
 {#    {% autoescape %} #}
 {% block nav %}
+
+
     <header class="header" data-controller="menu" data-action="turbolinks:before-cache@window->menu#animate">
-
-        <nav id="navbar">
-            <a href="{{ path('home') }}"><img id="logo" src="{{ asset('build/images/logo.png') }}"
-                                              alt="logo du site agora"/></a>
-
-            <ul data-menu-target="list" id="menu-list">
+        <a href="{{ path('home') }}"><img id="logo" src="{{ asset('build/images/logo.png') }}"
+                                          alt="logo du site agora"/></a>
+        <nav id="mySidenav" class="sidenav" data-menu-target="list">
+            <a id="closeBtn" data-action="click->menu#animate" data-menu-target="close" href="#" class="close">×</a>
+            <ul>
                 <li class="nav-item"><a href="{{ path('home') }}">Accueil</a></li>
                 <li class="nav-item"><a href="{{ path('contact') }}">Contact</a></li>
                 {% if app.user %}
@@ -44,10 +45,6 @@
                     <li class="nav-item"><a href="{{ path('admin') }}">Administration</a></li>
                 {% endif %}
             </ul>
-
-
-
-
         </nav>
 
         <img id="burger" data-action="click->menu#animate" data-menu-target="burger"

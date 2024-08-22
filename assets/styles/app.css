@@ -138,55 +138,65 @@ h1 {
 
 /*header*/
 .header {
-  padding-left: 1em;
-  padding-right: 1em;
-  background-color: #805D93;
-  position: sticky;
-  width: 100%;
-  z-index: 2000;
   display: flex;
-  flex-direction: row;
+  background-color: #805D93;
   justify-content: space-between;
-  align-items: center;
-}
-.header #logo {
-  width: 30%;
-}
-.header #burger {
-  width: 3rem;
-  height: 3rem;
-  cursor: pointer;
-  color: white;
-}
-.header #navbar {
-  padding: 0;
-}
-.header #menu-list {
-  display: none;
-  position: absolute;
-  background-color: #D9D9D9;
-  list-style-type: none;
-  text-align: center;
-  transition: 1s;
-  padding: 0;
-  width: 100%;
-}
-.header #menu-list li {
-  line-height: 3;
-}
-.header #menu-list a {
-  text-decoration: none;
-  color: black;
-}
-.header #menu-list a:hover {
-  color: white;
-}
-.header li:hover {
-  background-color: #808080;
+  padding: 1rem;
 }
 
-.rotate {
-  transform: rotate(90deg);
+#logo {
+  width: 10rem;
+}
+
+#burger {
+  width: 20%;
+  height: 20%;
+}
+
+/* Sidenav menu */
+.sidenav {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: -34rem;
+  background-color: #D9D9D9;
+  padding-top: 60px;
+  transition: left 0.5s ease;
+}
+
+/* Sidenav menu links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #111;
+}
+
+.sidenav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Active class */
+.sidenav.active {
+  left: 0;
+}
+
+/* Close btn */
+.sidenav .close {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
 }
 
 /* for desktop */

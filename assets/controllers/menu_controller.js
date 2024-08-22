@@ -4,7 +4,7 @@ import { Controller } from '@hotwired/stimulus';
 export default class extends Controller {
 
 
-    static targets = ['list', 'burger'];
+    static targets = ['list', 'burger', 'close'];
     static values = { isOpen: {type: Boolean, default: false}}
 
 
@@ -16,12 +16,12 @@ export default class extends Controller {
     }
 
     hide() {
-        this.listTarget.style.display = "none";
+        this.listTarget.classList.remove("active");
 
     }
 
     show() {
-        this.listTarget.style.display = "block";
+        this.listTarget.classList.add("active");
     }
 
 
