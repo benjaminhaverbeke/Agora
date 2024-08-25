@@ -6,7 +6,11 @@
     <meta charset="UTF-8">
     <title>{% block title %}Accueil{% endblock %}</title>
     {% block stylesheets %}
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+              rel="stylesheet">
         {{ encore_entry_link_tags('app') }}
+
     {% endblock %}
 
     {% block javascripts %}
@@ -22,23 +26,29 @@
         <a href="{{ path('home') }}"><img id="logo" src="{{ asset('build/images/logo.png') }}"
                                           alt="logo du site agora"/></a>
         <nav id="mySidenav" class="sidenav" data-menu-target="list">
-            <a id="closeBtn" data-action="click->menu#animate" data-menu-target="close" href="#" class="close">×</a>
+            <span data-action="click->menu#animate" data-menu-target="close" class="material-symbols-outlined close">
+close
+</span>
             <ul {% if is_granted('ROLE_ADMIN') %}
-                 class="uladmin"
-{% elseif app.user %}
-    class="uluser"
-{%  else %}
-         class="ulinvit"
-{% endif %}>
+                class="uladmin"
+            {% elseif app.user %}
+                class="uluser"
+            {% else %}
+                class="ulinvit"
+                    {% endif %}>
 
                 <li><a href="{{ path('home') }}">Accueil</a></li>
                 <li><a href="{{ path('contact') }}">Contact</a></li>
                 {% if app.user %}
-                    <li class="user-li">Utilisateur: {{ app.user.username }}</li>
+                    <li class="user-li"><span class="material-symbols-outlined user-logo">
+                    person</span>
+                        {{ app.user.username }}</li>
                     <li><a href="{{ path('profile') }}">Mon Compte</a></li>
                     <li><a href="{{ path('salon.list') }}">Mes assemblées</a></li>
                     <li>
-                        <a href="{{ path('logout') }}">Déconnexion</a>
+                        <a class="logout" href="{{ path('logout') }}"><span class="material-symbols-outlined">
+logout
+</span> Déconnexion</a>
                     </li>
                     {% block invitation %}
                     {% endblock %}
@@ -52,19 +62,22 @@
                 {% if is_granted('ROLE_ADMIN') %}
                     <li><a href="{{ path('admin') }}">Administration</a></li>
                 {% endif %}
-            </>
+            </ul>
         </nav>
 
-        <img id="burger" data-action="click->menu#animate" data-menu-target="burger"
-             src="{{ asset('build/images/menu.png') }}" alt="menu déroulant du site"/>
+        <div data-action="click->menu#animate" data-menu-target="burger"><span
+                    class="material-symbols-outlined menu-burger">
+menu
+</span>
+        </div>
 
     </header>
 
 {% endblock %}
 
 <div class="container">
-{% block body %}
-    {% include 'partials/flash.html.twig' %}
+    {% block body %}
+        {% include 'partials/flash.html.twig' %}
 
 
 
