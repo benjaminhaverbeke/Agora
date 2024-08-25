@@ -46,7 +46,7 @@ close
                     <li><a href="{{ path('profile') }}">Mon Compte</a></li>
                     <li><a href="{{ path('salon.list') }}">Mes assemblées</a></li>
                     <li>
-                        <a class="logout" href="{{ path('logout') }}"><span class="material-symbols-outlined">
+                        <a class="logout-icon" href="{{ path('logout') }}"><span class="material-symbols-outlined">
 logout
 </span> Déconnexion</a>
                     </li>
@@ -55,7 +55,9 @@ logout
 
                 {% else %}
                     <li><a href="{{ path('register') }}">Inscription</a></li>
-                    <li><a href="{{ path('login') }}">Connexion</a></li>
+                    <li><a  class="login-icon" href="{{ path('login') }}"><span class="material-symbols-outlined">
+login
+</span>Connexion</a></li>
 
                 {% endif %}
 

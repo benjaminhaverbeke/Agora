@@ -11,33 +11,33 @@
         <a class="btn" href="{{ path('profile.edit') }}">Modifier mes informations</a>
 
     </section>
-    <section>
-        <h2>Mes salons</h2>
-        <table>
-            <thead>
-            <tr>
+    {#    <section> #}
+    {#        <h2>Mes salons</h2> #}
+    {#        <table> #}
+    {#            <thead> #}
+    {#            <tr> #}
 
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Auteur</th>
-                <th>Date de création</th>
-                <th>Action</th>
+    {#                <th>Titre</th> #}
+    {#                <th>Description</th> #}
+    {#                <th>Auteur</th> #}
+    {#                <th>Date de création</th> #}
+    {#                <th>Action</th> #}
 
-            </tr>
-            </thead>
-            <tbody>
-            {% for salon in salons %}
-                <tr>
-                    <td>{{ salon.title }}</td>
-                    <td>{{ salon.description }}</td>
-                    <td>{{ salon.user.username }}</td>
-                    <td>{{ salon.createdAt|date("m/d/Y") }}</td>
-                    <td><a class="btn" href="{{ path('salon.index', {id: salon.id}) }}">Rejoindre</a></td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </section>
+    {#            </tr> #}
+    {#            </thead> #}
+    {#            <tbody> #}
+    {#            {% for salon in salons %} #}
+    {#                <tr> #}
+    {#                    <td>{{ salon.title }}</td> #}
+    {#                    <td>{{ salon.description }}</td> #}
+    {#                    <td>{{ salon.user.username }}</td> #}
+    {#                    <td>{{ salon.createdAt|date("m/d/Y") }}</td> #}
+    {#                    <td><a class="btn" href="{{ path('salon.index', {id: salon.id}) }}">Rejoindre</a></td> #}
+    {#                </tr> #}
+    {#            {% endfor %} #}
+    {#            </tbody> #}
+    {#        </table> #}
+    {#    </section> #}
 
     <section>
         <a class="btn" href="{{ path('salon.create') }}">Créer un nouveau salon</a>
@@ -45,30 +45,40 @@
     </section>
     <section>
         <h2>Nouvelles invitations</h2>
-        <table>
-            <thead>
-            <tr>
+        {% for invit in invits %}
+        <article class="box">
+            <p>Invité par {{ invit.sender.username }}</p>
+            <p>Nom de l'assemblée : {{ invit.salon.title }}</p>
+            <p>Le {{ invit.createdAt|date("d/m/Y") }}</p>
+            <a class="btn" href="{{ path('profile.invit', {id: invit.id}) }}">Rejoindre</a>
+            <a class="btn" href="{{ path('profile.refuse', {id: invit.id}) }}">Refuser</a>
+        </article>
+        {% endfor %}
 
-                <th>Invité par</th>
-                <th>Titre de l'assemblée</th>
-                <th>Date  de l'invitation</th>
-                <th>Action</th>
+        {#        <table> #}
+        {#            <thead> #}
+        {#            <tr> #}
 
-            </tr>
-            </thead>
-            <tbody>
-            {% for invit in invits %}
-                <tr>
-                    <td>{{ invit.sender.username }}</td>
-                    <td>{{ invit.salon.title }}</td>
-                    <td>{{ invit.createdAt|date("d/m/Y") }}</td>
-                    <td><a class="btn" href="{{ path('profile.invit', {id: invit.id}) }}">Rejoindre</a></td>
-                    <td><a class="btn" href="{{ path('profile.refuse', {id: invit.id}) }}">Refuser</a></td>
-                </tr>
+        {#                <th>Invité par</th> #}
+        {#                <th>Titre de l'assemblée</th> #}
+        {#                <th>Date  de l'invitation</th> #}
+        {#                <th>Action</th> #}
 
-            {% endfor %}
+        {#            </tr> #}
+        {#            </thead> #}
+        {#            <tbody> #}
+        {#            {% for invit in invits %} #}
+        {#                <tr> #}
+        {#                    <td>{{ invit.sender.username }}</td> #}
+        {#                    <td>{{ invit.salon.title }}</td> #}
+        {#                    <td>{{ invit.createdAt|date("d/m/Y") }}</td> #}
+        {#                    <td><a class="btn" href="{{ path('profile.invit', {id: invit.id}) }}">Rejoindre</a></td> #}
+        {#                    <td><a class="btn" href="{{ path('profile.refuse', {id: invit.id}) }}">Refuser</a></td> #}
+        {#                </tr> #}
 
-            </tbody>
-        </table>
+        {#            {% endfor %} #}
+
+        {#            </tbody> #}
+        {#        </table> #}
     </section>
 {% endblock %}
