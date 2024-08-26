@@ -5,8 +5,8 @@
 
 
 {% block invitation %}
-    <li>
-        <p>Inviter un utilisateur sur le salon :</p>
+    <li class="invit-li">
+        <p class="invit-title">Invitation</p>
 
         {{ form_start(form, {'attr': {'id': 'invitation'}}) }}
         {{ form_row(form.email,{'label': 'Email'}) }}

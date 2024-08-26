@@ -13,11 +13,6 @@ class Invitation
     #[ORM\Column]
     private ?int $id = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $sender = null;
 
@@ -27,13 +22,18 @@ class Invitation
     #[ORM\ManyToOne(targetEntity: Salons::class)]
     private ?Salons $salon = null;
 
-    #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
 
-    public function __construct(User $sender, User $receiver, Salons $salon){
+    public function __construct(User $sender, User $receiver, Salons $salon) {
 
-        $this->createdAt = new \DateTimeImmutable();
+        $this->created_at = new \DateTimeImmutable();
 
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function getSender(): ?User
@@ -41,9 +41,11 @@ class Invitation
         return $this->sender;
     }
 
-    public function setSender(?User $sender): void
+    public function setSender(?User $sender): static
     {
         $this->sender = $sender;
+
+        return $this;
     }
 
     public function getReceiver(): ?User
@@ -51,9 +53,11 @@ class Invitation
         return $this->receiver;
     }
 
-    public function setRecipient(?User $recipient): void
+    public function setReceiver(?User $receiver): static
     {
-        $this->receiver = $recipient;
+        $this->receiver = $receiver;
+
+        return $this;
     }
 
     public function getSalon(): ?Salons
@@ -61,19 +65,22 @@ class Invitation
         return $this->salon;
     }
 
-    public function setSalon(?Salons $salon): void
+    public function setSalon(?Salons $salon): static
     {
         $this->salon = $salon;
+
+        return $this;
     }
 
     public function getCreatedAt(): \DateTimeImmutable
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): void
+    public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
-        $this->createdAt = $createdAt;
+        $this->created_at = $created_at;
+        return $this;
     }
 
 

@@ -187,7 +187,7 @@ h1 {
 }
 
 
-/*salon list*/
+/**************************salon list*******************************/
 
 .salonlist {
 
@@ -223,7 +223,7 @@ h1 {
   text-align: center;
 }
 
-/*header*/
+/********************************HEADER****************************************/
 .header {
   display: flex;
   background-color: $darkpurple;
@@ -288,23 +288,6 @@ h1 {
   }
 }
 
-
-/* Sidenav menu links */
-
-//.user-li {
-//
-//  text-decoration: none;
-//  font-size: 2.5rem;
-//  color: $darkgrey;
-//  display: flex;
-//  transition: 0.3s;
-//  align-items: center;
-//  flex-direction: row-reverse;
-//  justify-content: flex-end;
-//
-//
-//}
-
 .sidenav a:hover {
   color: black;
 }
@@ -364,7 +347,7 @@ h1 {
 }
 
 
-/* sidenav active */
+
 .sidenav.active {
   left: 0;
 }
@@ -375,7 +358,6 @@ h1 {
   cursor: pointer;
 }
 
-/* bouton close de la nav */
 .close {
   position: absolute;
   top: 15px;
@@ -412,6 +394,46 @@ h1 {
   flex-direction: row-reverse;
   justify-content: flex-end;
 }
+
+
+/*******************************ASSEMBLEE INDEX**************************************************/
+
+
+/*INVITATION*/
+
+.invit-li {
+
+  border: 1px $darkgrey solid;
+  border-radius: 5px;
+  margin: .8rem 4.3rem .8rem 1.7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 1.5rem 1rem 1.5rem
+}
+
+.invit-title {
+
+
+  text-decoration: none;
+  font-size: 2.2rem;
+  color: $darkgrey;
+  transition: 0.3s;
+  display: flex;
+  margin-bottom: 1rem;
+
+}
+
+#invitation  {
+
+  input {
+    margin-bottom: 1rem;
+    margin-right: 1.5rem;
+    width: 100%;
+  }
+
+}
+
 
 @media screen and (max-width: 1600px) {
 

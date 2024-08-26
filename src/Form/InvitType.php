@@ -17,10 +17,19 @@ class InvitType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'label' => 'Adresse email',
+                'attr'=> [
+                    'class' => 'invit-input',
+                    'placeholder' => 'Adresse email'
+                ]
 
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Inviter',
+                'attr' => [
+                    'data-menu-target' => "invit",
+                    "data-action"=>"click->menu#animate",
+                    'class' => 'btn',
+                ]
             ])
         ;
     }
