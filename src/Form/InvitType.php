@@ -26,8 +26,6 @@ class InvitType extends AbstractType
             ->add('save', SubmitType::class, [
                 'label' => 'Inviter',
                 'attr' => [
-                    'data-menu-target' => "invit",
-                    "data-action"=>"click->menu#animate",
                     'class' => 'btn',
                 ]
             ])

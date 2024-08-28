@@ -1,0 +1,11 @@
+{% for type, messages in app.flashes %}
+
+    <turbo-stream action="prepend" target="flash">
+        <template>
+            <div class="alert alert-{{ type }}">
+                {{ messages | join('. ') }}
+            </div>
+
+        </template>
+    </turbo-stream>
+{% endfor %}

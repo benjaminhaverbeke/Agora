@@ -1,239 +1,155 @@
 /*couleurs*/
-
-$white: #FFFFFF;
-$darkpurple: #805D93;
-$lightpurple: #BCBCF0;
-$lightgrey: #D9D9D9;
-$darkgrey: #808080;
-$darkblue: #6215C6;
-$purple: #9747FF;
-$red: #F50000;
-$green: #05FF00;
-$brown: #C2902D;
-$orange: #FF9900;
-$yellow: #FFE500;
-
 /*fonts*/
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
-// <uniquifier>: Use a unique and descriptive class name
-// <weight>: Use a value from 100 to 900
-$inter: "Inter", sans-serif;
-
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 /*graisses*/
-$regular: 500;
-$bold: 800;
-$light: 300;
-
-
 .inter-regular {
-  font-family: $inter;
+  font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
-  font-weight: $regular;
+  font-weight: 500;
   font-style: normal;
 }
 
 * {
-
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-
 }
 
 html {
   margin: 0;
   font-size: 62.5%;
-  font-family: $inter, sans-serif;
+  font-family: "Inter", sans-serif, sans-serif;
 }
 
 body {
   font-size: 1.4rem;
   margin: 0;
-
 }
 
 /*inputs*/
-
 label {
-
   display: none;
 }
-input {
 
+input {
   border-radius: 20px;
   border: none;
   width: 100%;
   padding: 0.3rem 0 0.3rem 2rem;
-
-
 }
 
-
 textarea {
-
   width: 100%;
   border-radius: 6px;
   border: none;
   padding: 1rem;
-  font-family: $inter;
+  font-family: "Inter", sans-serif;
   text-align: center;
   resize: none;
 }
 
 /*boutons*/
-
 .btn {
-  background-color: $darkblue;
+  background-color: #6215C6;
   text-decoration: none;
-  color: $white;
+  color: #FFFFFF;
   border-radius: 5px;
   border: none;
-  padding: .5rem 1rem .5rem 1rem
-
+  padding: 0.5rem 1rem 0.5rem 1rem;
 }
 
 .btn:hover {
-
-  background-color: $lightgrey;
-  color: $darkblue;
+  background-color: #D9D9D9;
+  color: #6215C6;
 }
-
 
 h2 {
   word-wrap: break-word;
   font-size: 3rem;
-  font-weight: $regular;
+  font-weight: 500;
   text-align: center;
-
 }
 
 h1 {
   text-align: center;
-  font-weight: $regular;
+  font-weight: 500;
   margin-bottom: 2rem;
 }
 
-
 @media screen and (max-width: 425px) {
   /*titres*/
-
   /*container*/
   .container {
-
     margin: auto;
     width: 100%;
   }
-
-
   /* for mobile phones */
-
   .box {
-
     width: 80%;
     margin: 1rem auto 2rem auto;
-    background-color: $lightgrey;
+    background-color: #D9D9D9;
     padding: 1em;
     text-align: center;
     border-radius: 20px;
-
-    div {
-
-      margin-bottom: 1em;
-
-
-    }
-
-
   }
-
-
+  .box div {
+    margin-bottom: 1em;
+  }
 }
-
 /*profil */
-
-
-
-
-
-
-
 /*login*/
 .login input, .login h1 {
   margin-bottom: 1.5rem;
 }
 
-
-
 .rememberbox {
-
   display: flex;
   margin-bottom: 0;
-
-  input {
-
-    flex-basis: 10%;
-    margin: 0;
-  }
-
-
-  label{
-
-    display: block;
-    flex-basis: 80%;
-    margin: 0;
-  }
-
+}
+.rememberbox input {
+  flex-basis: 10%;
+  margin: 0;
+}
+.rememberbox label {
+  display: block;
+  flex-basis: 80%;
+  margin: 0;
 }
 
-
 /**************************salon list*******************************/
-
-.salonlist {
-
-  h2 {
-    white-space: normal;
-    margin: 0 0 1rem 0;
-    font-weight: $light;
-
-  }
-
-
-  p {
-    margin-bottom: 1.5rem;
-    color: $darkgrey;
-    text-align: left;
-  }
-
+.salonlist h2 {
+  white-space: normal;
+  margin: 0 0 1rem 0;
+  font-weight: 300;
+}
+.salonlist p {
+  margin-bottom: 1.5rem;
+  color: #808080;
+  text-align: left;
 }
 
 .pagination {
-
   margin: 2rem auto 2rem auto;
   display: flex;
   justify-content: center;
-
 }
 
 .create-salon {
-  background-color: $lightpurple;
+  background-color: #BCBCF0;
   width: 100%;
   padding: 1em;
-
   text-align: center;
 }
 
 /********************************HEADER****************************************/
 .header {
   display: flex;
-  background-color: $darkpurple;
+  background-color: #805D93;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
   height: 5.2rem;
   margin-bottom: 3rem;
-
-
 }
 
 #logo {
@@ -248,44 +164,35 @@ h1 {
   z-index: 1;
   top: 0;
   left: -34rem;
-  background-color: $lightgrey;
+  background-color: #D9D9D9;
   padding-top: 35px;
   transition: left 0.5s ease;
-
-  ul {
-
-    display: flex;
-    flex-direction: column;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-
-  }
-
-  a {
-
-    padding: .8rem .8rem .8rem 3.2rem;
-    text-decoration: none;
-    font-size: 2.2rem;
-    color: $darkgrey;
-    transition: 0.3s;
-    display: flex;
-
-
-  }
-
-  .user-li {
-
-    padding: .8rem .8rem .8rem 3.2rem;
-    text-decoration: none;
-    font-size: 2.2rem;
-    color: $darkgrey;
-    transition: 0.3s;
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-    align-items: center;
-  }
+}
+.sidenav ul {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.sidenav a {
+  padding: 0.8rem 0.8rem 0.8rem 3.2rem;
+  text-decoration: none;
+  font-size: 2.2rem;
+  color: #808080;
+  transition: 0.3s;
+  display: flex;
+}
+.sidenav .user-li {
+  padding: 0.8rem 0.8rem 0.8rem 3.2rem;
+  text-decoration: none;
+  font-size: 2.2rem;
+  color: #808080;
+  transition: 0.3s;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .sidenav a:hover {
@@ -293,7 +200,6 @@ h1 {
 }
 
 /* Ordre des li dans la nav selon le role de l'uilisateur */
-
 .uluser :nth-child(1) {
   order: 2;
 }
@@ -345,10 +251,10 @@ h1 {
 .uladmin :nth-child(7) {
   order: 5;
 }
+
 .uladmin :nth-child(8) {
   order: 7;
 }
-
 
 .sidenav.active {
   left: 0;
@@ -365,83 +271,58 @@ h1 {
   top: 15px;
   right: 15px;
   font-size: 25px;
-  color: $darkgrey;
-
+  color: #808080;
 }
 
 .close:hover {
-
   color: black;
   transition: 0.3s;
   cursor: pointer;
-
 }
 
 .user-logo {
-
   background-color: white;
-  padding: .5rem;
+  padding: 0.5rem;
   margin-right: 1rem;
   border-radius: 50%;
 }
 
 .logout-icon, .login-icon {
-
   align-items: center;
-
 }
 
 .logout-icon {
-
   flex-direction: row-reverse;
   justify-content: flex-end;
 }
 
-
 /*******************************ASSEMBLEE INDEX**************************************************/
-
-
 /*INVITATION*/
-
 .invit-li {
-
-  border: 1px $darkgrey solid;
+  border: 1px #808080 solid;
   border-radius: 5px;
-  margin: .8rem 4.3rem .8rem 1.7rem;
+  margin: 0.8rem 4.3rem 0.8rem 1.7rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 1rem 1.5rem 1rem 1.5rem
+  padding: 1rem 1.5rem 1rem 1.5rem;
 }
 
 .invit-title {
-
-
   text-decoration: none;
   font-size: 2.2rem;
-  color: $darkgrey;
+  color: #808080;
   transition: 0.3s;
   display: flex;
   margin-bottom: 1rem;
-
 }
 
-#invitation  {
-
-  input {
-    margin-bottom: 1rem;
-    margin-right: 1.5rem;
-    width: 100%;
-  }
-
+#invitation input {
+  margin-bottom: 1rem;
+  margin-right: 1.5rem;
+  width: 100%;
 }
-
-
-@media screen and (max-width: 1600px) {
-
-
-}
-
 
 /* for desktop */
 
+/*# sourceMappingURL=app.css.map */

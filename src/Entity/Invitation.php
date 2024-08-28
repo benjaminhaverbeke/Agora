@@ -25,7 +25,7 @@ class Invitation
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
-    public function __construct(User $sender, User $receiver, Salons $salon) {
+    public function __construct() {
 
         $this->created_at = new \DateTimeImmutable();
 

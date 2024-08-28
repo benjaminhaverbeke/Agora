@@ -5,6 +5,7 @@
 
 
 {% block invitation %}
+    <turbo-frame id="flash">
     <li class="invit-li">
         <p class="invit-title">Invitation</p>
 
@@ -12,12 +13,13 @@
         {{ form_row(form.email,{'label': 'Email'}) }}
         {{ form_row(form.save, {'label': 'Inviter'}) }}
         {{ form_end(form) }}
-
+        <div id="flash-container">
+            {{ include('partials/flash.html.twig') }}
+        </div>
     </li>
 
 
-
-
+</turbo-frame>
 
 {% endblock %}
 

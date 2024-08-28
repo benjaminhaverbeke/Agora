@@ -90,9 +90,11 @@ class SalonController extends AbstractController
             } else {
 
                 $sender = $this->getUser();
-                $invit = new Invitation($sender, $receiver, $salon);
+                $invit = new Invitation();
 
-                dd($invit);
+                $invit->setSalon($salon);
+                $invit->setReceiver($receiver);
+                $invit->setSender($sender);
 
                 $this->em->persist($invit);
                 $this->em->flush();
