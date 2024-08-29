@@ -8,6 +8,7 @@ use App\Form\MessageType;
 use App\Form\SalonType;
 use App\Entity\Salons;
 use App\Entity\Messages;
+use App\Repository\InvitationRepository;
 use App\Repository\MessagesRepository;
 use App\Repository\ProposalsRepository;
 use App\Repository\SalonsRepository;
@@ -49,6 +50,7 @@ class SalonController extends AbstractController
         Request             $request,
         UserRepository      $um,
         ProposalsRepository $pm,
+        InvitationRepository $im
     ): Response
     {
 
@@ -98,7 +100,7 @@ class SalonController extends AbstractController
 
                 $this->em->persist($invit);
                 $this->em->flush();
-                $this->addFlash('success', "L'utilisateur a bien été invité sur le salon");
+                $this->addFlash('success', "Utilisateur invité");
             }
 
 

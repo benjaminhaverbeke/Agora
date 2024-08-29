@@ -421,18 +421,56 @@ h1 {
   font-size: 2.2rem;
   color: $darkgrey;
   transition: 0.3s;
-  display: flex;
   margin-bottom: 1rem;
-
+  order: 1;
 }
 
 #invitation  {
+
+  order: 2;
 
   input {
     margin-bottom: 1rem;
     margin-right: 1.5rem;
     width: 100%;
   }
+
+}
+
+#flash-container {
+
+  order: 3;
+  padding: .7rem;
+
+
+
+
+
+
+
+
+}
+
+.alert {
+
+  color: white;
+  border-radius: 5px;
+  padding: .5rem;
+  text-align: center;
+
+  .alert-error {
+
+    background-color: red;
+
+  }
+
+  .alert-success {
+
+
+    background-color: green;
+  }
+
+
 
 }
 
