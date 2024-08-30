@@ -59,6 +59,7 @@ label {
 
   display: none;
 }
+
 input {
 
   border-radius: 20px;
@@ -153,16 +154,10 @@ h1 {
 /*profil */
 
 
-
-
-
-
-
 /*login*/
 .login input, .login h1 {
   margin-bottom: 1.5rem;
 }
-
 
 
 .rememberbox {
@@ -177,7 +172,7 @@ h1 {
   }
 
 
-  label{
+  label {
 
     display: block;
     flex-basis: 80%;
@@ -216,12 +211,31 @@ h1 {
 }
 
 .create-salon {
+  position: absolute;
+  bottom: 0;
   background-color: $lightpurple;
   width: 100%;
   padding: 1em;
 
   text-align: center;
 }
+
+.salon-form {
+
+  input {
+
+    padding: 0.3rem 0 0.3rem 0;
+    text-align: center;
+  }
+
+  textarea {
+
+    text-align: center;
+    resize: vertical;
+
+  }
+}
+
 
 /********************************HEADER****************************************/
 .header {
@@ -345,6 +359,7 @@ h1 {
 .uladmin :nth-child(7) {
   order: 5;
 }
+
 .uladmin :nth-child(8) {
   order: 7;
 }
@@ -425,7 +440,7 @@ h1 {
   order: 1;
 }
 
-#invitation  {
+#invitation {
 
   order: 2;
 
@@ -443,12 +458,6 @@ h1 {
   padding: .7rem;
 
 
-
-
-
-
-
-
 }
 
 .alert {
@@ -458,21 +467,31 @@ h1 {
   padding: .5rem;
   text-align: center;
 
-  .alert-error {
-
-    background-color: red;
-
-  }
-
-  .alert-success {
-
-
-    background-color: green;
-  }
-
-
 
 }
+
+.alert-error {
+
+  background-color: red;
+
+}
+
+.alert-success {
+
+
+  background-color: green;
+}
+
+.alert-error-exist {
+
+  background-color: orange;
+}
+
+
+
+
+
+
 
 
 @media screen and (max-width: 1600px) {

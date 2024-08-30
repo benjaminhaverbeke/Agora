@@ -3,6 +3,15 @@
 {% block title %}Création de Salon{% endblock %}
 
 {% block body %}
-    <h1>Créer un nouveau salon</h1>
-    {{ form(form) }}
+    <section>
+        <h1>Créer un nouveau salon</h1>
+        {{ form_start(form, { 'attr': {'class': 'box salon-form'} }) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.dateCampagne, { 'attr': {'class': 'date-create'}}) }}
+        {{ form_row(form.dateVote, { 'attr': {'class': 'date-create'}}) }}
+
+        {{ form_end(form) }}
+    </section>
+
 {% endblock %}

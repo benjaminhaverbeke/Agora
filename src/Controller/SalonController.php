@@ -82,14 +82,23 @@ class SalonController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $email = $form->getData()["email"];
-
-
             $receiver = $um->findOneBy(['email' => $email]);
+
+            $isInvited = $im->findByReceiverField($receiver);
+
 
             if ($receiver === null) {
 
                 $this->addFlash('error', "Utilisateur introuvable");
-            } else {
+
+
+
+            }
+            elseif(count($isInvited) > 1){
+
+                $this->addFlash('error-exist', 'Invitation déjà envoyée');
+            }
+            else {
 
                 $sender = $this->getUser();
                 $invit = new Invitation();

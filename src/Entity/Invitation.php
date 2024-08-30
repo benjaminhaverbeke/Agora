@@ -23,11 +23,11 @@ class Invitation
     private ?Salons $salon = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     public function __construct() {
 
-        $this->created_at = new \DateTimeImmutable();
+        $this->createdAt = new \DateTimeImmutable();
 
     }
 
@@ -74,12 +74,12 @@ class Invitation
 
     public function getCreatedAt(): \DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $created_at;
         return $this;
     }
 

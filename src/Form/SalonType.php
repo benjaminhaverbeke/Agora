@@ -21,15 +21,29 @@ class SalonType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Titre',
+                'attr' => [
+                    'placeholder' => 'Titre',
+                ]
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
+                'attr' => [
+                    'rows' => "10",
+                    'placeholder' => 'Description',
+                ]
             ])
             ->add('dateCampagne', DateTimeType::class, [
+
                 'label' => "Fin de la campagne",
+                'attr' => [
+                    'placeholder' => 'Fin de la campagne',
+                ]
             ])
             ->add('dateVote', DateTimeType::class, [
                 'label' => "Cloture des votes",
+                'attr' => [
+                    'placeholder' => 'Cloture des votes',
+                ]
 
             ])
             ->add('save', SubmitType::class ,[
