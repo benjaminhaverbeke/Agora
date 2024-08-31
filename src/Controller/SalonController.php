@@ -89,7 +89,7 @@ class SalonController extends AbstractController
 
             if ($receiver === null) {
 
-                $this->addFlash('error', "Utilisateur introuvable");
+                $this->addFlash('error-invit', "Utilisateur introuvable");
 
 
 
@@ -109,7 +109,7 @@ class SalonController extends AbstractController
 
                 $this->em->persist($invit);
                 $this->em->flush();
-                $this->addFlash('success', "Utilisateur invité");
+                $this->addFlash('success-invit', "Utilisateur invité");
             }
 
 
@@ -158,7 +158,7 @@ class SalonController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
-            $this->addFlash('success', 'Les paramètres du salon ont bien été modifiés');
+            $this->addFlash('success-salon-edit', 'Les paramètres du salon ont bien été modifiés');
             return $this->redirectToRoute('salon.index', ['id' => $id]);
         }
         return $this->render('salon/edit.html.twig', [
@@ -191,7 +191,7 @@ class SalonController extends AbstractController
 
             $em->persist($salon);
             $em->flush();
-            $this->addFlash('success', 'Le salon a bien été crée');
+            $this->addFlash('success-salon-create', 'Le salon a bien été crée');
             return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
         }
         return $this->render('salon/create.html.twig', [
@@ -210,7 +210,7 @@ class SalonController extends AbstractController
         $em->remove($salonTodelete);
         $em->flush();
 
-        $this->addFlash('success', 'Le salon a bien été supprimé');
+        $this->addFlash('success-salon-delete', 'Le salon a bien été supprimé');
 
         return $this->redirectToRoute('profile');
 
@@ -271,60 +271,9 @@ class SalonController extends AbstractController
 
             return new JsonResponse($time);
 
-
-
-
-
-
-
-
-
-
-
     }
 
-    #[Route('salon/invit/{id}', name: "salon.invit", requirements: ['id' => '\d+'])]
-    public function invit(int $id, Request $request): Response
-    {
-        $form = $this->createForm(InvitType::class);
-        $salon = $this->sm->find($id);
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $email = $form->getData()["email"];
-
-            $receiver = $this->um->findOneBy(['email' => $email]);
-
-
-
-                if ($receiver === null) {
-
-                    $this->addFlash('error', "Utilisateur introuvable");
-
-                } else {
-
-                    $sender = $this->getUser();
-
-                    $invit = new Invitation($sender, $receiver, $salon);
-
-
-                    $this->em->persist($invit);
-
-                    $this->em->flush();
-
-                    $this->addFlash('success', "L'utilisateur a bien été invité sur le salon");
-
-                }
-
-
-
-        }
-
-        return $this->redirectToRoute('salon.index', ["id" => $id]);
-
-    }
 
     private function timeProcess(Salons $salon): array
     {

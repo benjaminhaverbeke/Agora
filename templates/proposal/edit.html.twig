@@ -3,10 +3,13 @@
 {% block title %}Proposition{% endblock %}
 
 {% block body %}
-    <h1>{{ proposal.title }}</h1>
-<turbo-frame id="proposal_{{ proposal.id }}">
-    {{ form(form, {action: path('proposal.edit', {id: proposal.id})}) }}
-</turbo-frame>
+    <section class="box">
+
+        <turbo-frame id="proposal_{{ proposal.id }}">
+            {{ form(form, {action: path('proposal.edit', {id: proposal.id})}) }}
+        </turbo-frame>
+    </section>
+
 
 
     {% block chat %}

@@ -1,6 +1,9 @@
 
-{% for type, messages in app.flashes %}
-<div class="alert alert-{{ type }}">
-    {{ messages | join('. ')}}
-</div>
-{% endfor %}
+
+    {% for label, messages in app.flashes(['success-salon-delete', 'success-salon-create', 'success-salon-edit', 'success-proposal-edit']) %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}

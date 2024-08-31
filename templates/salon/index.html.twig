@@ -7,20 +7,20 @@
 
 {% block invitation %}
     <turbo-frame id="flash">
-    <li class="invit-li">
-        <p class="invit-title">Invitation</p>
+        <li class="invit-li">
+            <p class="invit-title">Invitation</p>
 
-        {{ form_start(form, {'attr': {'id': 'invitation'}}) }}
-        {{ form_row(form.email,{'label': 'Email'}) }}
-        {{ form_row(form.save, {'label': 'Inviter'}) }}
-        {{ form_end(form) }}
-        <div id="flash-container">
-            {{ include('partials/flash.html.twig') }}
-        </div>
-    </li>
+            {{ form_start(form, {'attr': {'id': 'invitation'}}) }}
+            {{ form_row(form.email,{'label': 'Email'}) }}
+            {{ form_row(form.save, {'label': 'Inviter'}) }}
+            {{ form_end(form) }}
+            <div id="flash-container" data-turbo-temporary>
+                {{ include('partials/invit_flash.stream.html.twig') }}
+            </div>
+        </li>
 
 
-</turbo-frame>
+    </turbo-frame>
 
 {% endblock %}
 
@@ -30,57 +30,122 @@
 
 {% block body %}
 
+    <section class="box salon-app">
+        <h1>{{ salon.title }}</h1>
+        <p>{{ salon.description }}</p>
+        <div class="salon-app-btn">
+            <turbo-frame class="salon-edit-app" id="salon_{{ salon.id }}">
+                <a class="btn-icon" href="{{ path('salon.edit', {id: salon.id}) }}"><span
+                            class="material-symbols-outlined">
+                edit
+            </span>
+                </a>
+            </turbo-frame>
+            <a class="btn-icon salon-delete-app" href="{{ path('salon.delete', {id: salon.id}) }}">
+                <span class="material-symbols-outlined">delete</span>
+            </a>
+        </div>
 
-    <h1>Titre : {{ salon.title }}</h1>
-    <div id="salon-container" data-salon-id="{{ salon.id }}"></div>
-    <div data-controller="countdown" id="time" data-countdown-target="id" data-salon-id="{{ salon.id }}">
-        <p><span id="time_message" data-countdown-target="message"></span><span data-countdown-target="count"></span></p>
+    </section>
+
+    <div class="box time-container" data-controller="countdown" id="time" data-countdown-target="id"
+         data-salon-id="{{ salon.id }}">
+        <p><span id="time_message" data-countdown-target="message"></span><span data-countdown-target="count"></span>
+        </p>
         <p data-content-loader-url-value="/messages.html"
            data-content-loader-refresh-interval-value="1000"></p>
     </div>
 
-    <p>Description : {{ salon.description }}</p>
-<turbo-frame id="salon_{{ salon.id }}">
-    <button><a href="{{ path('salon.edit', {id: salon.id}) }}">Editer le salon</a></button>
-</turbo-frame>
-    <button><a href="{{ path('salon.delete', {id: salon.id}) }}">Supprimer le salon</a></button>
-    <section>
+
+
+    <section class="sujet-app">
         <h2>Liste des sujets à voter</h2>
         {% for sujet in allsujets %}
-            <article>
+            <article class="box">
+
 
                 <turbo-frame id="sujet_{{ sujet.id }}">
-                    <a href="{{ path('sujet.edit', {id: sujet.id}) }}"><h3>Sujet : {{ sujet.title }}</h3></a>
+                    <a class="sujet-app-title" href="{{ path('sujet.edit', {id: sujet.id}) }}"><h3>Sujet : {{ sujet.title }}</h3></a>
                 </turbo-frame>
 
 
-                <p>
-                    Description : {{ sujet.description }}
-                </p>
+                {#                <p> #}
+                {#                    Description : {{ sujet.description }} #}
+                {#                </p> #}
 
-                <button><a href="{{ path('sujet.edit', {id: sujet.id}) }}">Modifier le sujet</a></button>
-                <button><a href="{{ path('sujet.delete', {id: sujet.id}) }}">Supprimer le sujet</a></button>
-                <a href="{{ path('proposal.create', {id: sujet.id}) }}">Créer une proposition</a>
-                <ul>
+                <section class="sujet-btn">
+                    <div class="btn-icon">
+                                <span class="material-symbols-outlined">
+                                    search
+                                </span>
+                    </div>
+
+                    <a class="btn-icon" href="{{ path('sujet.edit', {id: sujet.id}) }}"><span
+                                class="material-symbols-outlined">
+                            edit
+                    </span>
+                    </a>
+                    <a class="btn-icon" href="{{ path('sujet.delete', {id: sujet.id}) }}"><span
+                                class="material-symbols-outlined">
+                        delete
+                    </span>
+                    </a>
+                    <turbo-frame id="proposal-create">
+                        <a class="btn-icon" href="{{ path('proposal.create', {id: sujet.id}) }}"><span
+                                    class="material-symbols-outlined">
+                        add
+                    </span>
+                        </a>
+                    </turbo-frame>
+
+                </section>
+
+                <ul class="proposals">
                     {% for proposal in sujet.proposals %}
                         <li>
+
                             <turbo-frame id="proposal_{{ proposal.id }}">
-                                <a href="{{ path('proposal.edit', {id: proposal.id}) }}"><p>{{ proposal.title }} </p>
+                                <a href="{{ path('proposal.edit', {id: proposal.id}) }}"><p>{{ proposal.title }}</p>
                                 </a>
                                 <p>{{ proposal.description }}</p>
                             </turbo-frame>
 
-                            <a href="{{ path('proposal.edit', {id: proposal.id}) }}">Editer</a>
-                            <a href="{{ path('proposal.delete', {id: proposal.id}) }}">Supprimer</a>
+                            <section>
+                                <div class="btn-icon">
+                                <span class="material-symbols-outlined">
+                                    search
+                                </span>
+                                </div>
+
+                                <a class="btn-icon" href="{{ path('proposal.edit', {id: proposal.id}) }}"><span
+                                            class="material-symbols-outlined">
+                                    edit
+                                </span>
+                                </a>
+                                <a class="btn-icon" href="{{ path('proposal.delete', {id: proposal.id}) }}"><span
+                                            class="material-symbols-outlined">
+                                    delete
+                                </span>
+                                </a>
+                            </section>
+
                         </li>
                     {% endfor %}
 
                 </ul>
             </article>
         {% endfor %}
-        <button><a href="{{ path('sujet.create', {id: salon.id}) }}">Créer un nouveau sujet</a></button>
+
     </section>
+    <section class="sujet-app-create">
+        <a class="btn" href="{{ path('sujet.create', {id: salon.id}) }}">Créer un nouveau sujet</a>
+    </section>
+
+
     {% block chat %}
+        <div class="chat-container">
+
+        </div>
         {{ include('chat/chat.html.twig') }}
     {% endblock %}
 

@@ -3,7 +3,7 @@ import {Controller} from '@hotwired/stimulus';
 
 export default class extends Controller {
 
-    static targets = ['count', 'id', 'message'];
+    static targets = ['count', 'id', 'message', 'time-container'];
     static values = {date: Number, timer: Number, message: String, type: String}
 
     async fetchDuration() {
@@ -57,6 +57,7 @@ export default class extends Controller {
                 this._date = new Date(r.time.date).getTime();
                 this.messageTarget.innerHTML = r.time_message;
                 this._type = r.type;
+                this.idTarget.classList.add(r.type);
 
 
             }

@@ -20,13 +20,13 @@ class SalonType extends AbstractType
 
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Titre',
+                'label' => false,
                 'attr' => [
                     'placeholder' => 'Titre',
                 ]
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description',
+                'label' => false,
                 'attr' => [
                     'rows' => "10",
                     'placeholder' => 'Description',

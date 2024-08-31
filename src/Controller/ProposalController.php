@@ -104,9 +104,7 @@ class ProposalController extends AbstractController
     {
 
         $proposal = $this->pm->find($id);
-        $sujet = $proposal->getSujet();
-        $salon = $sujet->getSalon();
-
+        $salon = $proposal->getSalon();
 
         /***chat envoi message***/
         $message = new Messages();
@@ -132,7 +130,8 @@ class ProposalController extends AbstractController
 
             $this->em->flush();
 
-            $this->addFlash('success', "Les paramètres de la proposition ont bien été modifiés");
+            $this->addFlash('success-proposal-edit', "Les paramètres de la proposition ont bien été modifiés");
+
             return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
         }
 

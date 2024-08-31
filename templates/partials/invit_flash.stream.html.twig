@@ -2,9 +2,13 @@
 
     <turbo-stream action="append" target="flash">
         <template>
-            <div class="alert alert-{{ type }}">
-                {{ messages | join('. ') }}
-            </div>
+            {% for label, messages in app.flashes(['success-invit', 'error-invit', 'error-exist']) %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
 
         </template>
     </turbo-stream>

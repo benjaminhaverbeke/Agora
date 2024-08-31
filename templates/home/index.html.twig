@@ -6,12 +6,15 @@
     <section>
 
         <h1>Bienvenue sur Agora</h1>
-        <h2>Derniers salons publics</h2>
+
 
     </section>
 
-        <section>
-            <h2>Vos derniers salons</h2>
-            <p><a href="{{ path('salon.create') }}">Créer un salon</a></p>
+    {% if app.user %}
+        <section class="create-salon">
+
+            <a class="btn" href="{{ path('salon.create') }}">Nouvelle assemblée</a>
         </section>
+    {% endif %}
+
 {% endblock %}

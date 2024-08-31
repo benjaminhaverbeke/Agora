@@ -20,10 +20,17 @@ class SujetType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Titre',
+                    'attr' => [
+                        'class' => 'sujet-input-title',
+                        'placeholder' => 'Titre',
+                    ]
             ]
             )
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
+                'attr' => [
+                    'placeholder' => 'Description',
+                ]
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer',

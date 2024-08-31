@@ -3,10 +3,15 @@
 {% block title %}Proposition{% endblock %}
 
 {% block body %}
-    <h1>Créer une nouvelle proposition</h1>
+    <section class="box">
+        <turbo-frame id="proposal-create">
+            <h1>Créer une nouvelle proposition</h1>
 
+            {{ form(form) }}
+        </turbo-frame>
 
-    {{ form(form) }}
+    </section>
+
 
     {% block chat %}
         {{ include('chat/chat.html.twig') }}
