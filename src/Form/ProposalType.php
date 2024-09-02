@@ -35,6 +35,7 @@ class ProposalType extends AbstractType
             ->add('save', SubmitType::class, [
                 "label" => "Enregistrer",
                 'attr' => [
+                    'data-action' => "click->reload#reload",
                     'class' => 'btn',
                 ]
             ]);
