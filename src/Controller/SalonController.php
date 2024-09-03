@@ -118,7 +118,6 @@ class SalonController extends AbstractController
 
         $sujets = $sujet->findAllSujetsBySalon($salon->getId());
 
-
 //        $result = $election->isElected($lastsujet->getId());
 
 //        $time_salon = $sm->timeProcess($salon);

@@ -5,6 +5,6 @@ export default class extends Controller {
     static targets = ['proposal', 'sujet', 'salon'];
 
     reload() {
-        this.proposalTarget.reload();
+        this.proposalTargets.reload();
     }
 }

@@ -55,7 +55,7 @@ class SujetController extends AbstractController
 
         /******/
 
-        return $this->render('sujet/index.html.twig', [
+        return $this->render('sujet/proposal.html.twig', [
             'sujet',
             'messages' => $messages,
 

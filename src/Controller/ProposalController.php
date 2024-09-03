@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\UX\Turbo\TurboBundle;
 
 class ProposalController extends AbstractController
 {
@@ -39,7 +40,7 @@ class ProposalController extends AbstractController
 
         $proposal = $this->pm->find($id);
 
-        return $this->render('sujet/index.html.twig', [
+        return $this->render('sujet/proposal.html.twig', [
             'proposal' => $proposal
 
         ]);
@@ -77,6 +78,8 @@ class ProposalController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
+            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+
             $proposal->setUser($user);
             $proposal->setSalon($salon);
             $proposal->setSujet($sujet);
@@ -86,7 +89,23 @@ class ProposalController extends AbstractController
             $this->em->flush();
 
             $this->addFlash('success', 'La proposition a bien été crée');
-            return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
+
+
+            dump($proposal);
+            if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
+
+                $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+
+                return $this->render(
+                    'proposal/proposal.stream.html.twig', [$proposal]
+                );
+            }
+            else{
+
+                return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
+
+            }
+
 
         }
 

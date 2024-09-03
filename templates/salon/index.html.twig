@@ -58,16 +58,16 @@
 
 
 
-    <section data-controller="reload" class="sujet-app">
+    <section class="sujet-app">
         <h2>Liste des sujets à voter</h2>
         {% for sujet in allsujets %}
-            <article class="box">
+            <article id="proposal_create" class="box">
 
                 <h3>{{ sujet.title }}</h3>
 
-                {#                <p> #}
-                {#                    Description : {{ sujet.description }} #}
-                {#                </p> #}
+{#                            <p>#}
+{#                                  Description : {{ sujet.description }} }#}
+{#                               </p>#}
 
                 <section class="sujet-btn">
                     <div class="btn-icon">
@@ -75,7 +75,7 @@
                                     search
                                 </span>
                     </div>
-                    <turbo-frame id="sujet{{ sujet.id }}">
+                    <turbo-frame id="sujet_{{ sujet.id }}">
                         <a class="btn-icon" href="{{ path('sujet.edit', {id: sujet.id}) }}"><span
                                     class="material-symbols-outlined">
                             edit
@@ -98,12 +98,12 @@
                 </section>
 
                 <ul class="proposals">
-                    {% for proposal in sujet.proposals %}
-                        <li data-target-reload="proposal">
 
+                    {% for proposal in sujet.proposals %}
+                        <li>
 
                             <p >{{ proposal.title }}</p>
-                            </a>
+
 {#                            <p>{{ proposal.description }}</p>#}
 
                             <section>
