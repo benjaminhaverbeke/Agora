@@ -34,17 +34,7 @@ class ProposalController extends AbstractController
         $this->pm = $pm;
         $this->sujm = $sujm;
     }
-    #[Route('proposal/{id}', name: 'proposal.index', requirements: ['id' => '\d+'])]
-    public function index(int $id): Response
-    {
 
-        $proposal = $this->pm->find($id);
-
-        return $this->render('sujet/proposal.html.twig', [
-            'proposal' => $proposal
-
-        ]);
-    }
 
     #[Route('/proposal/create/{id}', name: 'proposal.create', requirements: ['id' => '\d+'])]
     public function create(int $id, Request $request): Response
@@ -67,7 +57,6 @@ class ProposalController extends AbstractController
         /******/
 
 
-
         $user = $this->getUser();
 
         $proposal = new Proposals();
@@ -76,7 +65,7 @@ class ProposalController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
@@ -90,19 +79,21 @@ class ProposalController extends AbstractController
 
             $this->addFlash('success', 'La proposition a bien été crée');
 
-
-            dump($proposal);
             if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
 
                 $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
                 return $this->render(
-                    'proposal/proposal.stream.html.twig', [$proposal]
+                    'proposal/proposal.stream.html.twig',
+                    [
+                        "proposal" => $proposal,
+                        "sujet" => $sujet
+                    ]
                 );
-            }
-            else{
+            } else {
 
                 return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
+
 
             }
 
@@ -114,7 +105,8 @@ class ProposalController extends AbstractController
             'form' => $form,
             'messages' => $messages,
             'messageForm' => $messageForm,
-            'salon' => $salon
+            'salon' => $salon,
+            'sujet' => $sujet
         ]);
     }
 
@@ -138,12 +130,11 @@ class ProposalController extends AbstractController
         /******/
 
 
-
         $form = $this->createForm(ProposalType::class, $proposal);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $this->em->persist($proposal);
 
@@ -156,16 +147,17 @@ class ProposalController extends AbstractController
 
         return $this->render('proposal/edit.html.twig', [
             'proposal' => $proposal,
-            'form' =>$form,
+            'form' => $form,
             'messages' => $messages,
             'messageForm' => $messageForm,
-            'salon'=> $salon
+            'salon' => $salon
         ]);
     }
 
 
     #[Route('proposal/{id}/delete', name: 'proposal.delete')]
-    public function delete(int $id, ProposalsRepository $pm, EntityManagerInterface $em): Response {
+    public function delete(int $id, ProposalsRepository $pm, EntityManagerInterface $em): Response
+    {
 
         $proposal = $pm->find($id);
         $salon = $proposal->getSujet()->getSalon();

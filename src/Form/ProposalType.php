@@ -35,7 +35,6 @@ class ProposalType extends AbstractType
             ->add('save', SubmitType::class, [
                 "label" => "Enregistrer",
                 'attr' => [
-
                     'class' => 'btn',
                 ]
             ]);

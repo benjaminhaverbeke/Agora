@@ -1,1 +1,34 @@
-<turbo-stream action="refresh" target="sujet_{{ proposal.sujet.id }}"></turbo-stream>
+<turbo-stream action="append" targets=".proposal_create_{{ sujet.id }}">
+    <template>
+        <li>
+            <turbo-frame id="proposal_{{ proposal.id }}">
+                <p>{{ proposal.title }}</p>
+
+                {#                            <p>{{ proposal.description }}</p> #}
+
+                <section>
+                    <div class="btn-icon">
+                                <span class="material-symbols-outlined">
+                                    search
+                                </span>
+                    </div>
+
+
+                    <a class="btn-icon" href="{{ path('proposal.edit', {id: proposal.id}) }}"><span
+                                class="material-symbols-outlined">
+                                    edit
+                                </span>
+                    </a>
+
+
+                    <a class="btn-icon" href="{{ path('proposal.delete', {id: proposal.id}) }}"><span
+                                class="material-symbols-outlined">
+                                    delete
+                                </span>
+                    </a>
+                </section>
+            </turbo-frame>
+        </li>
+    </template>
+</turbo-stream>
+<turbo-stream action="refresh" request-id="sujet_{{ sujet.id }}"></turbo-stream>

@@ -61,8 +61,8 @@
     <section class="sujet-app">
         <h2>Liste des sujets à voter</h2>
         {% for sujet in allsujets %}
-            <article id="proposal_create" class="box">
-
+            <article class="box">
+                <turbo-frame id="sujet_{{ sujet.id }}">
                 <h3>{{ sujet.title }}</h3>
 
 {#                            <p>#}
@@ -75,19 +75,19 @@
                                     search
                                 </span>
                     </div>
-                    <turbo-frame id="sujet_{{ sujet.id }}">
+
                         <a class="btn-icon" href="{{ path('sujet.edit', {id: sujet.id}) }}"><span
                                     class="material-symbols-outlined">
                             edit
                     </span>
                         </a>
-                    </turbo-frame>
+
                     <a class="btn-icon" href="{{ path('sujet.delete', {id: sujet.id}) }}"><span
                                 class="material-symbols-outlined">
                         delete
                     </span>
                     </a>
-                    <turbo-frame id="proposal-create">
+                    <turbo-frame id="proposal_create_form_{{ sujet.id }}">
                         <a class="btn-icon" href="{{ path('proposal.create', {id: sujet.id}) }}"><span
                                     class="material-symbols-outlined">
                         add
@@ -96,12 +96,11 @@
                     </turbo-frame>
 
                 </section>
-
-                <ul class="proposals">
+                <ul class="proposal_create_{{ sujet.id }}">
 
                     {% for proposal in sujet.proposals %}
                         <li>
-
+                            <turbo-frame id="proposal_{{ proposal.id }}">
                             <p >{{ proposal.title }}</p>
 
 {#                            <p>{{ proposal.description }}</p>#}
@@ -113,13 +112,13 @@
                                 </span>
                                 </div>
 
-                                <turbo-frame id="proposal_{{ proposal.id }}">
+
                                     <a class="btn-icon" href="{{ path('proposal.edit', {id: proposal.id}) }}"><span
                                                 class="material-symbols-outlined">
                                     edit
                                 </span>
                                     </a>
-                                </turbo-frame>
+
 
                                 <a class="btn-icon" href="{{ path('proposal.delete', {id: proposal.id}) }}"><span
                                             class="material-symbols-outlined">
@@ -127,11 +126,12 @@
                                 </span>
                                 </a>
                             </section>
-
+                            </turbo-frame>
                         </li>
                     {% endfor %}
 
                 </ul>
+                </turbo-frame>
             </article>
         {% endfor %}
 
