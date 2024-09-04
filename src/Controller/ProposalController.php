@@ -60,19 +60,18 @@ class ProposalController extends AbstractController
         $user = $this->getUser();
 
         $proposal = new Proposals();
-
         $form = $this->createForm(ProposalType::class, $proposal);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
             $proposal->setUser($user);
+
             $proposal->setSalon($salon);
             $proposal->setSujet($sujet);
-
+            dump($proposal);
             $this->em->persist($proposal);
 
             $this->em->flush();

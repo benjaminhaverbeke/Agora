@@ -87,13 +87,16 @@
                         delete
                     </span>
                     </a>
-                    <turbo-frame id="proposal_create_form_{{ sujet.id }}">
-                        <a class="btn-icon" href="{{ path('proposal.create', {id: sujet.id}) }}"><span
-                                    class="material-symbols-outlined">
+                    <div id="sujet_link_{{ sujet.id }}">
+                        <turbo-frame id="proposal_create_form_{{ sujet.id }}">
+                            <a  class="btn-icon" href="{{ path('proposal.create', {id: sujet.id}) }}"><span
+                                        class="material-symbols-outlined">
                         add
                     </span>
-                        </a>
-                    </turbo-frame>
+                            </a>
+                        </turbo-frame>
+                    </div>
+
 
                 </section>
                 <ul class="proposal_create_{{ sujet.id }}">
