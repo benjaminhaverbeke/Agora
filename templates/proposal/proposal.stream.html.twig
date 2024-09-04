@@ -31,7 +31,7 @@
         </li>
     </template>
 </turbo-stream>
-<turbo-stream action="replace" target="sujet_link_{{ sujet.id }}">
+<turbo-stream action="replace" target="proposal_create_form_{{ sujet.id }}">
     <template>
         <turbo-frame id="proposal_create_form_{{ sujet.id }}">
             <a  class="btn-icon" href="{{ path('proposal.create', {id: sujet.id}) }}"><span
