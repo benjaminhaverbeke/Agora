@@ -6,6 +6,7 @@ use App\Repository\ProposalsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 #[ORM\Entity(repositoryClass: ProposalsRepository::class)]
 class Proposals
@@ -16,9 +17,11 @@ class Proposals
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Salons::class)]
+    #[JoinColumn(onDelete: 'CASCADE')]
     private ?Salons $salon = null;
 
     #[ORM\ManyToOne(targetEntity: Sujets::class, inversedBy: 'proposals')]
+    #[JoinColumn(onDelete: 'CASCADE')]
     private ?Sujets $sujet = null;
 
     #[ORM\Column(length: 255)]
@@ -28,6 +31,7 @@ class Proposals
     private ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(onDelete: 'CASCADE')]
     private ?User $user = null;
 
     #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: 'proposal', cascade:["remove"])]

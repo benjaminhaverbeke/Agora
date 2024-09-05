@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\UX\Turbo\TurboBundle;
 
 class SujetController extends AbstractController
 {
@@ -142,7 +143,7 @@ class SujetController extends AbstractController
     }
 
     #[Route('sujet/{id}/delete', name: 'sujet.delete')]
-    public function delete(int $id, SujetsRepository $sujet, EntityManagerInterface $em): Response {
+    public function delete(int $id, SujetsRepository $sujet, EntityManagerInterface $em, Request $request): Response {
 
 
             $sujetTodelete = $sujet->find($id);
@@ -152,6 +153,17 @@ class SujetController extends AbstractController
 
             $this->addFlash('success', 'Le sujet a bien été supprimé');
 
+        if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
+
+            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+
+            return $this->render(
+                'sujet/delete.stream.html.twig',
+                [
+                    "sujet" => $sujetTodelete
+                ]
+            );
+        }
             return $this->redirectToRoute('salon.index', ['id' => $sujetTodelete->getSalon()->getId()]);
     }
 

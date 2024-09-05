@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\VotesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 #[ORM\Entity(repositoryClass: VotesRepository::class)]
 class Votes
@@ -14,10 +15,11 @@ class Votes
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Proposals::class, inversedBy: 'votes')]
-
+    #[JoinColumn(onDelete: 'CASCADE')]
     private ?Proposals $proposal = null;
 
     #[ORM\ManyToOne(targetEntity: Sujets::class)]
+    #[JoinColumn(onDelete: 'CASCADE')]
     private ?Sujets $sujet = null;
 
     #[ORM\Column(length: 255)]

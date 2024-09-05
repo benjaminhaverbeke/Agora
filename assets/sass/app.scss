@@ -623,26 +623,26 @@ h1 {
 
   list-style-type: none;
 
-  li {
-    border: 1px solid $darkgrey;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: .5rem;
-    padding: 0.5rem;
-
-    section {
-      display: flex;
-      flex-direction: row;
-      gap: .5rem;
-    }
-  }
-
   div {
     margin: 0;
   }
 
+}
+
+.proposal-style {
+  border: 1px solid $darkgrey;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: .5rem;
+  padding: 0.5rem;
+
+  section {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+  }
 }
 
 

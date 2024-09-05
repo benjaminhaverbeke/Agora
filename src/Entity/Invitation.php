@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\InvitationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 #[ORM\Entity(repositoryClass: InvitationRepository::class)]
 class Invitation
@@ -14,12 +15,15 @@ class Invitation
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(onDelete: 'CASCADE')]
     private ?User $sender = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(onDelete: 'CASCADE')]
     private ?User $receiver = null;
 
     #[ORM\ManyToOne(targetEntity: Salons::class)]
+    #[JoinColumn(onDelete: 'CASCADE')]
     private ?Salons $salon = null;
 
     #[ORM\Column]

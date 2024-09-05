@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 #[ORM\Entity(repositoryClass: SujetsRepository::class)]
 class Sujets
@@ -17,6 +18,7 @@ class Sujets
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Salons::class)]
+    #[JoinColumn(onDelete: 'CASCADE')]
     private ?Salons $salon = null;
 
     #[ORM\Column(length: 255)]
@@ -27,9 +29,10 @@ class Sujets
 
 
     #[ORM\ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(onDelete: 'CASCADE')]
     private ?User $user = null;
 
-    #[ORM\OneToMany(targetEntity: Proposals::class, mappedBy: "sujet")]
+    #[ORM\OneToMany(targetEntity: Proposals::class, mappedBy: "sujet", cascade: ['remove', 'persist'])]
     private Collection $proposals;
 
 

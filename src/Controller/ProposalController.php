@@ -155,17 +155,29 @@ class ProposalController extends AbstractController
 
 
     #[Route('proposal/{id}/delete', name: 'proposal.delete')]
-    public function delete(int $id, ProposalsRepository $pm, EntityManagerInterface $em): Response
+    public function delete(int $id, ProposalsRepository $pm, EntityManagerInterface $em, Request $request): Response
     {
 
         $proposal = $pm->find($id);
-        $salon = $proposal->getSujet()->getSalon();
-
+        dd($proposal);
         $em->remove($proposal);
         $em->flush();
 
         $this->addFlash('success', 'La proposition a bien été supprimé');
 
-        return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
+        $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+
+        if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
+            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+
+            return $this->render(
+                'proposal/delete.stream.html.twig',
+                [
+                    "proposal" => $proposal
+                ]
+            );
+        }
+
+        return $this->redirectToRoute('salon.index', ['id' => $salonId]);
     }
 }

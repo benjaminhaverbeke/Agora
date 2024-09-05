@@ -61,7 +61,7 @@
     <section class="sujet-app">
         <h2>Liste des sujets à voter</h2>
         {% for sujet in allsujets %}
-            <article class="box">
+            <article id="sujet-remove_{{ sujet.id }}" class="box">
                 <turbo-frame id="sujet_{{ sujet.id }}">
                 <h3>{{ sujet.title }}</h3>
 
@@ -99,11 +99,11 @@
 
 
                 </section>
-                <ul class="proposal_create_{{ sujet.id }}">
+                <ul class="proposals proposal_create_{{ sujet.id }}">
 
                     {% for proposal in sujet.proposals %}
-                        <li>
-                            <turbo-frame id="proposal_{{ proposal.id }}">
+                        <li id="delete_proposal_{{ proposal.id }}">
+                            <turbo-frame id="proposal_{{ proposal.id }}" class="proposal-style">
                             <p >{{ proposal.title }}</p>
 
 {#                            <p>{{ proposal.description }}</p>#}

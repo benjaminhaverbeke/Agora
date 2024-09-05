@@ -6,6 +6,7 @@ use App\Repository\SalonsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: SalonsRepository::class)]
 class Salons
@@ -22,6 +23,7 @@ class Salons
     private ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(onDelete: 'CASCADE')]
     private ?User $user = null;
 
 
