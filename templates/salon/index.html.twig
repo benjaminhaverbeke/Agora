@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
-
+{% block head %}
+    {{ parent() }}
+    <meta name="turbo-visit-control" content="reload">
+{% endblock %}
 {% block title %}Salon{% endblock %}
 
 
@@ -61,7 +64,7 @@
     <section class="sujet-app">
         <h2>Liste des sujets à voter</h2>
         {% for sujet in allsujets %}
-            <article id="sujet-remove_{{ sujet.id }}" class="box">
+            <article id="sujet_remove_{{ sujet.id }}" class="box">
                 <turbo-frame id="sujet_{{ sujet.id }}">
                 <h3>{{ sujet.title }}</h3>
 

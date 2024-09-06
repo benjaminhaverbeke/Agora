@@ -16,11 +16,9 @@ class Messages
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[JoinColumn(onDelete: 'CASCADE')]
     private ?User $user = null;
 
     #[ORM\ManyToOne(targetEntity: Salons::class)]
-    #[JoinColumn(onDelete: 'CASCADE')]
     private ?Salons $salon = null;
 
     #[ORM\Column(type: "datetime_immutable")]

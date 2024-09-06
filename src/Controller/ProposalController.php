@@ -41,6 +41,8 @@ class ProposalController extends AbstractController
     {
 
         $sujet = $this->sujm->find($id);
+
+
         $salon = $sujet->getSalon();
 
 
@@ -71,7 +73,6 @@ class ProposalController extends AbstractController
 
             $proposal->setSalon($salon);
             $proposal->setSujet($sujet);
-            dump($proposal);
             $this->em->persist($proposal);
 
             $this->em->flush();
@@ -159,14 +160,14 @@ class ProposalController extends AbstractController
     {
 
         $proposal = $pm->find($id);
-        dd($proposal);
+
         $em->remove($proposal);
         $em->flush();
 
         $this->addFlash('success', 'La proposition a bien été supprimé');
 
         $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-
+        dump($request);
         if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 

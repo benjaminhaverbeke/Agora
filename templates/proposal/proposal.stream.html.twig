@@ -1,7 +1,7 @@
 <turbo-stream action="append" targets=".proposal_create_{{ sujet.id }}">
     <template>
-        <li>
-            <turbo-frame id="proposal_{{ proposal.id }}">
+        <li id="delete_proposal_{{ proposal.id }}">
+            <turbo-frame id="proposal_{{ proposal.id }}" class="proposal-style">
                 <p>{{ proposal.title }}</p>
 
                 {#                            <p>{{ proposal.description }}</p> #}

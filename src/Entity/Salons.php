@@ -23,7 +23,6 @@ class Salons
     private ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[JoinColumn(onDelete: 'CASCADE')]
     private ?User $user = null;
 
 

@@ -14,12 +14,10 @@ class Votes
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Proposals::class, inversedBy: 'votes')]
-    #[JoinColumn(onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: Proposals::class, cascade: ['persist'], inversedBy: 'votes')]
     private ?Proposals $proposal = null;
 
-    #[ORM\ManyToOne(targetEntity: Sujets::class)]
-    #[JoinColumn(onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: Sujets::class, cascade: ['persist'])]
     private ?Sujets $sujet = null;
 
     #[ORM\Column(length: 255)]

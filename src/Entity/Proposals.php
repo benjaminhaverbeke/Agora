@@ -17,11 +17,11 @@ class Proposals
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Salons::class)]
-    #[JoinColumn(onDelete: 'CASCADE')]
+
     private ?Salons $salon = null;
 
-    #[ORM\ManyToOne(targetEntity: Sujets::class, inversedBy: 'proposals')]
-    #[JoinColumn(onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: Sujets::class, cascade: ['persist'], inversedBy: 'proposals')]
+
     private ?Sujets $sujet = null;
 
     #[ORM\Column(length: 255)]
@@ -31,7 +31,6 @@ class Proposals
     private ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[JoinColumn(onDelete: 'CASCADE')]
     private ?User $user = null;
 
     #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: 'proposal', cascade:["remove"])]
