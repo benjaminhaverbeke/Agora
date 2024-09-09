@@ -91,7 +91,6 @@ class ProposalController extends AbstractController
                     ]
                 );
             }
-    dump('test');
                 return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
 
 

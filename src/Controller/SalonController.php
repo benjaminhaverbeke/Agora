@@ -24,7 +24,6 @@ use Symfony\UX\Turbo\TurboBundle;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
 
-
 class SalonController extends AbstractController
 {
     private $mm;
@@ -45,11 +44,11 @@ class SalonController extends AbstractController
 
     #[Route('/salon/{id}', name: 'salon.index', requirements: ['id' => '\d+'])]
     public function index(
-        int                 $id,
-        SujetsRepository    $sujet,
-        Request             $request,
-        UserRepository      $um,
-        ProposalsRepository $pm,
+        int                  $id,
+        SujetsRepository     $sujet,
+        Request              $request,
+        UserRepository       $um,
+        ProposalsRepository  $pm,
         InvitationRepository $im
     ): Response
     {
@@ -92,13 +91,10 @@ class SalonController extends AbstractController
                 $this->addFlash('error-invit', "Utilisateur introuvable");
 
 
-
-            }
-            elseif(count($isInvited) > 1){
+            } elseif (count($isInvited) > 1) {
 
                 $this->addFlash('error-exist', 'Invitation déjà envoyée');
-            }
-            else {
+            } else {
 
                 $sender = $this->getUser();
                 $invit = new Invitation();
@@ -122,6 +118,7 @@ class SalonController extends AbstractController
 
 //        $time_salon = $sm->timeProcess($salon);
 
+        dump($sujets);
 
         return $this->render('salon/index.html.twig', [
             'messageForm' => $messageForm,
@@ -266,12 +263,11 @@ class SalonController extends AbstractController
 
         $salon = $sm->find($id);
 
-            $time = $this->timeProcess($salon);
+        $time = $this->timeProcess($salon);
 
-            return new JsonResponse($time);
+        return new JsonResponse($time);
 
     }
-
 
 
     private function timeProcess(Salons $salon): array

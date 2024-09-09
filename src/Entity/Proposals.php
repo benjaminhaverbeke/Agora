@@ -17,12 +17,12 @@ class Proposals
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Salons::class)]
-
-    private ?Salons $salon = null;
+    #[JoinColumn(nullable: false)]
+    private ?Salons $salon;
 
     #[ORM\ManyToOne(targetEntity: Sujets::class, cascade: ['persist'], inversedBy: 'proposals')]
-
-    private ?Sujets $sujet = null;
+    #[JoinColumn(nullable: false)]
+    private ?Sujets $sujet;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -31,9 +31,10 @@ class Proposals
     private ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    private ?User $user = null;
+    #[JoinColumn(nullable: false)]
+    private ?User $user;
 
-    #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: 'proposal', cascade:["remove"])]
+    #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: 'proposal', orphanRemoval: true)]
     private Collection $votes;
 
     public function __construct(){
