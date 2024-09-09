@@ -22,9 +22,10 @@ class SujetsRepository extends ServiceEntityRepository
     public function findAllSujetsBySalon(int $id): array
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.salon = :id')
             ->setParameter('id', $id)
             ->orderBy('s.id', 'ASC')
+            ->leftJoin('s.salon', 'a')
+            ->andWhere('a.id = :id')
             ->getQuery()
             ->getResult();
 

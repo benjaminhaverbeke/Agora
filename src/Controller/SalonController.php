@@ -117,7 +117,6 @@ class SalonController extends AbstractController
 //        $result = $election->isElected($lastsujet->getId());
 
 //        $time_salon = $sm->timeProcess($salon);
-
         dump($sujets);
 
         return $this->render('salon/index.html.twig', [
@@ -152,11 +151,13 @@ class SalonController extends AbstractController
 
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
             $this->addFlash('success-salon-edit', 'Les paramètres du salon ont bien été modifiés');
             return $this->redirectToRoute('salon.index', ['id' => $id]);
         }
+
         return $this->render('salon/edit.html.twig', [
             'messages' => $messages,
             'salon' => $salon,
@@ -218,7 +219,8 @@ class SalonController extends AbstractController
 
         $user = $this->getUser();
         $userId = $user->getId();
-//        $salons = $user->getSalons();
+//
+
         /***pagination***/
         $limit = 2;
         $page = $request->query->getInt('page', 1);

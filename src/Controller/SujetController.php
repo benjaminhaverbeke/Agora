@@ -67,6 +67,8 @@ class SujetController extends AbstractController
     public function edit(int $id, Request $request): Response
     {
         $sujet = $this->sujm->find($id);
+
+        dump($sujet);
         $salon = $sujet->getSalon();
 
         /***chat envoi message***/
@@ -127,6 +129,7 @@ class SujetController extends AbstractController
             $sujet->setSalon($salon);
             $user = $this->getUser();
             $sujet->setUser($user);
+            dump($sujet);
             $this->em->persist($sujet);
             $this->em->flush();
             $this->addFlash('success', 'Le sujet a bien été crée');
@@ -153,17 +156,7 @@ class SujetController extends AbstractController
 
             $this->addFlash('success', 'Le sujet a bien été supprimé');
 
-        if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
 
-            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-
-            return $this->render(
-                'sujet/delete.stream.html.twig',
-                [
-                    "sujet" => $sujetTodelete
-                ]
-            );
-        }
             return $this->redirectToRoute('salon.index', ['id' => $sujetTodelete->getSalon()->getId()]);
     }
 

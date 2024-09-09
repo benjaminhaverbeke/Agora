@@ -4,11 +4,9 @@
 
 {% block body %}
     <section class="box">
-        <turbo-frame id="proposal_create_form_{{ sujet.id }}">
             <h1>Créer une nouvelle proposition</h1>
 
             {{ form(form, {action: path('proposal.create', {id: sujet.id})}) }}
-        </turbo-frame>
 
     </section>
 

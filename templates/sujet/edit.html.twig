@@ -7,9 +7,9 @@
     <section class="box">
         <h1>{{ sujet.title }}</h1>
 
-        <turbo-frame id="sujet_{{ sujet.id }}">
+{#        <turbo-frame id="sujet_{{ sujet.id }}">#}
             {{ form(form, {action: path('sujet.edit', {id: sujet.id})}) }}
-        </turbo-frame>
+{#        </turbo-frame>#}
 
     </section>
 

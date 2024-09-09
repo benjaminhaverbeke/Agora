@@ -17,11 +17,9 @@ class Proposals
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Salons::class)]
-    #[JoinColumn(nullable: false)]
     private ?Salons $salon;
 
-    #[ORM\ManyToOne(targetEntity: Sujets::class, cascade: ['persist'], inversedBy: 'proposals')]
-    #[JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Sujets::class, inversedBy: 'proposals')]
     private ?Sujets $sujet;
 
     #[ORM\Column(length: 255)]
@@ -31,10 +29,9 @@ class Proposals
     private ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[JoinColumn(nullable: false)]
     private ?User $user;
 
-    #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: 'proposal', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: 'proposal')]
     private Collection $votes;
 
     public function __construct(){

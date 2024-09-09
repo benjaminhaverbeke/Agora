@@ -42,7 +42,6 @@ class ProposalController extends AbstractController
 
         $sujet = $this->sujm->find($id);
 
-
         $salon = $sujet->getSalon();
 
 
@@ -79,18 +78,7 @@ class ProposalController extends AbstractController
 
             $this->addFlash('success', 'La proposition a bien été crée');
 
-            if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
 
-                $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-
-                return $this->render(
-                    'proposal/proposal.stream.html.twig',
-                    [
-                        "proposal" => $proposal,
-                        "sujet" => $sujet
-                    ]
-                );
-            }
                 return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
 
 
@@ -159,24 +147,15 @@ class ProposalController extends AbstractController
     {
 
         $proposal = $pm->find($id);
+        $salonId = $proposal->getSalon()->getId();
+
 
         $em->remove($proposal);
         $em->flush();
 
         $this->addFlash('success', 'La proposition a bien été supprimé');
 
-        $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-        dump($request);
-        if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
-            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
-            return $this->render(
-                'proposal/delete.stream.html.twig',
-                [
-                    "proposal" => $proposal
-                ]
-            );
-        }
 
         return $this->redirectToRoute('salon.index', ['id' => $salonId]);
     }

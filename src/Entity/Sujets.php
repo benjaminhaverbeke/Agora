@@ -18,7 +18,7 @@ class Sujets
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Salons::class)]
-    #[ORM\JoinColumn(nullable: false)]
+
     private ?Salons $salon;
 
     #[ORM\Column(length: 255)]
@@ -29,10 +29,10 @@ class Sujets
 
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(nullable: false)]
     private ?User $user;
 
-    #[ORM\OneToMany(targetEntity: Proposals::class, mappedBy: "sujet", orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Proposals::class, mappedBy: 'sujet')]
+
     private Collection $proposals;
 
 
@@ -104,6 +104,7 @@ class Sujets
     {
         if (!$this->proposals->contains($proposal)) {
             $this->proposals->add($proposal);
+            $proposal->setSujet($this);
 
         }
 
@@ -112,9 +113,16 @@ class Sujets
 
     public function removeProposal(Proposals $proposal): static
     {
-        $this->proposals->removeElement($proposal);
+        if ($this->proposals->removeElement($proposal)) {
+            if ($proposal->getSujet() === $this) {
+
+            $proposal->setSujet(null);
+
+            }
+        }
 
         return $this;
+
     }
 
 }

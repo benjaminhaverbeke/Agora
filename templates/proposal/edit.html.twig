@@ -5,9 +5,7 @@
 {% block body %}
     <section class="box">
 
-        <turbo-frame id="proposal_{{ proposal.id }}">
             {{ form(form, {action: path('proposal.edit', {id: proposal.id})}) }}
-        </turbo-frame>
     </section>
 
 
