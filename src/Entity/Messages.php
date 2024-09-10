@@ -18,7 +18,7 @@ class Messages
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(targetEntity: Salons::class)]
+    #[ORM\ManyToOne(targetEntity: Salons::class, inversedBy: 'messages')]
     private ?Salons $salon = null;
 
     #[ORM\Column(type: "datetime_immutable")]
@@ -26,6 +26,7 @@ class Messages
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
+
 
     public function getId(): ?int
     {
@@ -78,6 +79,18 @@ class Messages
     public function setContent(string $content): static
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getSalons(): ?Salons
+    {
+        return $this->salons;
+    }
+
+    public function setSalons(?Salons $salons): static
+    {
+        $this->salons = $salons;
 
         return $this;
     }

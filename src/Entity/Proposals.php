@@ -31,7 +31,7 @@ class Proposals
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $user;
 
-    #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: 'proposal')]
+    #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: 'proposal', cascade: ['persist', 'remove'])]
     private Collection $votes;
 
     public function __construct(){

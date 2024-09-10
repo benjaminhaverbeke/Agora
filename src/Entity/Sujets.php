@@ -17,9 +17,6 @@ class Sujets
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Salons::class)]
-
-    private ?Salons $salon;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -31,9 +28,11 @@ class Sujets
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $user;
 
-    #[ORM\OneToMany(targetEntity: Proposals::class, mappedBy: 'sujet')]
-
+    #[ORM\OneToMany(targetEntity: Proposals::class, mappedBy: 'sujet', cascade: ['persist', 'remove'])]
     private Collection $proposals;
+
+    #[ORM\ManyToOne(inversedBy: 'sujets')]
+    private ?Salons $salon = null;
 
 
     public function __construct()
@@ -123,6 +122,18 @@ class Sujets
 
         return $this;
 
+    }
+
+    public function getSalons(): ?Salons
+    {
+        return $this->salons;
+    }
+
+    public function setSalons(?Salons $salons): static
+    {
+        $this->salons = $salons;
+
+        return $this;
     }
 
 }

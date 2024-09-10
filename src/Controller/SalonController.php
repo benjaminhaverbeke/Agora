@@ -53,18 +53,14 @@ class SalonController extends AbstractController
     ): Response
     {
 
-        $salon = $this->sm->find($id);
-
-
+        $salon = $this->sm->findSalonIndex($id);
+        dump($salon);
         /***chat envoi message***/
         $message = new Messages();
         $messageForm = $this->createForm(MessageType::class, $message);
 
         $messageForm->handleRequest($request);
 
-        /***chat display messages***/
-
-        $messages = $this->mm->findBySalons($id);
 
         /******/
 
@@ -112,19 +108,16 @@ class SalonController extends AbstractController
         }
 
 
-        $sujets = $sujet->findAllSujetsBySalon($salon->getId());
+
 
 //        $result = $election->isElected($lastsujet->getId());
 
 //        $time_salon = $sm->timeProcess($salon);
-        dump($sujets);
 
         return $this->render('salon/index.html.twig', [
             'messageForm' => $messageForm,
             'salon' => $salon,
-            'allsujets' => $sujets,
             'time' => $time,
-            'messages' => $messages,
             'form' => $form
 
 

@@ -58,4 +58,15 @@ class SalonsRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findSalonIndex(int $id): Salons
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.sujets', 'i')
+            ->andWhere('s.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+    }
 }

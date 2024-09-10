@@ -60,7 +60,7 @@
 
     <section class="sujet-app">
         <h2>Liste des sujets à voter</h2>
-        {% for sujet in allsujets %}
+        {% for sujet in salon.sujets %}
             <article id="sujet_remove_{{ sujet.id }}" class="box">
 
                 <h3>{{ sujet.title }}</h3>

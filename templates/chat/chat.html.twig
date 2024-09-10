@@ -3,7 +3,7 @@
 {% block chat %}
     <aside>
         <section id="messages">
-            {% for message in messages %}
+            {% for message in salon.messages %}
                 <article>
                     <p>{{ message.user.username }}</p>
                     <p>{{ message.content }}</p>

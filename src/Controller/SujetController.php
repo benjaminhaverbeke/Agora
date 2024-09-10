@@ -130,6 +130,7 @@ class SujetController extends AbstractController
             $user = $this->getUser();
             $sujet->setUser($user);
             dump($sujet);
+            $salon->addSujet($sujet);
             $this->em->persist($sujet);
             $this->em->flush();
             $this->addFlash('success', 'Le sujet a bien été crée');

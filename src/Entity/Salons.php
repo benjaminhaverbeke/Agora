@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Symfony\Component\Validator\Constraints as Assert;
+
 #[ORM\Entity(repositoryClass: SalonsRepository::class)]
 class Salons
 {
@@ -30,12 +31,12 @@ class Salons
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column]
-    #[Assert\GreaterThan(value : 'today', message : "Date de campagne trop courte")]
+    #[Assert\GreaterThan(value: 'today', message: "Date de campagne trop courte")]
     private ?\DateTimeImmutable $date_campagne;
 
     #[ORM\Column]
-    #[Assert\GreaterThan(value : 'today', message: "Date de vote trop courte")]
-    #[Assert\GreaterThan(propertyPath: 'date_campagne', message : "La date de clôture des votes doit être supérieure à la date de fin de campagne")]
+    #[Assert\GreaterThan(value: 'today', message: "Date de vote trop courte")]
+    #[Assert\GreaterThan(propertyPath: 'date_campagne', message: "La date de clôture des votes doit être supérieure à la date de fin de campagne")]
     private ?\DateTimeImmutable $date_vote;
 
     /**
@@ -44,9 +45,23 @@ class Salons
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'salons')]
     private Collection $users;
 
+    /**
+     * @var Collection<int, messages>
+     */
+    #[ORM\OneToMany(targetEntity: Messages::class, mappedBy: 'salon', cascade: ['persist', 'remove'])]
+    private Collection $messages;
+
+    /**
+     * @var Collection<int, Sujets>
+     */
+    #[ORM\OneToMany(targetEntity: Sujets::class, mappedBy: 'salon')]
+    private Collection $sujets;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->messages = new ArrayCollection();
+        $this->sujets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -148,6 +163,66 @@ class Salons
     public function removeUser(User $user): static
     {
         $this->users->removeElement($user);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, messages>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(messages $message): static
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setSalons($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(messages $message): static
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getSalons() === $this) {
+                $message->setSalons(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sujets>
+     */
+    public function getSujets(): Collection
+    {
+        return $this->sujets;
+    }
+
+    public function addSujet(Sujets $sujet): static
+    {
+        if (!$this->sujets->contains($sujet)) {
+            $this->sujets->add($sujet);
+            $sujet->setSalons($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSujet(Sujets $sujet): static
+    {
+        if ($this->sujets->removeElement($sujet)) {
+            // set the owning side to null (unless already changed)
+            if ($sujet->getSalons() === $this) {
+                $sujet->setSalons(null);
+            }
+        }
 
         return $this;
     }
