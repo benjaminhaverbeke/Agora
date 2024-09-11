@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\MessagesRepository;
+use App\Repository\MessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 
-#[ORM\Entity(repositoryClass: MessagesRepository::class)]
-class Messages
+#[ORM\Entity(repositoryClass: MessageRepository::class)]
+class Message
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,8 +18,8 @@ class Messages
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(targetEntity: Salons::class, inversedBy: 'messages')]
-    private ?Salons $salon = null;
+    #[ORM\ManyToOne(targetEntity: Salon::class, inversedBy: 'messages')]
+    private ?Salon $salon = null;
 
     #[ORM\Column(type: "datetime_immutable")]
     private ?\DateTimeImmutable $created_at;
@@ -45,12 +45,12 @@ class Messages
         return $this;
     }
 
-    public function getSalon(): ?Salons
+    public function getSalon(): ?Salon
     {
         return $this->salon;
     }
 
-    public function setSalon(?Salons $salon): static
+    public function setSalon(?Salon $salon): static
     {
         $this->salon = $salon;
 
@@ -83,15 +83,5 @@ class Messages
         return $this;
     }
 
-    public function getSalons(): ?Salons
-    {
-        return $this->salons;
-    }
 
-    public function setSalons(?Salons $salons): static
-    {
-        $this->salons = $salons;
-
-        return $this;
-    }
 }

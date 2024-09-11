@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Salons;
+use App\Entity\Salon;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -10,13 +10,13 @@ use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @extends ServiceEntityRepository<Salons>
+ * @extends ServiceEntityRepository<Salon>
  */
-class SalonsRepository extends ServiceEntityRepository
+class SalonRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Salons::class);
+        parent::__construct($registry, Salon::class);
     }
 
     public function paginateSalons(int $userId, int $page, int $limit): Paginator
@@ -35,7 +35,7 @@ class SalonsRepository extends ServiceEntityRepository
     }
 
 //        /**
-//         * @return Salons[] Returns an array of Salons objects
+//         * @return Salon[] Returns an array of Salon objects
 //         */
 //        public function findByUserField(User $user): array
 //        {
@@ -49,7 +49,7 @@ class SalonsRepository extends ServiceEntityRepository
 //            ;
 //        }
 
-    //    public function findOneBySomeField($value): ?Salons
+    //    public function findOneBySomeField($value): ?Salon
     //    {
     //        return $this->createQueryBuilder('s')
     //            ->andWhere('s.exampleField = :val')
@@ -59,10 +59,14 @@ class SalonsRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    public function findSalonIndex(int $id): Salons
+    public function findSalonIndex(int $id): Salon
     {
         return $this->createQueryBuilder('s')
-            ->leftJoin('s.sujets', 'i')
+            ->select('s', 'm', 'suj', 'p', 'u')
+            ->leftJoin('s.users', 'u')
+            ->leftJoin('s.messages', 'm')
+            ->leftJoin('s.sujets', 'suj')
+            ->leftJoin('suj.proposals', 'p')
             ->andWhere('s.id = :id')
             ->setParameter('id', $id)
             ->getQuery()

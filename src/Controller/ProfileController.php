@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Form\InvitationType;
 use App\Form\RejoinType;
 use App\Repository\InvitationRepository;
-use App\Repository\SalonsRepository;
+use App\Repository\SalonRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +18,7 @@ use App\Form\UserType;
 class ProfileController extends AbstractController
 {
     #[Route('/profile', name: 'profile')]
-    public function index(SalonsRepository $sm, InvitationRepository $im, Request $request, EntityManagerInterface $em): Response
+    public function index(SalonRepository $sm, InvitationRepository $im, Request $request, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
 

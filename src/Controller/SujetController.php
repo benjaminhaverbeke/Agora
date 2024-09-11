@@ -2,15 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\Messages;
-use App\Entity\Salons;
-use App\Entity\Sujets;
+use App\Entity\Message;
+use App\Entity\Salon;
+use App\Entity\Sujet;
 use App\Entity\User;
 use App\Form\MessageType;
 use App\Form\SujetType;
-use App\Repository\MessagesRepository;
-use App\Repository\SalonsRepository;
-use App\Repository\SujetsRepository;
+use App\Repository\MessageRepository;
+use App\Repository\SalonRepository;
+use App\Repository\SujetRepository;
 use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,7 +30,7 @@ class SujetController extends AbstractController
 
     private $sm;
 
-    public function __construct(EntityManagerInterface $em, MessagesRepository $mm, SujetsRepository $sujm, SalonsRepository $sm)
+    public function __construct(EntityManagerInterface $em, MessageRepository $mm, SujetRepository $sujm, SalonRepository $sm)
     {
         $this->em = $em;
         $this->mm = $mm;
@@ -45,7 +45,7 @@ class SujetController extends AbstractController
         $salonId = $sujet->getSalon()->getId();
 
         /***chat envoi message***/
-        $message = new Messages();
+        $message = new Message();
         $messageForm = $this->createForm(MessageType::class, $message);
 
         $messageForm->handleRequest($request);
@@ -72,7 +72,7 @@ class SujetController extends AbstractController
         $salon = $sujet->getSalon();
 
         /***chat envoi message***/
-        $message = new Messages();
+        $message = new Message();
         $messageForm = $this->createForm(MessageType::class, $message);
 
         $messageForm->handleRequest($request);
@@ -107,7 +107,7 @@ class SujetController extends AbstractController
         $salon = $this->sm->find($id);
 
         /***chat envoi message***/
-        $message = new Messages();
+        $message = new Message();
         $messageForm = $this->createForm(MessageType::class, $message);
 
         $messageForm->handleRequest($request);
@@ -118,7 +118,7 @@ class SujetController extends AbstractController
 
         /******/
 
-        $sujet = new Sujets();
+        $sujet = new Sujet();
 
         $form = $this->createForm(SujetType::class, $sujet);
 
@@ -129,9 +129,10 @@ class SujetController extends AbstractController
             $sujet->setSalon($salon);
             $user = $this->getUser();
             $sujet->setUser($user);
-            dump($sujet);
-            $salon->addSujet($sujet);
+            $salon->getSujets()->add($sujet);
             $this->em->persist($sujet);
+
+            dump($salon);
             $this->em->flush();
             $this->addFlash('success', 'Le sujet a bien été crée');
             return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
@@ -147,7 +148,7 @@ class SujetController extends AbstractController
     }
 
     #[Route('sujet/{id}/delete', name: 'sujet.delete')]
-    public function delete(int $id, SujetsRepository $sujet, EntityManagerInterface $em, Request $request): Response {
+    public function delete(int $id, SujetRepository $sujet, EntityManagerInterface $em, Request $request): Response {
 
 
             $sujetTodelete = $sujet->find($id);

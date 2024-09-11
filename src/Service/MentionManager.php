@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Service;
-use App\Entity\Votes;
+use App\Entity\Vote;
 class MentionManager
 {
 

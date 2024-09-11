@@ -2,9 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\Proposals;
-use App\Entity\Salons;
-use App\Entity\Sujets;
+use App\Entity\Proposal;
+use App\Entity\Salon;
+use App\Entity\Sujet;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -43,7 +43,7 @@ class ProposalType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Proposals::class,
+            'data_class' => Proposal::class,
         ]);
     }
 }

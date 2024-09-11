@@ -3,18 +3,18 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
-use App\Entity\Proposals;
-use App\Entity\Salons;
-use App\Entity\Sujets;
-use App\Entity\Votes;
-use App\Repository\SalonsRepository;
+use App\Entity\Proposal;
+use App\Entity\Salon;
+use App\Entity\Sujet;
+use App\Entity\Vote;
+use App\Repository\SalonRepository;
 use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use App\Repository\SujetsRepository;
+use App\Repository\SujetRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -42,7 +42,7 @@ class ProposalFixtures extends Fixture
         $manager->persist($user);
 
 
-        $salon = new Salons();
+        $salon = new Salon();
         $salon
             ->setTitle('title')
             ->setDescription('description')
@@ -59,7 +59,7 @@ class ProposalFixtures extends Fixture
 
         for ($i = 0; $i < 10; $i++) {
 
-            $sujet = new Sujets();
+            $sujet = new Sujet();
             $sujet->setTitle('title')
                 ->setDescription('description')
                 ->setSalon($salon)
@@ -72,12 +72,12 @@ class ProposalFixtures extends Fixture
 
         $manager->flush();
 
-        $sm = $manager->getRepository(Sujets::class);
+        $sm = $manager->getRepository(Sujet::class);
         $lastsujet = $sm->findLastInserted();
 
         for ($i = 0; $i < 4; $i++) {
 
-            $proposals = new Proposals();
+            $proposals = new Proposal();
 
             $proposals
                 ->setTitle('title' . $i)
@@ -91,7 +91,7 @@ class ProposalFixtures extends Fixture
 
         $manager->flush();
 
-        $pm = $manager->getRepository(Proposals::class);
+        $pm = $manager->getRepository(Proposal::class);
         $allprops = $pm->AllPropositionSujet($lastsujet->getId());
 
         $notesArray = ['passable', 'bien','tresbien'];
@@ -100,7 +100,7 @@ class ProposalFixtures extends Fixture
         foreach ($allprops as $prop) {
 
             for ($i = 0; $i < $nbVotants; $i++) {
-                $vote = new Votes();
+                $vote = new Vote();
                 $randnote = array_rand($notesArray);
                 $vote->setSujet($lastsujet)
                     ->setProposal($prop)

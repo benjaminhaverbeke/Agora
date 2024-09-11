@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Sujets;
+use App\Entity\Sujet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Sujets>
+ * @extends ServiceEntityRepository<Sujet>
  */
-class SujetsRepository extends ServiceEntityRepository
+class SujetRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Sujets::class);
+        parent::__construct($registry, Sujet::class);
     }
 
     //    /**
-    //     * @return Sujets[] Returns an array of Sujets objects
+    //     * @return Sujet[] Returns an array of Sujet objects
     //     */
     public function findAllSujetsBySalon(int $id): array
     {
@@ -31,7 +31,7 @@ class SujetsRepository extends ServiceEntityRepository
 
     }
 
-//        public function findLast($value): ?Sujets
+//        public function findLast($value): ?Sujet
 //        {
 //            return $this->createQueryBuilder('s')
 //                ->andWhere('s.exampleField = :val')
@@ -52,7 +52,20 @@ class SujetsRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findSujetCollection(int $id): ?Sujet
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.salon', 'a')
+            ->leftJoin('a.messages', 'm')
+            ->leftJoin('a.user', 'c')
+            ->andWhere('s.id = :id')
+            ->orderBy('s.id', 'DESC')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
 
+
+    }
 
 
 }

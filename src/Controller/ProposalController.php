@@ -2,15 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\Messages;
-use App\Entity\Proposals;
-use App\Entity\Sujets;
+use App\Entity\Message;
+use App\Entity\Proposal;
+use App\Entity\Sujet;
 use App\Form\MessageType;
 use App\Form\ProposalType;
 use App\Form\SujetType;
-use App\Repository\MessagesRepository;
-use App\Repository\ProposalsRepository;
-use App\Repository\SujetsRepository;
+use App\Repository\MessageRepository;
+use App\Repository\ProposalRepository;
+use App\Repository\SujetRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +27,7 @@ class ProposalController extends AbstractController
 
     private $pm;
 
-    public function __construct(MessagesRepository $mm, EntityManagerInterface $em, ProposalsRepository $pm, SujetsRepository $sujm)
+    public function __construct(MessageRepository $mm, EntityManagerInterface $em, ProposalRepository $pm, SujetRepository $sujm)
     {
         $this->em = $em;
         $this->mm = $mm;
@@ -41,26 +41,24 @@ class ProposalController extends AbstractController
     {
 
         $sujet = $this->sujm->find($id);
-
         $salon = $sujet->getSalon();
 
-
         /***chat envoi message***/
-        $message = new Messages();
+        $message = new Message();
         $messageForm = $this->createForm(MessageType::class, $message);
 
         $messageForm->handleRequest($request);
 
         /***chat display messages***/
 
-        $messages = $this->mm->findBySalons($salon->getId());
+        $messages = $sujet->getSalon()->getMessages();
 
         /******/
 
 
-        $user = $this->getUser();
 
-        $proposal = new Proposals();
+
+        $proposal = new Proposal();
         $form = $this->createForm(ProposalType::class, $proposal);
 
         $form->handleRequest($request);
@@ -68,10 +66,10 @@ class ProposalController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
 
-            $proposal->setUser($user);
-
-            $proposal->setSalon($salon);
+            $proposal->setUser($sujet->getSalon()->getUser());
+            $proposal->setSalon($sujet->getSalon());
             $proposal->setSujet($sujet);
+
             $this->em->persist($proposal);
 
             $this->em->flush();
@@ -79,7 +77,7 @@ class ProposalController extends AbstractController
             $this->addFlash('success', 'La proposition a bien été crée');
 
 
-                return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
+                return $this->redirectToRoute('salon.index', ['id' => $sujet->getSalon()->getId()]);
 
 
 
@@ -92,8 +90,8 @@ class ProposalController extends AbstractController
             'form' => $form,
             'messages' => $messages,
             'messageForm' => $messageForm,
-            'salon' => $salon,
-            'sujet' => $sujet
+            'sujet' => $sujet,
+            'salon' => $salon
         ]);
     }
 
@@ -105,7 +103,7 @@ class ProposalController extends AbstractController
         $salon = $proposal->getSalon();
 
         /***chat envoi message***/
-        $message = new Messages();
+        $message = new Message();
         $messageForm = $this->createForm(MessageType::class, $message);
 
         $messageForm->handleRequest($request);
@@ -143,7 +141,7 @@ class ProposalController extends AbstractController
 
 
     #[Route('proposal/{id}/delete', name: 'proposal.delete')]
-    public function delete(int $id, ProposalsRepository $pm, EntityManagerInterface $em, Request $request): Response
+    public function delete(int $id, ProposalRepository $pm, EntityManagerInterface $em, Request $request): Response
     {
 
         $proposal = $pm->find($id);

@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Proposals;
+use App\Entity\Proposal;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Proposals>
+ * @extends ServiceEntityRepository<Proposal>
  */
-class ProposalsRepository extends ServiceEntityRepository
+class ProposalRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Proposals::class);
+        parent::__construct($registry, Proposal::class);
     }
 
     //    /**
-    //     * @return Proposals[] Returns an array of Proposals objects
+    //     * @return Proposal[] Returns an array of Proposal objects
     //     */
         public function allPropositionSujet(int $id): array
         {
@@ -30,7 +30,7 @@ class ProposalsRepository extends ServiceEntityRepository
 
         }
 
-    //    public function findOneBySomeField($value): ?Proposals
+    //    public function findOneBySomeField($value): ?Proposal
     //    {
     //        return $this->createQueryBuilder('p')
     //            ->andWhere('p.exampleField = :val')

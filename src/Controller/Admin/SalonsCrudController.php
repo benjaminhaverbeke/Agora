@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Salons;
+use App\Entity\Salon;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -16,7 +16,7 @@ class SalonsCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Salons::class;
+        return Salon::class;
     }
 
 

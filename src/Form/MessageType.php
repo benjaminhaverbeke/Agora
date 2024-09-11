@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\Messages;
-use App\Entity\Salons;
+use App\Entity\Message;
+use App\Entity\Salon;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -32,7 +32,7 @@ class MessageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Messages::class
+            'data_class' => Message::class
         ]);
     }
 }

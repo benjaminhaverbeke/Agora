@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Votes;
+use App\Entity\Vote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Votes>
+ * @extends ServiceEntityRepository<Vote>
  */
-class VotesRepository extends ServiceEntityRepository
+class VoteRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Votes::class);
+        parent::__construct($registry, Vote::class);
     }
 
     //    /**
-    //     * @return Votes[] Returns an array of Votes objects
+    //     * @return Vote[] Returns an array of Vote objects
     //     */
         public function findAllVotesByProposal(int $id): array
         {

@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Messages;
+use App\Entity\Message;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -15,7 +15,7 @@ class MessagesCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Messages::class;
+        return Message::class;
     }
 
 

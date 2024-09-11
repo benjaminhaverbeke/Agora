@@ -49,9 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeImmutable $created_at = null;
 
     /**
-     * @var Collection<int, Salons>
+     * @var Collection<int, Salon>
      */
-    #[ORM\ManyToMany(targetEntity: Salons::class, mappedBy: 'users')]
+    #[ORM\ManyToMany(targetEntity: Salon::class, mappedBy: 'users')]
     private Collection $salons;
 
     public function getId(): ?int
@@ -154,14 +154,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Salons>
+     * @return Collection<int, Salon>
      */
     public function getSalons(): Collection
     {
         return $this->salons;
     }
 
-    public function addSalon(Salons $salon): static
+    public function addSalon(Salon $salon): static
     {
         if (!$this->salons->contains($salon)) {
             $this->salons->add($salon);
@@ -171,7 +171,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeSalon(Salons $salon): static
+    public function removeSalon(Salon $salon): static
     {
         if ($this->salons->removeElement($salon)) {
             $salon->removeUser($this);

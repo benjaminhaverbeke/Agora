@@ -8,13 +8,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
-use App\Entity\Messages;
+use App\Entity\Message;
 use App\Entity\Contact;
 use App\Entity\Invitation;
-use App\Entity\Salons;
-use App\Entity\Sujets;
-use App\Entity\Votes;
-use App\Entity\Proposals;
+use App\Entity\Salon;
+use App\Entity\Sujet;
+use App\Entity\Vote;
+use App\Entity\Proposal;
 
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
@@ -53,12 +53,12 @@ class AdminController extends AbstractDashboardController
     {
         yield MenuItem::linkToRoute('Retour sur le site', 'fas fa-list', 'home');
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-list', User::class);
-        yield MenuItem::linkToCrud('Messages', 'fas fa-list', Messages::class);
+        yield MenuItem::linkToCrud('Message', 'fas fa-list', Message::class);
         yield MenuItem::linkToCrud('Contact', 'fas fa-list', Contact::class);
-        yield MenuItem::linkToCrud('Sujets', 'fas fa-list', Sujets::class);
-        yield MenuItem::linkToCrud('Proposals', 'fas fa-list', Proposals::class);
-        yield MenuItem::linkToCrud('Votes', 'fas fa-list', Votes::class);
-        yield MenuItem::linkToCrud('Salons', 'fas fa-list', Salons::class);
+        yield MenuItem::linkToCrud('Sujet', 'fas fa-list', Sujet::class);
+        yield MenuItem::linkToCrud('Proposal', 'fas fa-list', Proposal::class);
+        yield MenuItem::linkToCrud('Vote', 'fas fa-list', Vote::class);
+        yield MenuItem::linkToCrud('Salon', 'fas fa-list', Salon::class);
         yield MenuItem::linkToCrud('Invitation', 'fas fa-list', Invitation::class);
 
     }

@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Votes;
+use App\Entity\Vote;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -13,7 +13,7 @@ class VotesCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Votes::class;
+        return Vote::class;
     }
 
 

@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Messages;
+use App\Entity\Message;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Messages>
+ * @extends ServiceEntityRepository<Message>
  */
-class MessagesRepository extends ServiceEntityRepository
+class MessageRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Messages::class);
+        parent::__construct($registry, Message::class);
     }
 
     //    /**
-    //     * @return Messages[] Returns an array of Messages objects
+    //     * @return Message[] Returns an array of Message objects
     //     */
         public function findBySalons(int $id): array
         {
@@ -31,7 +31,7 @@ class MessagesRepository extends ServiceEntityRepository
             ;
         }
 
-    //    public function findOneBySomeField($value): ?Messages
+    //    public function findOneBySomeField($value): ?Message
     //    {
     //        return $this->createQueryBuilder('m')
     //            ->andWhere('m.exampleField = :val')

@@ -15,16 +15,13 @@ class Invitation
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[JoinColumn(onDelete: 'CASCADE')]
     private ?User $sender = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[JoinColumn(onDelete: 'CASCADE')]
     private ?User $receiver = null;
 
-    #[ORM\ManyToOne(targetEntity: Salons::class)]
-    #[JoinColumn(onDelete: 'CASCADE')]
-    private ?Salons $salon = null;
+    #[ORM\ManyToOne(targetEntity: Salon::class)]
+    private ?Salon $salon = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -64,12 +61,12 @@ class Invitation
         return $this;
     }
 
-    public function getSalon(): ?Salons
+    public function getSalon(): ?Salon
     {
         return $this->salon;
     }
 
-    public function setSalon(?Salons $salon): static
+    public function setSalon(?Salon $salon): static
     {
         $this->salon = $salon;
 

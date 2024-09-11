@@ -2,23 +2,23 @@
 
 namespace App\Entity;
 
-use App\Repository\VotesRepository;
+use App\Repository\VoteRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 
-#[ORM\Entity(repositoryClass: VotesRepository::class)]
-class Votes
+#[ORM\Entity(repositoryClass: VoteRepository::class)]
+class Vote
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Proposals::class, cascade: ['persist'], inversedBy: 'votes')]
-    private ?Proposals $proposal = null;
+    #[ORM\ManyToOne(targetEntity: Proposal::class, inversedBy: 'votes')]
+    private ?Proposal $proposal = null;
 
-    #[ORM\ManyToOne(targetEntity: Sujets::class, cascade: ['persist'])]
-    private ?Sujets $sujet = null;
+    #[ORM\ManyToOne(targetEntity: Sujet::class)]
+    private ?Sujet $sujet = null;
 
     #[ORM\Column(length: 255)]
     private ?string $notes = null;
@@ -28,24 +28,24 @@ class Votes
         return $this->id;
     }
 
-    public function getProposal(): ?Proposals
+    public function getProposal(): ?Proposal
     {
         return $this->proposal;
     }
 
-    public function setProposal(Proposals $proposal): static
+    public function setProposal(Proposal $proposal): static
     {
         $this->proposal = $proposal;
 
         return $this;
     }
 
-    public function getSujet(): ?Sujets
+    public function getSujet(): ?Sujet
     {
         return $this->sujet;
     }
 
-    public function setSujet(Sujets $sujet): static
+    public function setSujet(Sujet $sujet): static
     {
         $this->sujet = $sujet;
 

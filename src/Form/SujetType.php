@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Sujets;
+use App\Entity\Sujet;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -41,7 +41,7 @@ class SujetType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Sujets::class,
+            'data_class' => Sujet::class,
         ]);
     }
 }

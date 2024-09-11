@@ -6,13 +6,13 @@ use App\Entity\Invitation;
 use App\Form\InvitType;
 use App\Form\MessageType;
 use App\Form\SalonType;
-use App\Entity\Salons;
-use App\Entity\Messages;
+use App\Entity\Salon;
+use App\Entity\Message;
 use App\Repository\InvitationRepository;
-use App\Repository\MessagesRepository;
-use App\Repository\ProposalsRepository;
-use App\Repository\SalonsRepository;
-use App\Repository\SujetsRepository;
+use App\Repository\MessageRepository;
+use App\Repository\ProposalRepository;
+use App\Repository\SalonRepository;
+use App\Repository\SujetRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,7 +33,7 @@ class SalonController extends AbstractController
 
     private $um;
 
-    public function __construct(MessagesRepository $mm, SalonsRepository $sm, EntityManagerInterface $em, UserRepository $um)
+    public function __construct(MessageRepository $mm, SalonRepository $sm, EntityManagerInterface $em, UserRepository $um)
     {
 
         $this->mm = $mm;
@@ -45,18 +45,18 @@ class SalonController extends AbstractController
     #[Route('/salon/{id}', name: 'salon.index', requirements: ['id' => '\d+'])]
     public function index(
         int                  $id,
-        SujetsRepository     $sujet,
+        SujetRepository      $sujet,
         Request              $request,
         UserRepository       $um,
-        ProposalsRepository  $pm,
+        ProposalRepository   $pm,
         InvitationRepository $im
     ): Response
     {
 
         $salon = $this->sm->findSalonIndex($id);
-        dump($salon);
+
         /***chat envoi message***/
-        $message = new Messages();
+        $message = new Message();
         $messageForm = $this->createForm(MessageType::class, $message);
 
         $messageForm->handleRequest($request);
@@ -129,7 +129,7 @@ class SalonController extends AbstractController
     {
 
         /***chat envoi message***/
-        $message = new Messages();
+        $message = new Message();
         $messageForm = $this->createForm(MessageType::class, $message);
 
         $messageForm->handleRequest($request);
@@ -165,7 +165,7 @@ class SalonController extends AbstractController
     {
 
         $user = $this->getUser();
-        $salon = new Salons();
+        $salon = new Salon();
         $salon->setUser($user);
         $salon->addUser($user);
 
@@ -192,7 +192,7 @@ class SalonController extends AbstractController
     }
 
     #[Route('salon/{id}/delete', name: 'salon.delete')]
-    public function delete(int $id, SalonsRepository $salon, EntityManagerInterface $em): Response
+    public function delete(int $id, SalonRepository $salon, EntityManagerInterface $em): Response
     {
 
         $salonTodelete = $salon->find($id);
@@ -207,7 +207,7 @@ class SalonController extends AbstractController
     }
 
     #[Route('salon/list', name: 'salon.list')]
-    public function salonlist(SujetsRepository $sujm, SalonsRepository $salm, Request $request): Response
+    public function salonlist(SujetRepository $sujm, SalonRepository $salm, Request $request): Response
     {
 
         $user = $this->getUser();
@@ -253,7 +253,7 @@ class SalonController extends AbstractController
     }
 
     #[Route('salon/get-duration/{id}', name: "salon.get-duration", requirements: ['id' => '\d+'])]
-    public function duration(int $id, SalonsRepository $sm): JsonResponse
+    public function duration(int $id, SalonRepository $sm): JsonResponse
     {
 
         $salon = $sm->find($id);
@@ -265,7 +265,7 @@ class SalonController extends AbstractController
     }
 
 
-    private function timeProcess(Salons $salon): array
+    private function timeProcess(Salon $salon): array
     {
 
         /*méthode qui
@@ -321,9 +321,8 @@ class SalonController extends AbstractController
     #[Route('salon/chat/{id}', name: "salon.chat", requirements: ['id' => '\d+'])]
     public function chat(request $request, int $id): Response
     {
-        dump('test');
         $salon = $this->sm->find($id);
-        $message = new Messages();
+        $message = new Message();
         $messageForm = $this->createForm(MessageType::class, $message);
 
         $messageForm->handleRequest($request);

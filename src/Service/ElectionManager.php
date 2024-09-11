@@ -3,9 +3,9 @@
 
 namespace App\Service;
 
-use App\Repository\ProposalsRepository;
-use App\Entity\Sujets;
-use App\Repository\VotesRepository;
+use App\Repository\ProposalRepository;
+use App\Entity\Sujet;
+use App\Repository\VoteRepository;
 use App\Service\MentionManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -13,7 +13,7 @@ class ElectionManager
 {
 
 
-    public function __construct(readonly ProposalsRepository $pm, readonly VotesRepository $vm, readonly MentionManager $mm)
+    public function __construct(readonly ProposalRepository $pm, readonly VoteRepository $vm, readonly MentionManager $mm)
     {
 
 
@@ -25,7 +25,7 @@ class ElectionManager
     $mentions = ['inadapte', 'passable', 'bien', 'tresbien', 'excellent'];
         /***le but c'est de calculer les mentions gagnantes des ****/
 
-        /***prend un tableau de Proposals *** en input ***/
+        /***prend un tableau de Proposal *** en input ***/
 
 
         /****mentions de base utilisées ***/
@@ -37,7 +37,7 @@ class ElectionManager
 
         foreach ($props as $prop) {
 
-            /****fetch des tableau de Votes par Proposition****/
+            /****fetch des tableau de Vote par Proposition****/
             $votes = $this->vm->findAllVotesByProposal($prop->getId());
 
 

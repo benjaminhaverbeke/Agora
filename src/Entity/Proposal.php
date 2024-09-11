@@ -2,21 +2,25 @@
 
 namespace App\Entity;
 
-use App\Repository\SujetsRepository;
-use DateTimeImmutable;
+use App\Repository\ProposalRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\JoinColumn;
 
-#[ORM\Entity(repositoryClass: SujetsRepository::class)]
-class Sujets
+#[ORM\Entity(repositoryClass: ProposalRepository::class)]
+class Proposal
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\ManyToOne(targetEntity: Salon::class)]
+    private ?Salon $salon;
+
+    #[ORM\ManyToOne(targetEntity: Sujet::class, inversedBy: 'proposals')]
+    private ?Sujet $sujet;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -24,20 +28,25 @@ class Sujets
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $user;
 
-    #[ORM\OneToMany(targetEntity: Proposals::class, mappedBy: 'sujet', cascade: ['persist', 'remove'])]
-    private Collection $proposals;
+    #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'proposal', cascade: ['persist', 'remove'])]
+    private Collection $votes;
 
-    #[ORM\ManyToOne(inversedBy: 'sujets')]
-    private ?Salons $salon = null;
+    public function __construct(){
+
+        $this->votes = new ArrayCollection();
 
 
-    public function __construct()
+    }
+
+    public function setId(int $id) : self
     {
-        $this->proposals = new ArrayCollection();
+        $this->id = $id;
+
+        return $this;
+
     }
 
     public function getId(): ?int
@@ -45,14 +54,26 @@ class Sujets
         return $this->id;
     }
 
-    public function getSalon(): ?Salons
+    public function getSalon(): ?Salon
     {
         return $this->salon;
     }
 
-    public function setSalon(Salons $salon): static
+    public function setSalon(Salon $salon): static
     {
         $this->salon = $salon;
+
+        return $this;
+    }
+
+    public function getSujet(): ?Sujet
+    {
+        return $this->sujet;
+    }
+
+    public function setSujet(Sujet $sujet): static
+    {
+        $this->sujet = $sujet;
 
         return $this;
     }
@@ -81,7 +102,6 @@ class Sujets
         return $this;
     }
 
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -94,46 +114,31 @@ class Sujets
         return $this;
     }
 
-    public function getProposals(): Collection
+    /**
+     * @return Collection
+     */
+    public function getVotes(): Collection
     {
-        return $this->proposals;
+        return $this->votes;
     }
 
-    public function addProposal(Proposals $proposal): static
+    /**
+     * @param Collection $votes
+     */
+    public function addVote(Vote $vote): static
     {
-        if (!$this->proposals->contains($proposal)) {
-            $this->proposals->add($proposal);
-            $proposal->setSujet($this);
+        if (!$this->votes->contains($vote)) {
+            $this->votes->add($vote);
 
         }
 
         return $this;
     }
 
-    public function removeProposal(Proposals $proposal): static
+    public function removeVote(Vote $vote): static
     {
-        if ($this->proposals->removeElement($proposal)) {
-            if ($proposal->getSujet() === $this) {
-
-            $proposal->setSujet(null);
-
-            }
-        }
-
-        return $this;
-
-    }
-
-    public function getSalons(): ?Salons
-    {
-        return $this->salons;
-    }
-
-    public function setSalons(?Salons $salons): static
-    {
-        $this->salons = $salons;
+        $this->votes->removeElement($vote);
 
         return $this;
     }
-
 }
