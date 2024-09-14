@@ -74,7 +74,7 @@ input {
 }
 
 .title-center {
-  text-align:center;
+  text-align: center;
   padding: 0.3rem 0 0.3rem 0;
 }
 
@@ -166,8 +166,6 @@ h1 {
     padding: 1em;
     text-align: center;
     border-radius: 20px;
-
-
 
 
   }
@@ -264,12 +262,6 @@ h1 {
     display: block;
     padding: .5rem;
   }
-}
-
-.chat-container {
-
-
-  border: 2px solid black;
 }
 
 
@@ -584,9 +576,7 @@ h1 {
 }
 
 
-
 /*************SUJET EDIT BOX*******************/
-
 
 
 .sujet-app {
@@ -607,7 +597,7 @@ h1 {
 
 .sujet-app-create {
 
-  text-align:center;
+  text-align: center;
   margin: 1rem;
 
 }
@@ -645,6 +635,67 @@ h1 {
   }
 }
 
+/*** Chat ***/
+
+
+.chat-container {
+
+  position: fixed;
+  z-index: 9000;
+  background-color: $lightpurple;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+}
+
+
+#message_save {
+  rotate: -45deg;
+  border-radius: 50%;
+  border: none;
+  color: black;
+  background-color: transparent;
+  width: 3rem;
+}
+
+
+#message {
+
+  display: flex;
+  width: 100vw;
+
+}
+
+#chat_send {
+
+
+  position: fixed;
+  bottom: 0;
+  margin: 1.5rem;
+}
+
+.close_chat {
+ display: flex;
+  flex-direction: row-reverse;
+  margin: .5rem;
+
+
+}
+
+#message > div {
+
+  flex-grow: 1;
+
+
+}
+
+.bulle_chat {
+
+  width: 90%;
+  border-radius: 10px;
+
+
+}
 
 @media screen and (max-width: 1600px) {
 

@@ -18,10 +18,18 @@ class MessageType extends AbstractType
     {
         $builder
             ->add('content', TextType::class, [
-                "label" => "Message"
+                "label" => "Message",
+                "attr" => [
+                    'placeholder' => 'Message'
+                ]
             ])
             ->add('save', SubmitType::class, [
-                'label' => "Envoyer"
+                'label' => "send",
+
+                'attr' => [
+                    'class' => "material-symbols-outlined"
+
+    ]
             ])
 
 

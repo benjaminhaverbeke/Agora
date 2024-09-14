@@ -1,20 +1,22 @@
-
 {% autoescape %}
-{% block chat %}
-    <aside>
-        <section id="messages">
-            {% for message in salon.messages %}
-                <article>
-                    <p>{{ message.user.username }}</p>
-                    <p>{{ message.content }}</p>
-                    <p>{{ message.createdAt|date("H:m") }}</p>
-                </article>
-            {% endfor %}
-        </section>
-        <section id="chat_send">
-            {{ form(messageForm, {'action': path('salon.chat', {id: salon.id}) }) }}
-        </section>
+    {% block chat %}
+        <aside>
+        <span class="close_chat material-symbols-outlined">
+close
+</span>
+            <section id="messages">
+                {% for message in salon.messages %}
+                    <article class="bulle_chat box">
+                        <p>{{ message.user.username }}</p>
+                        <p>{{ message.content }}</p>
+                        <p>{{ message.createdAt|date("H:m") }}</p>
+                    </article>
+                {% endfor %}
+            </section>
+            <section id="chat_send">
+                {{ form(messageForm, {'action': path('salon.chat', {id: salon.id}) }) }}
+            </section>
 
-    </aside>
-{% endblock %}
+        </aside>
+    {% endblock %}
 {% endautoescape %}

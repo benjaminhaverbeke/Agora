@@ -65,24 +65,26 @@
 
                 <h3>{{ sujet.title }}</h3>
 
-{#                            <p>#}
-{#                                  Description : {{ sujet.description }} }#}
-{#                               </p>#}
+                {#                            <p> #}
+                {#                                  Description : {{ sujet.description }} } #}
+                {#                               </p> #}
 
                 <section class="sujet-btn">
                     <div class="btn-icon">
-                                <p>look</p>
+                                <span class="material-symbols-outlined">search</span>
                     </div>
 
-                        <a class="btn-icon" href="{{ path('sujet.edit', {id: sujet.id}) }}"><p>edit</p>
-                        </a>
-
-                    <a class="btn-icon" href="{{ path('sujet.delete', {id: sujet.id}) }}"><p>delete</p>
+                    <a class="btn-icon" href="{{ path('sujet.edit', {id: sujet.id}) }}"><span
+                                class="material-symbols-outlined">edit</span>
                     </a>
 
-                            <a  class="btn-icon" href="{{ path('proposal.create', {id: sujet.id}) }}"><p>add</p>
-                            </a>
+                    <a class="btn-icon" href="{{ path('sujet.delete', {id: sujet.id}) }}"><span
+                                class="material-symbols-outlined">delete</span>
+                    </a>
 
+                    <a class="btn-icon" href="{{ path('proposal.create', {id: sujet.id}) }}"><span
+                                class="material-symbols-outlined">add</span>
+                    </a>
 
 
                 </section>
@@ -90,9 +92,9 @@
 
                     {% for proposal in sujet.proposals %}
                         <li id="delete_proposal_{{ proposal.id }}">
-                            <p >{{ proposal.title }}</p>
+                            <p>{{ proposal.title }}</p>
 
-{#                            <p>{{ proposal.description }}</p>#}
+                            {#                            <p>{{ proposal.description }}</p> #}
 
                             <section>
                                 <div class="btn-icon">
@@ -102,11 +104,11 @@
                                 </div>
 
 
-                                    <a class="btn-icon" href="{{ path('proposal.edit', {id: proposal.id}) }}"><span
-                                                class="material-symbols-outlined">
+                                <a class="btn-icon" href="{{ path('proposal.edit', {id: proposal.id}) }}"><span
+                                            class="material-symbols-outlined">
                                     edit
                                 </span>
-                                    </a>
+                                </a>
 
 
                                 <a class="btn-icon" href="{{ path('proposal.delete', {id: proposal.id}) }}"><span
@@ -131,9 +133,9 @@
 
     {% block chat %}
         <div class="chat-container">
-
+            {{ include('chat/chat.html.twig') }}
         </div>
-        {{ include('chat/chat.html.twig') }}
+
     {% endblock %}
 
 {% endblock %}
