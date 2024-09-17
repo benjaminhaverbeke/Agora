@@ -638,15 +638,7 @@ h1 {
 /*** Chat ***/
 
 
-.chat-container {
 
-  position: fixed;
-  z-index: 9000;
-  background-color: $lightpurple;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-}
 
 
 #message_save {
@@ -659,41 +651,86 @@ h1 {
 }
 
 
-#message {
+#messages {
 
-  display: flex;
-  width: 100vw;
+  height: 100vh;
+  position: static;
+  overflow: scroll;
 
 }
 
-#chat_send {
-
-
-  position: fixed;
+#message {
+  position: absolute;
   bottom: 0;
-  margin: 1.5rem;
+  display: flex;
+  padding: 1rem;
+  width: 100vw;
+  justify-content: space-between;
+}
+
+#message :nth-child(1) {
+  flex-grow: 3;
+  width: 100%;
 }
 
 .close_chat {
- display: flex;
-  flex-direction: row-reverse;
-  margin: .5rem;
-
-
-}
-
-#message > div {
-
-  flex-grow: 1;
-
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 1rem;
 
 }
+
+.close_chat :hover {
+
+  color: $darkgrey;
+}
+
+
 
 .bulle_chat {
 
   width: 90%;
   border-radius: 10px;
 
+
+}
+
+.chat-window {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: -140vw;
+  background-color: $lightpurple;
+  transition: left 0.5s ease;
+}
+
+.chat-window.is-chatting {
+
+  left: 0;
+
+}
+
+.button-chat {
+
+  position : absolute;
+  left: 140vw;
+  top: 18vh;
+  rotate: -45deg;
+  padding: .5rem;
+  background-color: $lightpurple;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.button-chat:hover {
+
+  color: white;
 
 }
 

@@ -1,7 +1,7 @@
 {% autoescape %}
 <turbo-stream action="append" target="messages">
     <template>
-        <article>
+        <article class="bulle_chat box">
             <p>{{ message.user.username }}</p>
             <p>{{ message.content }}</p>
             <p>{{ message.createdAt|date("H:m") }}</p>

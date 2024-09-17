@@ -1,7 +1,16 @@
 {% autoescape %}
     {% block chat %}
-        <aside>
-        <span class="close_chat material-symbols-outlined">
+
+        <aside class="chat-window" data-controller="chat" data-action="turbolinks:before-cache@window->chat#animate"
+               data-chat-target="aside">
+            <div
+                    data-action="click->chat#animate"
+                    data-chat-target="open"
+                    class="button-chat">
+                <span class=" material-symbols-outlined">send</span>
+            </div>
+            <span data-action="click->chat#animate" data-chat-target="close"
+                  class="close_chat material-symbols-outlined">
 close
 </span>
             <section id="messages">
@@ -13,9 +22,9 @@ close
                     </article>
                 {% endfor %}
             </section>
-            <section id="chat_send">
-                {{ form(messageForm, {'action': path('salon.chat', {id: salon.id}) }) }}
-            </section>
+
+            {{ form(messageForm, {'action': path('salon.chat', {id: salon.id}) }) }}
+
 
         </aside>
     {% endblock %}
