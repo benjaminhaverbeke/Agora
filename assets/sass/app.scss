@@ -19,6 +19,7 @@ $flashgreen: #26CC23;
 /*fonts*/
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
+
 // <uniquifier>: Use a unique and descriptive class name
 // <weight>: Use a value from 100 to 900
 $inter: "Inter", sans-serif;
@@ -651,12 +652,27 @@ h1 {
 }
 
 
+
 #messages {
 
   height: 100vh;
-  position: static;
-  overflow: scroll;
+  position: relative;
+  overflow: auto;
+  bottom: 3rem;
+  z-index: -1;
+  display: flex;
+  flex-direction: column-reverse;
 
+
+
+  .message-user {
+    text-align: left;
+
+  }
+  .message-date {
+
+    text-align: right;
+  }
 }
 
 #message {
@@ -666,6 +682,7 @@ h1 {
   padding: 1rem;
   width: 100vw;
   justify-content: space-between;
+  background-color: $lightpurple;
 }
 
 #message :nth-child(1) {
@@ -692,6 +709,7 @@ h1 {
 
   width: 90%;
   border-radius: 10px;
+  background-color: white;
 
 
 }

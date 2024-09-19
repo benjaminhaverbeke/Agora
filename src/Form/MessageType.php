@@ -20,14 +20,18 @@ class MessageType extends AbstractType
             ->add('content', TextType::class, [
                 "label" => "Message",
                 "attr" => [
-                    'placeholder' => 'Message'
+                    'placeholder' => 'Message',
+                    'data-chat-target' => 'input',
+
+
                 ]
             ])
             ->add('save', SubmitType::class, [
                 'label' => "send",
 
                 'attr' => [
-                    'class' => "material-symbols-outlined"
+                    'class' => "material-symbols-outlined",
+                    'data-action' => "click->chat#scrolldown"
 
     ]
             ])
