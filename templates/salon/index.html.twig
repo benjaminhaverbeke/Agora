@@ -33,18 +33,20 @@
     <section class="box salon-app">
         <h1>{{ salon.title }}</h1>
         <p>{{ salon.description }}</p>
-        <div class="salon-app-btn">
-            <turbo-frame class="salon-edit-app" id="salon_{{ salon.id }}">
-                <a class="btn-icon" href="{{ path('salon.edit', {id: salon.id}) }}"><span
-                            class="material-symbols-outlined">
+        {% if time.type == 'campagne' %}
+            <div class="salon-app-btn">
+                <turbo-frame class="salon-edit-app" id="salon_{{ salon.id }}">
+                    <a class="btn-icon" href="{{ path('salon.edit', {id: salon.id}) }}"><span
+                                class="material-symbols-outlined">
                 edit
             </span>
+                    </a>
+                </turbo-frame>
+                <a class="btn-icon salon-delete-app" href="{{ path('salon.delete', {id: salon.id}) }}">
+                    <span class="material-symbols-outlined">delete</span>
                 </a>
-            </turbo-frame>
-            <a class="btn-icon salon-delete-app" href="{{ path('salon.delete', {id: salon.id}) }}">
-                <span class="material-symbols-outlined">delete</span>
-            </a>
-        </div>
+            </div>
+        {% endif %}
 
     </section>
 
@@ -59,19 +61,21 @@
 
 
     <section class="sujet-app">
-        <h2>Liste des sujets à voter</h2>
-        {% for sujet in salon.sujets %}
-            <article id="sujet_remove_{{ sujet.id }}" class="box">
+    <h2>Liste des sujets à voter</h2>
 
-                <h3>{{ sujet.title }}</h3>
+    {% for sujet in salon.sujets %}
+        <article id="sujet_remove_{{ sujet.id }}" class="box">
 
-                {#                            <p> #}
-                {#                                  Description : {{ sujet.description }} } #}
-                {#                               </p> #}
+            <h3>{{ sujet.title }}</h3>
 
+            {#                            <p> #}
+            {#                                  Description : {{ sujet.description }} } #}
+            {#                               </p> #}
+
+            {% if time.type == 'campagne' %}
                 <section class="sujet-btn">
                     <div class="btn-icon">
-                                <span class="material-symbols-outlined">search</span>
+                        <span class="material-symbols-outlined">search</span>
                     </div>
 
                     <a class="btn-icon" href="{{ path('sujet.edit', {id: sujet.id}) }}"><span
@@ -88,14 +92,15 @@
 
 
                 </section>
-                <ul class="proposals proposal_create_{{ sujet.id }}">
+            {% endif %}
+            <ul class="proposals proposal_create_{{ sujet.id }}">
 
-                    {% for proposal in sujet.proposals %}
-                        <li id="delete_proposal_{{ proposal.id }}">
-                            <p>{{ proposal.title }}</p>
+                {% for proposal in sujet.proposals %}
+                    <li id="delete_proposal_{{ proposal.id }}">
+                        <p>{{ proposal.title }}</p>
 
-                            {#                            <p>{{ proposal.description }}</p> #}
-
+                        {#                            <p>{{ proposal.description }}</p> #}
+                        {% if time.type == 'campagne' %}
                             <section>
                                 <div class="btn-icon">
                                 <span class="material-symbols-outlined">
@@ -117,18 +122,48 @@
                                 </span>
                                 </a>
                             </section>
-                        </li>
-                    {% endfor %}
 
-                </ul>
 
-            </article>
-        {% endfor %}
 
-    </section>
-    <section class="sujet-app-create">
-        <a class="btn" href="{{ path('sujet.create', {id: salon.id}) }}">Créer un nouveau sujet</a>
-    </section>
+
+
+                        {% elseif time.type == "vote" %}
+                            <section>
+                                <div class="btn-icon">
+                                <span class="material-symbols-outlined">
+                                    search
+                                </span>
+                                </div>
+                                <turbo-frame class="vote-select" id="vote_create_{{ proposal.id }}">
+                                    <a class="btn-icon" href="{{ path('vote.create', {id: proposal.id}) }}">
+                                <span class="material-symbols-outlined">
+                                    how_to_vote
+                                </span>
+                                    </a>
+                                </turbo-frame>
+                            </section>
+
+
+                        {% else %}
+
+
+                        {% endif %}
+                    </li>
+                {% endfor %}
+
+            </ul>
+
+        </article>
+    {% endfor %}
+    {% if time.type == 'campagne' %}
+        </section>
+        <section class="sujet-app-create">
+            <a class="btn" href="{{ path('sujet.create', {id: salon.id}) }}">Créer un nouveau sujet</a>
+        </section>
+    {% endif %}
+
+
+
 
 
     {% block chat %}

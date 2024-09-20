@@ -8,6 +8,7 @@ use App\Form\MessageType;
 use App\Form\SalonType;
 use App\Entity\Salon;
 use App\Entity\Message;
+use App\Form\VoteType;
 use App\Repository\InvitationRepository;
 use App\Repository\MessageRepository;
 use App\Repository\ProposalRepository;
@@ -114,6 +115,8 @@ class SalonController extends AbstractController
 
 //        $time_salon = $sm->timeProcess($salon);
 
+
+
         return $this->render('salon/index.html.twig', [
             'messageForm' => $messageForm,
             'salon' => $salon,
@@ -122,6 +125,8 @@ class SalonController extends AbstractController
 
 
         ]);
+
+
     }
 
     #[Route('salon/{id}/edit', name: 'salon.edit', requirements: ['id' => '\d+'])]

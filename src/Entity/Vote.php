@@ -23,6 +23,11 @@ class Vote
     #[ORM\Column(length: 255)]
     private ?string $notes = null;
 
+    #[ORM\ManyToOne(inversedBy: 'votes')]
+    private ?User $User = null;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -63,4 +68,18 @@ class Vote
 
         return $this;
     }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): static
+    {
+        $this->User = $User;
+
+        return $this;
+    }
+
+
 }

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Proposition{% endblock %}
+
+{% block body %}
+    <section class="box">
+        <turbo-frame class="vote-select" id="vote_create_{{ proposal.id }}">
+        {{ form_start(form, {action: path('vote.create', {id: proposal.id})}) }}
+            {{ form_row(form.notes) }}
+            {{ form_row(form.submit) }}
+            {{ form_end(form) }}
+        </turbo-frame>
+    </section>
+
+
+    {% block chat %}
+        {{ include('chat/chat.html.twig') }}
+    {% endblock %}
+{% endblock %}
