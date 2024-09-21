@@ -5,10 +5,29 @@
 {% block body %}
     <section class="box">
         <turbo-frame class="vote-select" id="vote_create_{{ proposal.id }}">
-        {{ form_start(form, {action: path('vote.create', {id: proposal.id})}) }}
-            {{ form_row(form.notes) }}
-            {{ form_row(form.submit) }}
-            {{ form_end(form) }}
+
+{# <form class="form-vote" method="post" action="{{ path('vote.create', {id: proposal.id}) }}">#}
+
+
+{#            <div id="vote_notes" class="form-vote">#}
+
+{#                {% for label, value in field_choices(form.notes) %}#}
+{#                    <div class="vote-field">#}
+{#                        <label for="{{ value }}-{{ proposal.id }}">{{ label }}</label>#}
+{#                        <input id="{{ value }}-{{ proposal.id }}" type="radio" value="{{ value }}" name="vote[notes]" required="required"/>#}
+
+{#                    </div>#}
+
+{#                {%  endfor %}#}
+
+{#            </div>#}
+
+{#                {{ form_rest(form) }}#}
+
+
+{#            </form>#}
+
+{{ form(form) }}
         </turbo-frame>
     </section>
 

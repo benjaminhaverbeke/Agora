@@ -39,14 +39,17 @@ class VoteController extends AbstractController
         $vote = new Vote();
         $voteForm = $this->createForm(VoteType::class, $vote);
 
+        dump($request->get('notes'));
 
         $voteForm->handleRequest($request);
+        dump($voteForm->handleRequest($request)->getData());
 
         if ($voteForm->isSubmitted() && $voteForm->isValid()) {
 
 
             $vote->setSujet($sujet);
             $vote->setProposal($proposal);
+
             $vote->setNotes($request->get('notes'));
 
 

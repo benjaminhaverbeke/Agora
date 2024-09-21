@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Event\PreSetDataEvent;
 use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
@@ -21,15 +22,21 @@ class VoteType extends AbstractType
     {
         $builder
             ->add('notes', ChoiceType::class, [
+                'attr' => ['class' => 'form-vote'],
                 'choices'  => [
-                    'Inadapte' => 'inadapte',
+                    'Inadapté' => 'inadapte',
                     'Passable' => 'passable',
                     'Bien' => 'bien',
                     'Très bien' => 'tresbien',
-                    'Excellent' => 'excellent'
+                    'Excellent' => 'excellent',
                 ],
-                'attr'=>['class' => 'radio-vote']
-            ])->add('submit', SubmitType::class, [
+
+                'expanded' => 'true',
+                'choice_attr' => function ($choice, string $key, mixed $value) {
+                    return ['class' => 'mention_'.strtolower($key)];
+                },
+            ])
+            ->add('submit', SubmitType::class, [
                     'label' => 'Valider',
                 'attr' => ['class' => 'btn']
             ]);
