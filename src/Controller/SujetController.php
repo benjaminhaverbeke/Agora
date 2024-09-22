@@ -38,30 +38,7 @@ class SujetController extends AbstractController
         $this->sm = $sm;
 
     }
-    #[Route('sujet/{id}', name: 'sujet.index', requirements: ['id' => '\d+'])]
-    public function index(int $id, Request $request): Response
-    {
-        $sujet = $this->sujm->find($id);
-        $salonId = $sujet->getSalon()->getId();
 
-        /***chat envoi message***/
-        $message = new Message();
-        $messageForm = $this->createForm(MessageType::class, $message);
-
-        $messageForm->handleRequest($request);
-
-        /***chat display messages***/
-
-        $messages = $this->mm->findBySalons($salonId);
-
-        /******/
-
-        return $this->render('sujet/proposal.html.twig', [
-            'sujet',
-            'messages' => $messages,
-
-        ]);
-    }
 
     #[Route('sujet/{id}/edit', name: 'sujet.edit', requirements: ['id' => '\d+'])]
     public function edit(int $id, Request $request, SalonController $sm): Response
