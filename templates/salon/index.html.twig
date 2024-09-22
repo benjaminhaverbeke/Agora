@@ -93,6 +93,8 @@
 
                 </section>
             {% endif %}
+
+            {% if time.type == 'campagne' %}
             <ul class="proposals proposal_create_{{ sujet.id }}">
 
                 {% for proposal in sujet.proposals %}
@@ -100,7 +102,7 @@
                         <p>{{ proposal.title }}</p>
 
                         {#                            <p>{{ proposal.description }}</p> #}
-                        {% if time.type == 'campagne' %}
+
                             <section>
                                 <div class="btn-icon">
                                 <span class="material-symbols-outlined">
@@ -125,33 +127,64 @@
 
 
 
+                                    </li>
+                        {% endfor %}
+            </ul>
 
 
+                
                         {% elseif time.type == "vote" %}
-                            <section>
-                                <div class="btn-icon">
-                                <span class="material-symbols-outlined">
-                                    search
-                                </span>
-                                </div>
-                                <turbo-frame class="vote-select" id="vote_create_{{ proposal.id }}">
-                                    <a class="btn-icon" href="{{ path('vote.create', {id: proposal.id}) }}">
-                                <span class="material-symbols-outlined">
-                                    how_to_vote
-                                </span>
-                                    </a>
-                                </turbo-frame>
-                            </section>
+                            
+                            <ul data-controller="voteForm">
+                            {% for proposal in sujet.proposals %}
+
+                                <li>
+                                    <ul data-controller="vote" data-action="vote:click->voteForm#save" data-vote-target="id"  data-id="{{ proposal.id }}" >
+                                        <li data-action="vote:test->voteForm#save" data-vote-target="mention" data-mention="inadapte">Inadapté</li>
+                                        <li data-action="click->vote#passable" data-vote-target="mention" data-mention="passable">Passable</li>
+                                        <li data-action="click->vote#bien" data-vote-target="mention" data-mention="bien">Bien</li>
+                                        <li data-action="click->vote#tresbien" data-vote-target="mention" data-mention="tresbien">Très Bien</li>
+                                        <li data-action="click->vote#excellent" data-vote-target="mention" data-mention="excellent">Excellent</li>
+                                    </ul>
+                                </li>
+
+                            {% endfor %}
+                            </ul>
+
+{#                            <section>#}
+{#                                <div class="btn-icon">#}
+{#                                <span class="material-symbols-outlined">#}
+{#                                    search#}
+{#                                </span>#}
+{#                                </div>#}
+{#                                <turbo-frame class="vote-select" id="vote_create_{{ proposal.id }}">#}
+{#                                    <a class="btn-icon" href="{{ path('vote.create', {id: proposal.id}) }}">#}
+{#                                <span class="material-symbols-outlined">#}
+{#                                    how_to_vote#}
+{#                                </span>#}
+{#                                    </a>#}
+{#                                </turbo-frame>#}
+
+{#                                {{ form_start(voteForm) }}#}
+{#                                <ul class="votes">#}
+{#                                    {% for vote in voteForm.votes %}#}
+{#                                        <li>{{ form_row(vote.notes) }}</li>#}
+{#                                    {% endfor %}#}
+{#                                </ul>#}
+{#                                {{ form_end(voteForm) }}#}
+{#                            </section>#}
+
+
 
 
                         {% else %}
 
 
                         {% endif %}
-                    </li>
-                {% endfor %}
 
-            </ul>
+
+
+
 
         </article>
     {% endfor %}
