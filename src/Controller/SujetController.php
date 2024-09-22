@@ -121,7 +121,7 @@ class SujetController extends AbstractController
         $sujet = new Sujet();
 
 
-        $form = $this->createForm(SujetType::class, $sujet);
+        $form = $this->createForm(SujetType::class, $sujet, ['type' => true]);
 
         $form->handleRequest($request);
 

@@ -68,7 +68,7 @@ class SujetType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Sujet::class,
-            'include_title' => true
+            'type' => false
 
         ]);
     }
