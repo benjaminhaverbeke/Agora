@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Invitation;
+use App\Entity\Proposal;
+use App\Entity\Sujet;
 use App\Form\InvitType;
 use App\Form\MessageType;
 use App\Form\ProposalType;
 use App\Form\SalonType;
 use App\Entity\Salon;
 use App\Entity\Message;
+use App\Form\SujetType;
 use App\Form\VoteType;
 use App\Repository\InvitationRepository;
 use App\Repository\MessageRepository;
@@ -19,6 +22,8 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -135,29 +140,23 @@ class SalonController extends AbstractController
         {
 
 
-            $voteForm = $this->createForm(ProposalType::class)
-                ->add('votes', CollectionType::class, [
-                    'entry_type' => VoteType::class,
-                    'entry_options' => ['label' => false]
-                ])->remove('title')->remove('description');
-
-
             return $this->render('salon/index.html.twig', [
                 'messageForm' => $messageForm,
                 'salon' => $salon,
                 'time' => $time,
                 'form' => $form,
-                'voteForm'  => $voteForm
-
             ]);
 
 
         }
 
+
         return $this->render('salon/index.html.twig', [
             'messageForm' => $messageForm,
             'salon' => $salon,
             'time' => $time,
+            'form' => $form,
+
 
 
         ]);

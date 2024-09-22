@@ -5,11 +5,16 @@
 {% block body %}
 
     <section class="box">
-        <h1>{{ sujet.title }}</h1>
 
-{#        <turbo-frame id="sujet_{{ sujet.id }}">#}
-            {{ form(form, {action: path('sujet.edit', {id: sujet.id})}) }}
-{#        </turbo-frame>#}
+        <turbo-frame id="sujet_{{ sujet.id }}">
+            {{ form_start(form, {action: path('sujet.edit', {id: sujet.id})}) }}
+            {% for label,  %}
+            {{ form_label(form.name) }}
+
+
+            {{ form_end(form, {render_rest: false}) }}
+
+        </turbo-frame>
 
     </section>
 

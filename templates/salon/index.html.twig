@@ -134,22 +134,12 @@
 
                 
                         {% elseif time.type == "vote" %}
-                            
-                            <ul data-controller="voteForm">
-                            {% for proposal in sujet.proposals %}
 
-                                <li>
-                                    <ul data-controller="vote" data-action="vote:click->voteForm#save" data-vote-target="id"  data-id="{{ proposal.id }}" >
-                                        <li data-action="vote:test->voteForm#save" data-vote-target="mention" data-mention="inadapte">Inadapté</li>
-                                        <li data-action="click->vote#passable" data-vote-target="mention" data-mention="passable">Passable</li>
-                                        <li data-action="click->vote#bien" data-vote-target="mention" data-mention="bien">Bien</li>
-                                        <li data-action="click->vote#tresbien" data-vote-target="mention" data-mention="tresbien">Très Bien</li>
-                                        <li data-action="click->vote#excellent" data-vote-target="mention" data-mention="excellent">Excellent</li>
-                                    </ul>
-                                </li>
 
-                            {% endfor %}
-                            </ul>
+                            <a class="btn-icon" href="{{ path('sujet.edit', {id: sujet.id}) }}"><span
+                                        class="material-symbols-outlined">edit</span>
+                            </a>
+
 
 {#                            <section>#}
 {#                                <div class="btn-icon">#}
