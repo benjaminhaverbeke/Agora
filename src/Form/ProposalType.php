@@ -6,6 +6,7 @@ use App\Entity\Proposal;
 use App\Entity\Salon;
 use App\Entity\Sujet;
 use App\Entity\User;
+use App\Entity\Vote;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
@@ -26,39 +27,34 @@ class ProposalType extends AbstractType
 
         $isVote = $options['vote'] ?? 'vote';
 
-        if($isVote) {
+        if ($isVote) {
 
             $builder
+                ->add('title', TextType::class, [
+                    'label' => 'Titre',
+                    'disabled' => true,
+                ])
                 ->add('votes', CollectionType::class, [
-                'entry_type' => VoteType::class,
-                'allow_delete' => false,
-                'allow_add' => true,
-                'by_reference' => false,
+                        'entry_type' => VoteType::class,
+                        'allow_add' => true,
+                    ]
 
-            ]);
+                );
 
             $builder->get('votes')->addEventListener(FormEvents::PRE_SET_DATA,
                 function (FormEvent $event) use ($isVote) {
 
-                            $form = $event->getForm();
+                    $form = $event->getForm();
 
-                            $form->add('notes', ChoiceType::class, [
-                                'attr' => ['class' => 'label-active'],
-                                'expanded' => true,
-                                'choices' => [
-                                    'Inadapte' => 'inadapte',
-                                    'Passable' => 'passable',
-                                    'Bien' => 'bien',
-                                    'Très Bien' => 'tresbien',
-                                    'Excellent' => 'excellent',
-                                ]
 
-                            ]);
+                    dump($event->getForm());
+                    $form->add('notes', VoteType::class, [
+
+
+                    ]);
                 });
 
-
-        }
-        else{
+        } else {
 
             $builder
                 ->add('title', TextType::class, [

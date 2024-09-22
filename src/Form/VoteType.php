@@ -24,8 +24,13 @@ class VoteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('notes', TextType::class, [
-                'label' => 'Mention',
+            ->add('notes', ChoiceType::class, [
+                'choices' => [
+
+                    'Inadapté' => 'inadapte',
+                    'Passable' => 'passable',
+
+                ]
             ]);
 
     }

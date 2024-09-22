@@ -69,6 +69,7 @@ class ProposalController extends AbstractController
             $proposal->setUser($sujet->getSalon()->getUser());
             $proposal->setSalon($sujet->getSalon());
             $proposal->setSujet($sujet);
+            $sujet->addProposal($proposal);
 
             $this->em->persist($proposal);
 

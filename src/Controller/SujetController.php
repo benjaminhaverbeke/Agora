@@ -120,11 +120,13 @@ class SujetController extends AbstractController
 
         $sujet = new Sujet();
 
+
         $form = $this->createForm(SujetType::class, $sujet);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+
 
             $sujet->setSalon($salon);
             $user = $this->getUser();

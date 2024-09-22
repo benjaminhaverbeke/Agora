@@ -19,9 +19,11 @@ class SujetType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $isVote = $options['vote'] ?? 'vote';
 
-        if($isVote) {
+
+
+
+        if($options['type'] === "vote") {
 
             $builder
                 ->add('proposals', CollectionType::class, [

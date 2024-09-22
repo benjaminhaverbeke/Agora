@@ -7,12 +7,7 @@
     <section class="box">
 
         <turbo-frame id="sujet_{{ sujet.id }}">
-            {{ form_start(form, {action: path('sujet.edit', {id: sujet.id})}) }}
-            {% for label,  %}
-            {{ form_label(form.name) }}
-
-
-            {{ form_end(form, {render_rest: false}) }}
+            {{ form(form, {action: path('sujet.edit', {id: sujet.id})}) }}
 
         </turbo-frame>
 
