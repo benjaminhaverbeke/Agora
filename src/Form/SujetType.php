@@ -23,7 +23,7 @@ class SujetType extends AbstractType
 
 
 
-        if($options['type'] === "vote") {
+        if($options['vote'] === true) {
 
             $builder
                 ->add('proposals', CollectionType::class, [
@@ -68,8 +68,7 @@ class SujetType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Sujet::class,
-            'type' => false
-
+            'vote' => false
         ]);
     }
 }

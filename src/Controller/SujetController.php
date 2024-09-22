@@ -64,7 +64,7 @@ class SujetController extends AbstractController
     }
 
     #[Route('sujet/{id}/edit', name: 'sujet.edit', requirements: ['id' => '\d+'])]
-    public function edit(int $id, Request $request): Response
+    public function edit(int $id, Request $request, SalonController $sm): Response
     {
         $sujet = $this->sujm->find($id);
 
@@ -83,7 +83,9 @@ class SujetController extends AbstractController
 
         /******/
 
-        $form = $this->createForm(SujetType::class, $sujet);
+       $time = $sm->timeProcess($salon);
+
+        $form = $this->createForm(SujetType::class, $sujet, ['vote' => true]);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -121,7 +123,7 @@ class SujetController extends AbstractController
         $sujet = new Sujet();
 
 
-        $form = $this->createForm(SujetType::class, $sujet, ['type' => true]);
+        $form = $this->createForm(SujetType::class, $sujet);
 
         $form->handleRequest($request);
 

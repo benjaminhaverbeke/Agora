@@ -305,7 +305,7 @@ class SalonController extends AbstractController
     }
 
 
-    private function timeProcess(Salon $salon): array
+    public function timeProcess(Salon $salon): array
     {
 
         /*méthode qui
