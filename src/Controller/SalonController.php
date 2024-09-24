@@ -115,29 +115,13 @@ class SalonController extends AbstractController
 
         }
 
-
-
-
 //        $result = $election->isElected($lastsujet->getId());
 
 //        $time_salon = $sm->timeProcess($salon);
 
-
-        if($time['type'] === "campagne")
-        {
-            return $this->render('salon/index.html.twig', [
-                'messageForm' => $messageForm,
-                'salon' => $salon,
-                'time' => $time,
-                'form' => $form
+        if($time['type'] ==='vote'){
 
 
-            ]);
-
-        }
-
-        if($time['type'] === "vote")
-        {
 
 
             return $this->render('salon/index.html.twig', [
@@ -145,12 +129,12 @@ class SalonController extends AbstractController
                 'salon' => $salon,
                 'time' => $time,
                 'form' => $form,
+
+
+
             ]);
 
-
         }
-
-
         return $this->render('salon/index.html.twig', [
             'messageForm' => $messageForm,
             'salon' => $salon,

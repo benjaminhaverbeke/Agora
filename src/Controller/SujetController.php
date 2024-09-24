@@ -11,6 +11,7 @@ use App\Form\SujetType;
 use App\Repository\MessageRepository;
 use App\Repository\SalonRepository;
 use App\Repository\SujetRepository;
+use App\Repository\VoteRepository;
 use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\UX\Turbo\TurboBundle;
+use App\Entity\Vote;
 
 class SujetController extends AbstractController
 {
@@ -45,7 +47,6 @@ class SujetController extends AbstractController
     {
         $sujet = $this->sujm->find($id);
 
-        dump($sujet);
         $salon = $sujet->getSalon();
 
         /***chat envoi message***/
@@ -60,12 +61,16 @@ class SujetController extends AbstractController
 
         /******/
 
-       $time = $sm->timeProcess($salon);
 
-        $form = $this->createForm(SujetType::class, $sujet, ['vote' => true]);
+
+        $form = $this->createForm(SujetType::class, $sujet, ['vote' => false]);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+
+
+
+
             $this->em->flush();
             $this->addFlash('success', "Les paramètres du sujet ont bien été modifiés");
             return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
@@ -113,7 +118,6 @@ class SujetController extends AbstractController
             $salon->getSujets()->add($sujet);
             $this->em->persist($sujet);
 
-            dump($salon);
             $this->em->flush();
             $this->addFlash('success', 'Le sujet a bien été crée');
             return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
@@ -142,5 +146,107 @@ class SujetController extends AbstractController
 
             return $this->redirectToRoute('salon.index', ['id' => $sujetTodelete->getSalon()->getId()]);
     }
+
+    #[Route('sujet/{id}/vote', name: 'sujet.vote', requirements: ['id' => '\d+'])]
+    public function vote(int $id, Request $request): Response
+    {
+        $sujet = $this->sujm->find($id);
+
+        $salon = $sujet->getSalon();
+
+        /***chat envoi message***/
+        $message = new Message();
+        $messageForm = $this->createForm(MessageType::class, $message);
+
+        $messageForm->handleRequest($request);
+
+        /***chat display messages***/
+
+        $messages = $this->mm->findBySalons($salon->getId());
+
+        /******/
+
+        $proposals = $sujet->getProposals();
+
+        foreach ($proposals as $proposal){
+
+            $vote = new Vote();
+            $vote->setSujet($sujet);
+            $vote->setProposal($proposal);
+            $vote->setUser($this->getUser());
+            $proposal->getVotes()->add($vote);
+        }
+
+
+
+        $form = $this->createForm(SujetType::class, $sujet, ['vote' => true]);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+
+            $sujet->setHasVote(true);
+            $this->em->persist($sujet);
+            $this->em->flush();
+            $this->addFlash('success', "Les votes ont bien été pris en compte");
+            return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
+        }
+
+        return $this->render('sujet/vote.html.twig', [
+            'sujet' =>$sujet,
+            'form' =>$form,
+            'messages'=> $messages,
+            'messageForm' => $messageForm,
+            'salon' => $salon
+        ]);
+    }
+
+    #[Route('sujet/{id}/hasvote', name: 'sujet.hasvote', requirements: ['id' => '\d+'])]
+    public function hasvote(int $id, Request $request, VoteRepository $vm): Response
+    {
+        $sujet = $this->sujm->find($id);
+
+        $salon = $sujet->getSalon();
+
+        /***chat envoi message***/
+        $message = new Message();
+        $messageForm = $this->createForm(MessageType::class, $message);
+
+        $messageForm->handleRequest($request);
+
+        /***chat display messages***/
+
+        $messages = $this->mm->findBySalons($salon->getId());
+
+        /******/
+
+       $proposals =  $sujet->getProposals();
+       $result = [];
+
+       foreach ($proposals as $proposal){
+
+           $userVote = array_search($this->getUser(), $proposal->getVotes());
+
+
+          $result[] = [
+
+               'proposal' => $proposal,
+               'vote' => $userVote
+       ];
+
+       }
+
+        return $this->render('sujet/hasvote.html.twig', [
+            'sujet' =>$sujet,
+            'messages'=> $messages,
+            'messageForm' => $messageForm,
+            'salon' => $salon,
+            'result' => $result
+
+        ]);
+
+
+    }
+
 
 }

@@ -41,18 +41,17 @@ class ProposalType extends AbstractType
 
                 );
 
-            $builder->get('votes')->addEventListener(FormEvents::PRE_SET_DATA,
-                function (FormEvent $event) use ($isVote) {
-
-                    $form = $event->getForm();
-
-
-                    dump($event->getForm());
-                    $form->add('notes', VoteType::class, [
-
-
-                    ]);
-                });
+//            $builder->get('votes')->addEventListener(FormEvents::PRE_SET_DATA,
+//                function (FormEvent $event) use ($isVote) {
+//
+//                    $form = $event->getForm();
+//
+//
+//                    $form->add('notes', VoteType::class, [
+//
+//
+//                    ]);
+//                });
 
         } else {
 

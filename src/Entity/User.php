@@ -61,6 +61,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'User')]
     private Collection $votes;
 
+    #[ORM\ManyToOne(inversedBy: 'voters')]
+    private ?Proposal $voted = null;
+
+
 
 
     public function getId(): ?int
@@ -218,6 +222,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getVoted(): ?Proposal
+    {
+        return $this->voted;
+    }
+
+    public function setVoted(?Proposal $voted): static
+    {
+        $this->voted = $voted;
+
+        return $this;
+    }
+
+
+
 
 
 }

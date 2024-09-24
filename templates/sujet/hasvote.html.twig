@@ -4,12 +4,16 @@
 
 {% block body %}
 
+     {% for proposal, vote in result %}
     <section class="box">
 
-            {{ form(form, {action: path('sujet.edit', {id: sujet.id})}) }}
+    {{ proposal.title }}
+        {{ vote.notes }}
 
 
     </section>
+
+    {%  endfor %}
 
 
     {% block chat %}

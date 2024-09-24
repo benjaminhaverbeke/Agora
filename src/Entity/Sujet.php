@@ -34,10 +34,19 @@ class Sujet
     #[ORM\ManyToOne(inversedBy: 'sujets')]
     private ?Salon $salon = null;
 
+    /**
+     * @var Collection<int, User>
+     */
+
+
+
+
+
 
     public function __construct()
     {
         $this->proposals = new ArrayCollection();
+        $this->voters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -118,6 +127,5 @@ class Sujet
         return $this;
 
     }
-
 
 }

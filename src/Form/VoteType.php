@@ -29,6 +29,9 @@ class VoteType extends AbstractType
 
                     'Inadapté' => 'inadapte',
                     'Passable' => 'passable',
+                    'Bien' => 'bien',
+                    'Très Bien' => 'tresbien',
+                    'Excellent' => 'excellent',
 
                 ]
             ]);

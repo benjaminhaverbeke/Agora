@@ -34,9 +34,16 @@ class Proposal
     #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'proposal', cascade: ['persist', 'remove'])]
     private Collection $votes;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'voted')]
+    private Collection $voters;
+
     public function __construct(){
 
         $this->votes = new ArrayCollection();
+        $this->voters = new ArrayCollection();
 
 
     }
@@ -138,6 +145,36 @@ class Proposal
     public function removeVote(Vote $vote): static
     {
         $this->votes->removeElement($vote);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getVoters(): Collection
+    {
+        return $this->voters;
+    }
+
+    public function addVoter(User $voter): static
+    {
+        if (!$this->voters->contains($voter)) {
+            $this->voters->add($voter);
+            $voter->setVoted($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVoter(User $voter): static
+    {
+        if ($this->voters->removeElement($voter)) {
+            // set the owning side to null (unless already changed)
+            if ($voter->getVoted() === $this) {
+                $voter->setVoted(null);
+            }
+        }
 
         return $this;
     }
