@@ -43,20 +43,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getOneOrNullResult();
     }
 
-    //    /**
-    //     * @return User[] Returns an array of User objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+
+
+
+        /**
+         * @return User[] Returns an array of User objects
+         */
+        public function findSujetsVotedByUser($value): array
+        {
+            return $this->createQueryBuilder('u')
+                ->andWhere('u.id = :val')
+                ->setParameter('val', $value)
+                ->leftJoin('u.voted', 'v')
+                ->getQuery()
+                ->getResult()
+            ;
+        }
 
     //    public function findOneBySomeField($value): ?User
     //    {

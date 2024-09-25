@@ -22,6 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->created_at = new \DateTimeImmutable();
         $this->salons = new ArrayCollection();
         $this->votes = new ArrayCollection();
+        $this->voted = new ArrayCollection();
     }
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -61,10 +62,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'User')]
     private Collection $votes;
 
-    #[ORM\ManyToOne(inversedBy: 'voters')]
-    private ?Proposal $voted = null;
-
-
+    /**
+     * @var Collection<int, Sujet>
+     */
+    #[ORM\ManyToMany(targetEntity: Sujet::class, mappedBy: 'voters', cascade: ['persist', 'remove'])]
+    private Collection $voted;
 
 
     public function getId(): ?int
@@ -223,17 +225,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getVoted(): ?Proposal
+    /**
+     * @return Collection<int, Sujet>
+     */
+    public function getVoted(): Collection
     {
         return $this->voted;
     }
 
-    public function setVoted(?Proposal $voted): static
+    public function addVoted(Sujet $voted): static
     {
-        $this->voted = $voted;
+        if (!$this->voted->contains($voted)) {
+            $this->voted->add($voted);
+            $voted->addVoter($this);
+        }
 
         return $this;
     }
+
+    public function removeVoted(Sujet $voted): static
+    {
+        if ($this->voted->removeElement($voted)) {
+            $voted->removeVoter($this);
+        }
+
+        return $this;
+    }
+
+
 
 
 

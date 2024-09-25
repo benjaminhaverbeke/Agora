@@ -37,6 +37,12 @@ class Sujet
     /**
      * @var Collection<int, User>
      */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'voted', cascade: ['persist', 'remove'])]
+    private Collection $voters;
+
+    /**
+     * @var Collection<int, User>
+     */
 
 
 
@@ -126,6 +132,30 @@ class Sujet
 
         return $this;
 
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getVoters(): Collection
+    {
+        return $this->voters;
+    }
+
+    public function addVoter(User $voter): static
+    {
+        if (!$this->voters->contains($voter)) {
+            $this->voters->add($voter);
+        }
+
+        return $this;
+    }
+
+    public function removeVoter(User $voter): static
+    {
+        $this->voters->removeElement($voter);
+
+        return $this;
     }
 
 }

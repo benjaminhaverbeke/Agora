@@ -61,7 +61,7 @@
 
 <section class="sujet-app">
     <h2>Liste des sujets à voter</h2>
-
+    {% if time.type == 'campagne' %}
     {% for sujet in salon.sujets %}
     <article id="sujet_remove_{{ sujet.id }}" class="box">
 
@@ -71,7 +71,7 @@
         {#                                  Description : {{ sujet.description }} } #}
         {#                               </p> #}
 
-        {% if time.type == 'campagne' %}
+
             <section class="sujet-btn">
                 <div class="btn-icon">
                     <span class="material-symbols-outlined">search</span>
@@ -91,9 +91,6 @@
 
 
             </section>
-        {% endif %}
-
-        {% if time.type == 'campagne' %}
         <ul class="proposals proposal_create_{{ sujet.id }}">
 
             {% for proposal in sujet.proposals %}
@@ -128,32 +125,41 @@
                 </li>
             {% endfor %}
         </ul>
+    {% endfor %}
+            {% elseif time.type == "vote" %}
 
 
-        {% elseif time.type == "vote" %}
+            {% for sujet in sujetsVoted %}
+                <section>
+                    {{ sujet.title }}
+                    {{  sujet.description }}
 
-        {% for proposal in sujet.proposals %}
-
-            {% for voter in proposal.voters %}
-
-                {% if voter == app.user %}
-
-                {% endif %}
-
-            {% endfor %}
-
-        {% endfor %}
+                    <a class="btn-icon" href="{{ path('sujet.vote', {id: sujet.id}) }}"><span
+                                class="material-symbols-outlined">edit</span>
+                    </a>
+                </section>
 
 
-        <a class="btn-icon" href="{{ path('sujet.vote', {id: sujet.id}) }}"><span
-                    class="material-symbols-outlined">edit</span>
-        </a>
+                {% endfor %}
+{#            verification des sujets déjà validés #}
+
+    {% else %}
 
 
-        <a class="btn-icon" href="{{ path('sujet.hasvote', {id: sujet.id}) }}"><span
-                    class="material-symbols-outlined">look</span>
+        {% endif %}
 
-            {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             {#                            <section> #}
@@ -181,15 +187,8 @@
 
 
 
-
-            {% else %}
-
-
-            {% endif %}
-
-
     </article>
-    {% endfor %}
+
     {% if time.type == 'campagne' %}
 </section>
     <section class="sujet-app-create">

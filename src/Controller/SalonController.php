@@ -53,11 +53,12 @@ class SalonController extends AbstractController
     #[Route('/salon/{id}', name: 'salon.index', requirements: ['id' => '\d+'])]
     public function index(
         int                  $id,
-        SujetRepository      $sujet,
+        SujetRepository      $sujm,
         Request              $request,
         UserRepository       $um,
         ProposalRepository   $pm,
-        InvitationRepository $im
+        InvitationRepository $im,
+        EntityManagerInterface $em
     ): Response
     {
 
@@ -122,13 +123,46 @@ class SalonController extends AbstractController
         if($time['type'] ==='vote'){
 
 
+            $sujetsVoted = [];
 
+
+            $sujets = $salon->getSujets();
+            foreach ($sujets as $sujet) {
+
+//                $voted = $sujm->findSujetsVoted($this->getUser()->getId(), $sujet->getId());
+//                dump($voted);
+//
+               $voters = $sujet->getVoters();
+//                $removeVoter = $sujet->removeVoter($this->getUser());
+//                $voted = $this->getUser()->getVoted();
+//                $removeVoted = $this->getUser()->removeVoted($voted[0]);
+//                $em->persist($removeVoted);
+//                $em->persist($removeVoter);
+//                $em->flush();
+//                dump($voters->isEmpty());
+//                dump($voted);
+
+                $exists = $voters->exists(function($key, $value) {
+
+
+                    return $value === $this->getUser();
+                });
+
+                if($exists === false){
+
+                    $sujetsVoted[] = $sujet;
+
+                }
+            }
+
+            dump($sujetsVoted);
 
             return $this->render('salon/index.html.twig', [
                 'messageForm' => $messageForm,
                 'salon' => $salon,
                 'time' => $time,
                 'form' => $form,
+                'sujetsVoted' => $sujetsVoted
 
 
 

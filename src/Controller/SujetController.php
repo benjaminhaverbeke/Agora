@@ -183,10 +183,12 @@ class SujetController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            $user = $this->getUser();
+
+            $sujet->addVoter($user);
+            $user->addVoted($sujet);
 
 
-            $sujet->setHasVote(true);
-            $this->em->persist($sujet);
             $this->em->flush();
             $this->addFlash('success', "Les votes ont bien été pris en compte");
             return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
@@ -201,52 +203,7 @@ class SujetController extends AbstractController
         ]);
     }
 
-    #[Route('sujet/{id}/hasvote', name: 'sujet.hasvote', requirements: ['id' => '\d+'])]
-    public function hasvote(int $id, Request $request, VoteRepository $vm): Response
-    {
-        $sujet = $this->sujm->find($id);
 
-        $salon = $sujet->getSalon();
-
-        /***chat envoi message***/
-        $message = new Message();
-        $messageForm = $this->createForm(MessageType::class, $message);
-
-        $messageForm->handleRequest($request);
-
-        /***chat display messages***/
-
-        $messages = $this->mm->findBySalons($salon->getId());
-
-        /******/
-
-       $proposals =  $sujet->getProposals();
-       $result = [];
-
-       foreach ($proposals as $proposal){
-
-           $userVote = array_search($this->getUser(), $proposal->getVotes());
-
-
-          $result[] = [
-
-               'proposal' => $proposal,
-               'vote' => $userVote
-       ];
-
-       }
-
-        return $this->render('sujet/hasvote.html.twig', [
-            'sujet' =>$sujet,
-            'messages'=> $messages,
-            'messageForm' => $messageForm,
-            'salon' => $salon,
-            'result' => $result
-
-        ]);
-
-
-    }
 
 
 }

@@ -3,7 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Sujet;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -66,6 +69,23 @@ class SujetRepository extends ServiceEntityRepository
 
 
     }
+
+    public function findSujetsVoted(int $userId, int $sujetId): array
+    {
+        return $this->createQueryBuilder('s')
+
+            ->leftJoin('s.voters', 'u')
+            ->where('s.id = :sujet_id AND u.id = :user_id')
+            ->setParameters(new ArrayCollection((array(
+                new Parameter('sujet_id', $sujetId),
+                new Parameter('user_id', $userId)
+            ))))
+            ->getQuery()
+            ->getResult();
+
+    }
+
+
 
 
 }
