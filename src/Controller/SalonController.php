@@ -52,12 +52,12 @@ class SalonController extends AbstractController
 
     #[Route('/salon/{id}', name: 'salon.index', requirements: ['id' => '\d+'])]
     public function index(
-        int                  $id,
-        SujetRepository      $sujm,
-        Request              $request,
-        UserRepository       $um,
-        ProposalRepository   $pm,
-        InvitationRepository $im,
+        int                    $id,
+        SujetRepository        $sujm,
+        Request                $request,
+        UserRepository         $um,
+        ProposalRepository     $pm,
+        InvitationRepository   $im,
         EntityManagerInterface $em
     ): Response
     {
@@ -120,50 +120,57 @@ class SalonController extends AbstractController
 
 //        $time_salon = $sm->timeProcess($salon);
 
-        if($time['type'] ==='vote'){
+        if ($time['type'] === 'vote') {
 
 
-            $sujetsVoted = [];
+            $sujetIsVoted = [];
 
 
             $sujets = $salon->getSujets();
+
             foreach ($sujets as $sujet) {
-
-//                $voted = $sujm->findSujetsVoted($this->getUser()->getId(), $sujet->getId());
-//                dump($voted);
+//                $sujet->removeVoter($this->getUser());
 //
-               $voters = $sujet->getVoters();
-//                $removeVoter = $sujet->removeVoter($this->getUser());
-//                $voted = $this->getUser()->getVoted();
-//                $removeVoted = $this->getUser()->removeVoted($voted[0]);
-//                $em->persist($removeVoted);
-//                $em->persist($removeVoter);
+//                $em->persist($sujet);
 //                $em->flush();
-//                dump($voters->isEmpty());
-//                dump($voted);
 
-                $exists = $voters->exists(function($key, $value) {
+                $voters = $sujet->getVoters();
+
+
+                $userhasVoted = $voters->exists(function ($key, $value) {
 
 
                     return $value === $this->getUser();
                 });
 
-                if($exists === false){
+                if ($userhasVoted === false) {
 
-                    $sujetsVoted[] = $sujet;
+                    $sujetIsVoted[] = [
+                        'voted' => false,
+                        'sujet' => $sujet
+                    ];
 
                 }
+                else {
+                    $sujetIsVoted[] = [
+                      'voted' => true,
+                      'sujet' => $sujet
+                    ];
+                }
+
+                dump($voters);
+
             }
 
-            dump($sujetsVoted);
+
+
 
             return $this->render('salon/index.html.twig', [
                 'messageForm' => $messageForm,
                 'salon' => $salon,
                 'time' => $time,
                 'form' => $form,
-                'sujetsVoted' => $sujetsVoted
-
+                'sujetIsVoted' => $sujetIsVoted
 
 
             ]);
@@ -174,7 +181,6 @@ class SalonController extends AbstractController
             'salon' => $salon,
             'time' => $time,
             'form' => $form,
-
 
 
         ]);

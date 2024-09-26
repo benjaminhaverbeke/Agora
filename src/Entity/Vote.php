@@ -14,7 +14,7 @@ class Vote
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Proposal::class, inversedBy: 'votes')]
+    #[ORM\ManyToOne(targetEntity: Proposal::class, cascade: ['persist'], inversedBy: 'votes')]
     private ?Proposal $proposal = null;
 
     #[ORM\ManyToOne(targetEntity: Sujet::class)]

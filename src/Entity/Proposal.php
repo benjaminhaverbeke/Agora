@@ -19,7 +19,7 @@ class Proposal
     #[ORM\ManyToOne(targetEntity: Salon::class)]
     private ?Salon $salon;
 
-    #[ORM\ManyToOne(targetEntity: Sujet::class, inversedBy: 'proposals')]
+    #[ORM\ManyToOne(targetEntity: Sujet::class, cascade: ['persist'], inversedBy: 'proposals' )]
     private ?Sujet $sujet;
 
     #[ORM\Column(length: 255)]
@@ -31,7 +31,7 @@ class Proposal
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $user;
 
-    #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'proposal', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'proposal', cascade: ['remove'], orphanRemoval: true)]
     private Collection $votes;
 
     /**
