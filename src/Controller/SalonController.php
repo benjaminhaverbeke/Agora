@@ -129,10 +129,7 @@ class SalonController extends AbstractController
             $sujets = $salon->getSujets();
 
             foreach ($sujets as $sujet) {
-//                $sujet->removeVoter($this->getUser());
 //
-//                $em->persist($sujet);
-//                $em->flush();
 
                 $voters = $sujet->getVoters();
 
@@ -152,13 +149,28 @@ class SalonController extends AbstractController
 
                 }
                 else {
+
+                    $votes = $this->getUser()->getVotes();
+
+
+                    $result = $votes->filter(function($element, $sujet){
+
+                            if($element->getSujet($sujet))
+                            {
+
+                                return $element;
+                            }
+
+                   });
+
+
                     $sujetIsVoted[] = [
                       'voted' => true,
-                      'sujet' => $sujet
+                      'sujet' => $sujet,
+                        'votes' => $result
                     ];
                 }
 
-                dump($voters);
 
             }
 

@@ -148,7 +148,7 @@ class SujetController extends AbstractController
     }
 
     #[Route('sujet/{id}/vote', name: 'sujet.vote', requirements: ['id' => '\d+'])]
-    public function vote(int $id, Request $request): Response
+    public function vote(int $id, Request $request, EntityManagerInterface $em): Response
     {
         $sujet = $this->sujm->find($id);
 
@@ -178,16 +178,20 @@ class SujetController extends AbstractController
         }
 
 
-
         $form = $this->createForm(SujetType::class, $sujet, ['vote' => true]);
 
         $form->handleRequest($request);
+
+
         if($form->isSubmitted() && $form->isValid()){
+
+
             $user = $this->getUser();
 
             $sujet->addVoter($user);
             $user->addVoted($sujet);
-
+            $em->persist($sujet);
+            $em->persist($user);
 
             $this->em->flush();
             $this->addFlash('success', "Les votes ont bien été pris en compte");

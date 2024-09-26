@@ -131,35 +131,58 @@
 
         {% for sujet in sujetIsVoted %}
 
-            <section>
+            <article class="box">
+
+
 
             {{ sujet.sujet.title }}
 
 
             {% if sujet.voted == true %}
 
-                {% for proposal in sujet.sujet.proposals %}
+                {% for vote in sujet.votes %}
 
-                    {{ proposal.title }}
+                    <div>
+                        {{ vote.proposal.title }}
+                    </div>
+                    <div>
+                        {{ vote.notes }}
+                    </div>
+
+
+
+
 
                 {% endfor %}
 
-            {% else %}
+            {% elseif sujet.sujet.proposals|length == 0  %}
 
-                {% for proposal in sujet.sujet.proposals %}
+
+                {{ sujet.sujet.title }}
+                <p>Ce sujet n'a pas reçu de proposition</p>
+{#                gerer le cas ou un sujet n'a pas de propositions#}
+
+
+                {% else %}
+
+                <section class="sujet-btn">
 
                     <a class="btn-icon" href="{{ path('sujet.vote', {id: sujet.sujet.id}) }}"><span
                                 class="material-symbols-outlined">edit</span>
                     </a>
 
-                {% endfor %}
-
-
-
-
-
-
                 </section>
+
+
+
+
+
+
+
+
+
+
+                </article>
             {% endif %}
 
 
