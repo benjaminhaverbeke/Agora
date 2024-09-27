@@ -19,9 +19,12 @@ use App\Repository\ProposalRepository;
 use App\Repository\SalonRepository;
 use App\Repository\SujetRepository;
 use App\Repository\UserRepository;
+use App\Service\ElectionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -58,7 +61,8 @@ class SalonController extends AbstractController
         UserRepository         $um,
         ProposalRepository     $pm,
         InvitationRepository   $im,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        ElectionManager $election
     ): Response
     {
 
@@ -79,46 +83,83 @@ class SalonController extends AbstractController
 
         /*** invitation ***/
 
-        $form = $this->createForm(InvitType::class);
+        $form = $this->createFormBuilder()
+        ->add('email', EmailType::class, [
+            'attr' => [
+                'placeholder' => "Email de l'utilisateur"
+            ]
+        ])
+        ->add('save', SubmitType::class, [
+            'label' => 'Envoyer',
+            'attr' => [
+                'class'=> "btn"
+            ]
+        ])->getForm();
 
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $email = $form->getData()["email"];
+
             $receiver = $um->findOneBy(['email' => $email]);
-
-            $isInvited = $im->findByReceiverField($receiver);
-
 
             if ($receiver === null) {
 
-                $this->addFlash('error-invit', "Utilisateur introuvable");
+                if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
+
+                    dump('introuvable');
+                    // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
+                    $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+                    return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'introuvable']);
+                }
 
 
-            } elseif (count($isInvited) > 1) {
-
-                $this->addFlash('error-exist', 'Invitation déjà envoyée');
             } else {
 
-                $sender = $this->getUser();
-                $invit = new Invitation();
+                $isInvited = $im->findBy(['receiver' => $receiver]);
 
-                $invit->setSalon($salon);
-                $invit->setReceiver($receiver);
-                $invit->setSender($sender);
+                if(count($isInvited) > 1) {
 
-                $this->em->persist($invit);
-                $this->em->flush();
-                $this->addFlash('success-invit', "Utilisateur invité");
+                    if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
+
+
+                        // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
+                        $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+                        return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'exist']);
+                    }
+
+
+                }else {
+                    $sender = $this->getUser();
+                    $invit = new Invitation();
+
+                    $invit->setSalon($salon);
+                    $invit->setReceiver($receiver);
+                    $invit->setSender($sender);
+
+                    $this->em->persist($invit);
+                    $this->em->flush();
+
+
+                    if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
+
+
+                        // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
+                        $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+                        return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'valid']);
+                    }
+                }
+
+
             }
 
 
         }
 
-//        $result = $election->isElected($lastsujet->getId());
+        /*********PHASE VOTE************/
 
-//        $time_salon = $sm->timeProcess($salon);
 
         if ($time['type'] === 'vote') {
 
@@ -129,7 +170,7 @@ class SalonController extends AbstractController
             $sujets = $salon->getSujets();
 
             foreach ($sujets as $sujet) {
-//
+
 
                 $voters = $sujet->getVoters();
 
@@ -186,6 +227,39 @@ class SalonController extends AbstractController
 
 
             ]);
+
+        }
+        elseif($time["type"] === "results"){
+
+            $sujets = $salon->getSujets();
+
+
+            $results = [];
+
+            foreach($sujets as $sujet){
+
+                $result = $election->isElected($sujet->getId());
+
+                $results[] = [
+                    'sujet'=> $sujet,
+                    'result' => $result
+
+                ];
+
+
+            }
+
+
+            return $this->render('salon/index.html.twig', [
+                'messageForm' => $messageForm,
+                'salon' => $salon,
+                'time' => $time,
+                'form' => $form,
+                'results' => $results
+
+
+            ]);
+
 
         }
         return $this->render('salon/index.html.twig', [
@@ -434,6 +508,35 @@ class SalonController extends AbstractController
 
         return $this->redirectToRoute('salon.index', ["id" => $id]);
 
+
+    }
+
+    #[Route('salon/get-results/{id}', name: "salon.get-results", requirements: ['id' => '\d+'])]
+    public function results(int $id, SalonRepository $sm, ElectionManager $election): JsonResponse
+    {
+
+
+        $salon = $sm->find($id);
+
+        $sujets = $salon->getSujets();
+
+        $results = [];
+
+        foreach($sujets as $sujet){
+
+            $result = $election->isElected($sujet->getId());
+
+            $results[] = [
+                'sujet'=> $sujet->getId(),
+                'result' => $result
+
+            ];
+
+
+        }
+
+
+        return new JsonResponse($results);
 
     }
 

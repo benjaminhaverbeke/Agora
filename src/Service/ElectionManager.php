@@ -35,10 +35,13 @@ class ElectionManager
 
         /***on traite chaque proposition****/
 
+
         foreach ($props as $prop) {
 
             /****fetch des tableau de Vote par Proposition****/
             $votes = $this->vm->findAllVotesByProposal($prop->getId());
+
+
 
 
             /****enleve prend pas les tableaux vides, !a ameliorer! ca doit pouvoir se faire au niveau de la requete sql****/
@@ -79,7 +82,6 @@ class ElectionManager
 
         /****retourne un tableau avec les mentions gagnantes de chaque proposition soumise****/
 
-
         return $resultprop;
 
     }
@@ -87,7 +89,6 @@ class ElectionManager
     /****stock les mentions gagnantes pour chaque proposition****/
     public function allWinnerMentions(array $mentionsarray): array
     {
-
 
         /****itération de la mention la plus grande à la plus petite***/
 
@@ -124,6 +125,7 @@ class ElectionManager
 
         }
 
+
         return $matchingVotes;
 
     }
@@ -137,7 +139,8 @@ class ElectionManager
         /***on stock le match dans un tableau qui sera vérifié chaque tour, si sa valeur est unique alors il y a un candidat gagnant***/
 
         $lastresult = $matchingVotes;
-        $winmention = $lastresult[0]["mention_win"];
+
+
 
 
         /***tableau a remplir avec les mention exclue qui a precedemment gagne****/
@@ -262,8 +265,8 @@ class ElectionManager
         /***retourne toutes les mentions gagnantes pour chaque proposition du sujet***/
         $all_mentions = $this->allMentionsByProposal($all_props);
 //        var_dump($all_mentions);
-
         /***retourne la ou les propositions arrivées égalités avec la même mention*****/
+
         $all_win_mentions = $this->allWinnerMentions($all_mentions);
         //var_dump($all_win_mentions);
 

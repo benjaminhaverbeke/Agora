@@ -54,32 +54,30 @@ class MentionManager
     {
         /***** parametres nb de mention variable, notes******/
 
-        $notesoutput = [];
+
+        $notesoutput = [
+            "inadapte" => 0,
+            "passable" => 0,
+            "bien" => 0,
+            "tresbien" => 0,
+            "excellent" => 0
+        ];
 
         foreach ($mentions as $mention) {
 
             foreach($notesinput as $note){
 
-                $value = null;
+                if($mention === $note){
 
-                if($mention === $note  && isset($notesoutput[$mention])){
-
-                    $value = $notesoutput[$mention];
-                    $notesoutput[$mention] = $value+1;
-                }
+                    $notesoutput[$mention] = $notesoutput[$mention]+1;
 
 
-
-                if(empty($notesoutput[$mention])){
-
-                    $notesoutput[$mention] = 0;
                 }
 
             }
         }
 
 /***notesoutput est un tableau associatif qui recupere les mentions utilisées et comptabilise les points par mention***/
-
 
 /****Calcul des effectifs cumulés*****/
 

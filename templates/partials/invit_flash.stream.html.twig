@@ -1,15 +1,19 @@
-{% for type, messages in app.flashes %}
 
-    <turbo-stream action="append" target="flash">
+{%  block success_stream %}
+
+
+    <turbo-stream action="replace" target="invit-request">
         <template>
-            {% for label, messages in app.flashes(['success-invit', 'error-invit', 'error-exist']) %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ label }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
+            {% if invit == 'introuvable' %}
+                <p>Utilisateur introuvable</p>
+            {% elseif invit == 'exist' %}
+                <p>L'utilisateur a déjà reçu une invitation</p>
+            {% else %}
+                <p>Invitation envoyée</p>
+            {% endif %}
 
         </template>
+
     </turbo-stream>
-{% endfor %}
+
+{% endblock %}

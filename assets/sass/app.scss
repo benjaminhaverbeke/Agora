@@ -752,12 +752,16 @@ h1 {
 
 }
 
+/*******PHASE DE VOTE**********/
+
+/*******SALON*************/
+
+
 .form-vote {
 
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-
 
   label {
 
@@ -781,10 +785,7 @@ h1 {
     width: 2rem;
   }
 
-
-
 }
-
 #save-vote {
 
   margin: .5rem;
@@ -797,9 +798,124 @@ h1 {
     display: block;
   }
 
+}
 
+
+.hasvoted {
+
+  display: flex;
+  justify-content: space-between;
 
 }
+/**************PHASE RESULTATS*******************/
+/***************SALON*******************/
+
+#display-results {
+
+  float: right;
+}
+
+//.results-container {
+//
+//  display: none;
+//}
+//
+//.active {
+//
+//  display: block;
+//
+//}
+
+.grid-vote {
+  width: 95%;
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  border-left: 5px black solid;
+  border-bottom: 5px black solid;
+  padding: .5rem;
+
+  .row {
+
+    display: flex;
+    justify-content: flex-start;
+
+
+  }
+}
+
+//.transition {
+//  width: 100%;
+//  overflow: visible;
+//
+//  transition: width 4s ease-in;
+//}
+
+.row > * {
+
+  font-size: 1rem;
+  flex-grow: 0;
+  flex-basis: 0;
+  margin-top: 1em;
+  width: 100vw;
+
+}
+
+
+.proposal-title {
+
+
+  flex-shrink: 1;
+  padding-right: 1rem;
+}
+
+.inadapte {
+  background-color: red;
+
+}
+
+.passable {
+  background-color: brown;
+}
+
+.bien {
+
+  background-color: yellow;
+
+}
+
+.tresbien {
+
+  background-color: orange
+}
+
+.excellent {
+
+  background-color: green
+}
+
+
+//.vote-container {
+//
+//  text-align: center;
+//  margin: auto;
+//  min-height: 100vh;
+//  background-color: lightgrey;
+//  border-radius: 10px;
+//  padding: 1rem;
+//  width: 50%;
+//}
+
+.font-result {
+
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 0
+
+}
+
+
+
 
 
 @media screen and (max-width: 1600px) {
