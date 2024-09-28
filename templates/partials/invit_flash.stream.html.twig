@@ -2,15 +2,30 @@
 {%  block success_stream %}
 
 
-    <turbo-stream action="replace" target="invit-request">
+    <turbo-stream action="replace" method="morph" target="invit-request">
         <template>
-            {% if invit == 'introuvable' %}
-                <p>Utilisateur introuvable</p>
-            {% elseif invit == 'exist' %}
-                <p>L'utilisateur a déjà reçu une invitation</p>
-            {% else %}
-                <p>Invitation envoyée</p>
-            {% endif %}
+
+            <li class="invit-li" id="invit-request">
+                <p class="invit-title">Invitation</p>
+
+                {{ form_start(form, {'attr': {'id': 'invitation'}}) }}
+                {{ form_row(form.email,{'label': 'Email'}) }}
+                {{ form_row(form.save, {'label': 'Inviter'}) }}
+                {{ form_end(form) }}
+
+                <div class="invit-flash">
+                    {% if invit == 'introuvable' %}
+                        <p class="error">Utilisateur introuvable</p>
+                    {% elseif invit == 'exist' %}
+                        <p class="warning">L'utilisateur a déjà reçu une invitation</p>
+                    {% else %}
+                        <p class="success">Invitation envoyée</p>
+                    {% endif %}
+                </div>
+
+            </li>
+
+
 
         </template>
 

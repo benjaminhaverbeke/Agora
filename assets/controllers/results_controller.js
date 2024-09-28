@@ -47,12 +47,12 @@ export default class extends Controller {
 
     };
 
-    connect(){
-
+    initialize(){
+        console.log('connect')
             this.fetchResults().then((res)=> {
 
                 res.forEach((element) => {
-
+                    console.log(res)
                     const sujet = document.querySelector('#sujet_results_'+element.sujet);
 
                     element.result.forEach((result)=> {
@@ -60,11 +60,13 @@ export default class extends Controller {
                         const proposal = sujet.querySelector('.proposal_'+result.proposalId);
                         const resultArray = Object.entries(result.pourcent);
 
-                        console.log(proposal)
+
+
                         resultArray.forEach((element)=>
 
                         {
                             const vote = element[1];
+
 
                             const mention = proposal.querySelector('.'+element[0]);
 

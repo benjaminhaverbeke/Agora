@@ -109,25 +109,25 @@ class SalonController extends AbstractController
 
                 if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
 
-                    dump('introuvable');
-                    // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
+
                     $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-                    return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'introuvable']);
+                    return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'introuvable', 'form' => $form]);
                 }
 
 
             } else {
 
-                $isInvited = $im->findBy(['receiver' => $receiver]);
+                $isInvited = $im->findBy(['receiver' => $receiver, 'salon' => $salon]);
 
-                if(count($isInvited) > 1) {
+                dump(count($isInvited));
+                if(count($isInvited) > 0) {
 
                     if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
 
 
                         // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
                         $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-                        return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'exist']);
+                        return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'exist', 'form' => $form]);
                     }
 
 
@@ -148,7 +148,7 @@ class SalonController extends AbstractController
 
                         // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
                         $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-                        return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'valid']);
+                        return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'valid', 'form'=> $form]);
                     }
                 }
 
@@ -164,6 +164,15 @@ class SalonController extends AbstractController
         if ($time['type'] === 'vote') {
 
 
+//            $user = $this->getUser();
+//            $voted = $user->getVoted();
+//            $voted->clear();
+//
+//            $em->persist($user);
+//
+//            $em->flush();
+
+
             $sujetIsVoted = [];
 
 
@@ -174,12 +183,22 @@ class SalonController extends AbstractController
 
                 $voters = $sujet->getVoters();
 
+//                $voters->clear();
+//
+//                $em->persist($sujet);
+//                $em->flush();
 
                 $userhasVoted = $voters->exists(function ($key, $value) {
 
+                    if($value === $this->getUser())
+                    {
+                        return $value;
+                    }
 
-                    return $value === $this->getUser();
+                    return false;
+
                 });
+
 
                 if ($userhasVoted === false) {
 
@@ -525,6 +544,8 @@ class SalonController extends AbstractController
         foreach($sujets as $sujet){
 
             $result = $election->isElected($sujet->getId());
+
+            dump($result);
 
             $results[] = [
                 'sujet'=> $sujet->getId(),

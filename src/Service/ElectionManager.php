@@ -68,6 +68,8 @@ class ElectionManager
                 /****stocke la mention gagnante de LA proposition****/
                 $resultprop[] = [
                     "proposalId" => $prop->getId(),
+                    "proposalTitle" => $prop->getTitle(),
+                    "proposalDescription" => $prop->getDescription(),
                     "mention_win" => $result->getMentionGagnante(),
                     "mediane" => $result->getMediane(),
                     "pourcent" => $result->getPourcent()
@@ -225,6 +227,8 @@ class ElectionManager
                         $newresult[] =
                             [
                                 "proposalId" => $match['proposalId'],
+                                "proposalTitle" => $match['proposalTitle'],
+                                "proposalDescription" => $match['proposalDescription'],
                                 "mention_win" => $result->getMentionGagnante(),
                                 "mediane" => $result->getMediane(),
                                 "pourcent" => $result->getPourcent()

@@ -24,10 +24,19 @@ class SujetType extends AbstractType
 
 
         if($options['vote'] === true) {
+
+
+
+
+
             $builder
                 ->add('proposals', CollectionType::class, [
                     'entry_type' => ProposalType::class,
-                    'entry_options' => ['vote' => true],
+                    'entry_options' => [
+
+                        'vote' => true,
+                        'mapped' =>true
+                    ],
                 ])
                 ->add('save', SubmitType::class, [
                     'label' => 'Voter',
@@ -68,7 +77,8 @@ class SujetType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Sujet::class,
-            'vote' => false
+            'vote' => false,
+
         ]);
     }
 }

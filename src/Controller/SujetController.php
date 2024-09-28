@@ -8,11 +8,14 @@ use App\Entity\Sujet;
 use App\Entity\User;
 use App\Form\MessageType;
 use App\Form\SujetType;
+use App\Form\VoteType;
 use App\Repository\MessageRepository;
 use App\Repository\SalonRepository;
 use App\Repository\SujetRepository;
 use App\Repository\VoteRepository;
 use Symfony\Bridge\Twig\AppVariable;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -154,6 +157,8 @@ class SujetController extends AbstractController
 
         $salon = $sujet->getSalon();
 
+        $user = $this->getUser();
+
         /***chat envoi message***/
         $message = new Message();
         $messageForm = $this->createForm(MessageType::class, $message);
@@ -168,23 +173,64 @@ class SujetController extends AbstractController
 
         $proposals = $sujet->getProposals();
 
-        foreach ($proposals as $proposal){
 
-            $vote = new Vote();
-            $vote->setSujet($sujet);
-            $vote->setProposal($proposal);
-            $vote->setUser($this->getUser());
-            $proposal->getVotes()->add($vote);
-        }
+        $defaultData = [];
+
 
 
         $form = $this->createForm(SujetType::class, $sujet, ['vote' => true]);
 
+
+
         $form->handleRequest($request);
+
+
+
 
 
         if($form->isSubmitted() && $form->isValid()){
 
+            $votesArray = [];
+
+
+
+            foreach($proposals as $proposal){
+
+                $votes = $proposal->getVotes();
+
+                $vote = $votes->filter(function($element) {
+
+                   return $element->getId() === null;
+                });
+
+                $newVote = $vote->getValues()[0];
+
+                dump($vote->getValues());
+                $newVote->setProposal($proposal);
+                $newVote->setUser($user);
+                $newVote->setSujet($sujet);
+
+            }
+
+
+            $children = $form->all();
+//            $array = [];
+//
+//            foreach($children as $child){
+//
+//                $subchildren = $child->all();
+//
+//                foreach($subchildren as $subchild){
+//
+//                    $array[] = $subchild->getData();
+//
+//
+//
+//                }
+//
+//            }
+//
+//            dd($array);
 
             $user = $this->getUser();
 

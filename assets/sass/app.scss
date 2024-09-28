@@ -494,6 +494,33 @@ h1 {
 
 }
 
+.invit-flash {
+
+
+  color: white;
+  text-align: center;
+
+  .error {
+
+    background-color: red;
+    border-radius: 10px;
+    padding: .7rem;
+  }
+  .warning {
+
+    background-color: orange;
+    border-radius: 10px;
+    padding: .7rem;
+  }
+
+  .success {
+
+    background-color: green;
+    border-radius: 10px;
+    padding: .7rem;
+  }
+}
+
 .alert {
 
   color: white;
@@ -830,17 +857,29 @@ h1 {
   width: 95%;
   display: flex;
   margin: auto;
-  flex-direction: column;
+  flex-direction: row;
   border-left: 5px black solid;
   border-bottom: 5px black solid;
   padding: .5rem;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  height: fit-content;
 
   .row {
 
     display: flex;
-    justify-content: flex-start;
+    flex-direction: column-reverse;
+    height: 30vh;
 
 
+  }
+  .proposal-title {
+
+    writing-mode: vertical-lr;
+    rotate: 180deg;
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 0.5rem;
   }
 }
 
@@ -855,11 +894,14 @@ h1 {
 
   font-size: 1rem;
   flex-grow: 0;
-  flex-basis: 0;
-  margin-top: 1em;
-  width: 100vw;
+  flex-basis: 1rem;
+
+
+
 
 }
+
+
 
 
 .proposal-title {
@@ -926,3 +968,41 @@ h1 {
 
 /* for desktop */
 
+
+
+
+/**********A GARDER POUR AFFICHER RESULTATS DESKTOP********************/
+//.grid-vote {
+//  width: 95%;
+//  display: flex;
+//  margin: auto;
+//  flex-direction: column;
+//  border-left: 5px black solid;
+//  border-bottom: 5px black solid;
+//  padding: .5rem;
+//
+//  .row {
+//
+//    display: flex;
+//    justify-content: flex-start;
+//
+//
+//  }
+//}
+//
+////.transition {
+////  width: 100%;
+////  overflow: visible;
+////
+////  transition: width 4s ease-in;
+////}
+//
+//.row > * {
+//
+//  font-size: 1rem;
+//  flex-grow: 0;
+//  flex-basis: 0;
+//  margin-top: 1em;
+//  width: 100vw;
+//
+//}

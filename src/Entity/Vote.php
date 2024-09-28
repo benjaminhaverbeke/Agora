@@ -25,8 +25,9 @@ class Vote
 
     #[ORM\ManyToOne(inversedBy: 'votes')]
     private ?User $User = null;
-
-
+    public function __construct()
+    {
+    }
 
     public function getId(): ?int
     {

@@ -41,7 +41,7 @@ class VoteType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Vote::class,
+            'data_class' => Vote::class
         ]);
     }
 }

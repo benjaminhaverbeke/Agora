@@ -7,7 +7,9 @@ use App\Entity\Salon;
 use App\Entity\Sujet;
 use App\Entity\User;
 use App\Entity\Vote;
+use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -19,9 +21,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Count;
 
 class ProposalType extends AbstractType
 {
+
+    public function __construct(
+        readonly Security $security,
+    )
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
@@ -32,26 +42,39 @@ class ProposalType extends AbstractType
             $builder
                 ->add('title', TextType::class, [
                     'label' => 'Titre',
-                    'disabled' => true,
+                    'disabled' => true
+
                 ])
-                ->add('votes', CollectionType::class, [
-                        'entry_type' => VoteType::class,
-                        'allow_add' => true,
+                ->add('votes', CollectionType::class,
+                [
+                    'entry_type' => VoteType::class,
+                    'data' => [new Vote()],
+                    'allow_add' => true
 
-                    ]
+                ]);
 
-                );
 
-//            $builder->get('votes')->addEventListener(FormEvents::PRE_SET_DATA,
+
+
+
+
+
 //                function (FormEvent $event) use ($isVote) {
 //
+//                    $votes = $event->getData();
 //                    $form = $event->getForm();
 //
 //
-//                    $form->add('notes', VoteType::class, [
+//                    $newVote = $votes->filter(function($element) {
+//                        return $element->getId() === null;
+//                    });
+//
+//                    $form->remove('votes');
 //
 //
-//                    ]);
+//
+//
+//
 //                });
 
         } else {
@@ -84,7 +107,8 @@ class ProposalType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Proposal::class,
-            'vote' => false
+            'vote' => false,
+
         ]);
     }
 }

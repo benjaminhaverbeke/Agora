@@ -9,16 +9,14 @@
 
 
 
-        <li class="invit-li">
+        <li class="invit-li" id="invit-request">
             <p class="invit-title">Invitation</p>
 
             {{ form_start(form, {'attr': {'id': 'invitation'}}) }}
             {{ form_row(form.email,{'label': 'Email'}) }}
             {{ form_row(form.save, {'label': 'Inviter'}) }}
             {{ form_end(form) }}
-            <div id="invit-request">
-                
-            </div>
+
         </li>
 
 
@@ -223,14 +221,14 @@
                 <article data-controller="results" class="results-container box" id="sujet_results_{{ result.sujet.id }}">
 
                     <h3>{{ result.sujet.title }}</h3>
-                    <button id="display-results">Résultats</button>
+
 
                     <div data-results-target="grid" class="grid-vote">
 
                         {% for proposal in result.result %}
 
                             <div class="proposal_{{ proposal.proposalId }} row">
-                                <div class="proposal-title">{{ proposal.proposalId }}</div>
+                                <div class="proposal-title">{{ proposal.proposalTitle }}</div>
                                 <div class="inadapte"></div>
                                 <div class="passable"></div>
                                 <div class="bien"></div>
@@ -239,6 +237,8 @@
                             </div>
 
                         {% endfor %}
+
+
 
                     </div>
 
