@@ -28,6 +28,12 @@ class Message
     private ?string $content = null;
 
 
+    public function __construct() {
+
+        $this->created_at = new \DateTimeImmutable();
+
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -64,7 +70,7 @@ class Message
 
     public function setCreatedAt(\DateTimeImmutable $created_at): void
     {
-        $this->created_at = new \DateTimeImmutable();
+        $this->created_at = $created_at;
 
 
 

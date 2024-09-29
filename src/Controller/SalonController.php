@@ -42,15 +42,15 @@ class SalonController extends AbstractController
 
     private $em;
 
-    private $um;
 
-    public function __construct(MessageRepository $mm, SalonRepository $sm, EntityManagerInterface $em, UserRepository $um)
+
+    public function __construct(MessageRepository $mm, SalonRepository $sm, EntityManagerInterface $em)
     {
 
         $this->mm = $mm;
         $this->sm = $sm;
         $this->em = $em;
-        $this->um = $um;
+
     }
 
     #[Route('/salon/{id}', name: 'salon.index', requirements: ['id' => '\d+'])]
@@ -267,7 +267,7 @@ class SalonController extends AbstractController
 
 
             }
-            dump($results);
+
 
             return $this->render('salon/index.html.twig', [
                 'messageForm' => $messageForm,
@@ -504,7 +504,7 @@ class SalonController extends AbstractController
             $content = $messageForm->getData()->getContent();
             $message->setContent($content);
             $message->setUser($this->getUser());
-            $message->setCreatedAt();
+
             $message->setSalon($salon);
 
             $this->em->persist($message);
