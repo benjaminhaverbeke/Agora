@@ -48,32 +48,72 @@ export default class extends Controller {
     };
 
     initialize(){
-        console.log('connect')
+
             this.fetchResults().then((res)=> {
 
                 res.forEach((element) => {
-                    console.log(res)
+
                     const sujet = document.querySelector('#sujet_results_'+element.sujet);
 
-                    element.result.forEach((result)=> {
+                    const nbtour = element.result.length;
 
-                        const proposal = sujet.querySelector('.proposal_'+result.proposalId);
-                        const resultArray = Object.entries(result.pourcent);
+                    const lasttour = element.result[nbtour-1];
+                    console.log(lasttour)
+                    const winnerDisplay = sujet.querySelector('#winner');
+
+                    if(lasttour.length > 0){
+
+                        winnerDisplay.textContent = "Egalité entre les propositions "
+
+                        lasttour.forEach((prop)=> {
+
+                            winnerDisplay.textContent = winnerDisplay.textContent+""+prop.proposalTitle;
+
+                        })
+
+                    }
+                    else {
+
+                        winnerDisplay.textContent = "La proposition "+prop.proposalTitle+" a gagné !"
+                    }
+
+                    element.result.forEach((result, index)=> {
+
+                        index++;
+
+                        const grid = sujet.querySelector('#tour_'+index);
+
+                        result.forEach((prop) => {
+
+
+                            const proposal = grid.querySelector('.proposal_'+prop.proposalId);
+
+
+                            const resultArray = Object.entries(prop.pourcent);
+
+
+                            resultArray.forEach((element) => {
+                                const vote = element[1];
+
+
+                                const mention = proposal.querySelector('.' + element[0]);
+
+                                mention.style.flexGrow = vote;
+
+
+                            });
 
 
 
-                        resultArray.forEach((element)=>
 
-                        {
-                            const vote = element[1];
+                        })
 
 
-                            const mention = proposal.querySelector('.'+element[0]);
-
-                            mention.style.flexGrow = vote;
 
 
-                        });
+
+
+
 
                     })
 
