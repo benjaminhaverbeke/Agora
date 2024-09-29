@@ -48,8 +48,11 @@ class ProposalType extends AbstractType
                 ->add('votes', CollectionType::class,
                 [
                     'entry_type' => VoteType::class,
-                    'data' => [new Vote()],
-                    'allow_add' => true
+                    'entry_options' => [
+                        'label' => false
+                    ],
+
+
 
                 ]);
 

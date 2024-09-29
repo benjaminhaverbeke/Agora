@@ -26,6 +26,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\UX\Turbo\TurboBundle;
 use App\Entity\Vote;
 
+
 class SujetController extends AbstractController
 {
     private $mm;
@@ -150,6 +151,7 @@ class SujetController extends AbstractController
             return $this->redirectToRoute('salon.index', ['id' => $sujetTodelete->getSalon()->getId()]);
     }
 
+
     #[Route('sujet/{id}/vote', name: 'sujet.vote', requirements: ['id' => '\d+'])]
     public function vote(int $id, Request $request, EntityManagerInterface $em): Response
     {
@@ -173,8 +175,14 @@ class SujetController extends AbstractController
 
         $proposals = $sujet->getProposals();
 
+        foreach($proposals as $proposal) {
 
-        $defaultData = [];
+            $vote = new Vote();
+            $vote->setProposal($proposal);
+            $vote->setUser($user);
+            $vote->setSujet($sujet);
+            $proposal->addVote($vote);
+        }
 
 
 
@@ -184,53 +192,13 @@ class SujetController extends AbstractController
 
         $form->handleRequest($request);
 
+        $submittedToken = $request->getPayload()->get('token');
+
+        $token = $this->isCsrfTokenValid('vote', $submittedToken);
+        dump($token);
+        if($form->isSubmitted() && $token){
 
 
-
-
-        if($form->isSubmitted() && $form->isValid()){
-
-            $votesArray = [];
-
-
-
-            foreach($proposals as $proposal){
-
-                $votes = $proposal->getVotes();
-
-                $vote = $votes->filter(function($element) {
-
-                   return $element->getId() === null;
-                });
-
-                $newVote = $vote->getValues()[0];
-
-                dump($vote->getValues());
-                $newVote->setProposal($proposal);
-                $newVote->setUser($user);
-                $newVote->setSujet($sujet);
-
-            }
-
-
-            $children = $form->all();
-//            $array = [];
-//
-//            foreach($children as $child){
-//
-//                $subchildren = $child->all();
-//
-//                foreach($subchildren as $subchild){
-//
-//                    $array[] = $subchild->getData();
-//
-//
-//
-//                }
-//
-//            }
-//
-//            dd($array);
 
             $user = $this->getUser();
 
@@ -246,7 +214,7 @@ class SujetController extends AbstractController
 
         return $this->render('sujet/vote.html.twig', [
             'sujet' =>$sujet,
-            'form' =>$form,
+            'form' => $form,
             'messages'=> $messages,
             'messageForm' => $messageForm,
             'salon' => $salon

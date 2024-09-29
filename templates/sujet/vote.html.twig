@@ -4,9 +4,36 @@
 
 {% block body %}
 
+
     <section class="box">
 
-        {{ form(form, {action: path('sujet.vote', {id: sujet.id})}) }}
+        {{ form_start(form, {action: path('sujet.vote', {id: sujet.id})}) }}
+
+        <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
+
+        <ul class="tags">
+            {% for proposal in form.proposals %}
+                <li>{{ form_row(proposal.title) }}</li>
+                {% for vote in proposal.votes %}
+
+            {% if field_value(vote.user) == app.user.email %}
+                    {{ form_row(vote.notes) }}
+
+
+
+                    {% endif %}
+                    {% endfor %}
+            {% endfor %}
+        </ul>
+
+
+
+
+        {{ form_row(form.save) }}
+
+
+
+        {{ form_end(form, {render_rest: false}) }}
 
 
 

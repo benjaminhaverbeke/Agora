@@ -26,22 +26,19 @@ class SujetType extends AbstractType
         if($options['vote'] === true) {
 
 
-
-
-
             $builder
                 ->add('proposals', CollectionType::class, [
                     'entry_type' => ProposalType::class,
                     'entry_options' => [
 
                         'vote' => true,
-                        'mapped' =>true
+
                     ],
-                ])
-                ->add('save', SubmitType::class, [
+                ])->add('save', SubmitType::class, [
                     'label' => 'Voter',
                     'attr' => ['class' => 'btn'],
                 ]);
+
 
 
         }

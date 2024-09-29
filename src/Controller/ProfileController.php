@@ -23,6 +23,8 @@ class ProfileController extends AbstractController
         $user = $this->getUser();
 
         $salons = $user->getSalons();
+
+
         $invits = $im->findByReceiverField($user);
 
 
@@ -38,6 +40,7 @@ class ProfileController extends AbstractController
     {
         $user = $this->getUser();
         $invit = $im->find($id);
+
 
         $salon = $invit->getSalon();
         $salon->addUser($user);
