@@ -62,7 +62,7 @@ class Message
         return $this->created_at;
     }
 
-    public function setCreatedAt(): void
+    public function setCreatedAt(\DateTimeImmutable $created_at): void
     {
         $this->created_at = new \DateTimeImmutable();
 

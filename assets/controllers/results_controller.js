@@ -1,13 +1,11 @@
-import { Controller } from '@hotwired/stimulus';
+import {Controller} from '@hotwired/stimulus';
 
 export default class extends Controller {
 
     static targets = ['grid'];
 
 
-
     async fetchResults() {
-
 
 
         const id = document.querySelector('#time').dataset.salonId;
@@ -28,65 +26,35 @@ export default class extends Controller {
         }
 
     }
-    displayResults(proposalId, results) {
 
-        const proposal = this.gridTarget.querySelector('.proposal_'+proposalId)
-        const resultArray = Object.entries(results);
+    initialize() {
 
-        resultArray.forEach((element)=>
-
-        {
-            const vote = element[1];
-
-            const mention = proposal.querySelector('.'+element[0]);
-
-            mention.style.flexGrow = vote;
+        this.fetchResults().then((res) => {
 
 
-        });
+            res.forEach((element) => {
 
-    };
+                if (element.result.length === 0) {
 
-    initialize(){
+                    return null;
 
-            this.fetchResults().then((res)=> {
+                } else {
 
-                res.forEach((element) => {
+                    console.log(element)
 
-                    const sujet = document.querySelector('#sujet_results_'+element.sujet);
+                    const sujet = document.querySelector('#sujet_results_' + element.sujet);
 
-                    const nbtour = element.result.length;
 
-                    const lasttour = element.result[nbtour-1];
-                    console.log(lasttour)
-                    const winnerDisplay = sujet.querySelector('#winner');
-
-                    if(lasttour.length > 0){
-
-                        winnerDisplay.textContent = "Egalité entre les propositions "
-
-                        lasttour.forEach((prop)=> {
-
-                            winnerDisplay.textContent = winnerDisplay.textContent+""+prop.proposalTitle;
-
-                        })
-
-                    }
-                    else {
-
-                        winnerDisplay.textContent = "La proposition "+prop.proposalTitle+" a gagné !"
-                    }
-
-                    element.result.forEach((result, index)=> {
+                    element.result.forEach((result, index) => {
 
                         index++;
 
-                        const grid = sujet.querySelector('#tour_'+index);
+                        const grid = sujet.querySelector('#tour_' + index);
 
                         result.forEach((prop) => {
 
 
-                            const proposal = grid.querySelector('.proposal_'+prop.proposalId);
+                            const proposal = grid.querySelector('.proposal_' + prop.proposalId);
 
 
                             const resultArray = Object.entries(prop.pourcent);
@@ -104,60 +72,63 @@ export default class extends Controller {
                             });
 
 
-
-
                         })
-
-
-
-
-
-
 
 
                     })
 
-
-                })
-
+                    /*****AFFICHAGE DU GAGNANT******/
 
 
+                    const nbtour = element.result.length;
 
+                    const lasttour = element.result[nbtour - 1];
+
+                    const winnerDisplay = sujet.querySelector('#winner');
+
+
+                    if (lasttour.length > 1) {
+
+                        winnerDisplay.textContent = "Egalité entre les propositions "
+
+                        lasttour.forEach((prop) => {
+
+                            winnerDisplay.textContent = winnerDisplay.textContent + "" + prop.proposalTitle;
+
+                        });
+
+                    } else {
+
+                        winnerDisplay.textContent = "La proposition " + lasttour[0].proposalTitle + " a gagné !"
+                    }
+
+
+                }
 
             })
 
 
-            /***target grid******/
-            // const grid = container.querySelector('.grid');
+        })
 
 
-            // let toggle = container.classList.toggle("active");
-
-            /***target rows******/
-            // let rows = grid.querySelectorAll('.row');
+        /***target grid******/
+        // const grid = container.querySelector('.grid');
 
 
-            /***test de mettre une transition pour afficher les résultats*********/
-            // rows.forEach((row)=> {
-            //     row.classList.toggle('transition');
-            //
-            // });
+        // let toggle = container.classList.toggle("active");
+
+        /***target rows******/
+        // let rows = grid.querySelectorAll('.row');
 
 
-        }
+        /***test de mettre une transition pour afficher les résultats*********/
+        // rows.forEach((row)=> {
+        //     row.classList.toggle('transition');
+        //
+        // });
 
 
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 }

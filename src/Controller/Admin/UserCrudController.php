@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use App\Form\SalonType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -22,16 +23,18 @@ class UserCrudController extends AbstractCrudController
     }
 
 
+
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
+
             Field::new('username'),
             Field::new('email'),
+            Field::new('password'),
             ArrayField::new('roles'),
             DateField::new('createdAt'),
             AssociationField::new('salons')
-                ->setFormTypeOption('choice_label', 'id')
+                ->setFormTypeOption('choice_label', 'title')
 
 
         ];

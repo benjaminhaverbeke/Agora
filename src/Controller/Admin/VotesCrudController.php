@@ -20,9 +20,11 @@ class VotesCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            AssociationField::new('proposal'),
-            AssociationField::new('sujet'),
+
+            AssociationField::new('proposal')
+                ->setFormTypeOption('choice_label', 'title'),
+            AssociationField::new('sujet')
+                ->setFormTypeOption('choice_label', 'title'),
             TextField::new('notes'),
 
         ];

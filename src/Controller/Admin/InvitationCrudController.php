@@ -21,10 +21,13 @@ class InvitationCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            AssociationField::new('sender'),
-            AssociationField::new('receiver'),
-            AssociationField::new('salon'),
+
+            AssociationField::new('sender')
+                ->setFormTypeOption('choice_label', 'username'),
+            AssociationField::new('receiver')
+                ->setFormTypeOption('choice_label', 'username'),
+            AssociationField::new('salon')
+                ->setFormTypeOption('choice_label', 'title'),
             DateField::new('createdAt'),
         ];
     }

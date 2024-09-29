@@ -20,12 +20,14 @@ class ProposalsCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
             TextField::new('title'),
             TextEditorField::new('description'),
-            AssociationField::new('salon'),
-            AssociationField::new('sujet'),
-            AssociationField::new('user'),
+            AssociationField::new('salon')
+                ->setFormTypeOption('choice_label', 'title'),
+            AssociationField::new('sujet')
+                ->setFormTypeOption('choice_label', 'title'),
+            AssociationField::new('user')
+                ->setFormTypeOption('choice_label', 'username'),
         ];
     }
 

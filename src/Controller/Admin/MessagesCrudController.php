@@ -9,7 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
-
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class MessagesCrudController extends AbstractCrudController
 {
@@ -18,17 +18,28 @@ class MessagesCrudController extends AbstractCrudController
         return Message::class;
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
 
+
+        return $crud;
+
+
+    }
     public function configureFields(string $pageName): iterable
     {
         return [
-            Field::new('id'),
+
             Field::new('content'),
             Field::new('created_at'),
-            AssociationField::new('user'),
-            AssociationField::new('salon'),
+            AssociationField::new('user')
+                ->setFormTypeOption('choice_label', 'username'),
+            AssociationField::new('salon')
+                ->setFormTypeOption('choice_label', 'title'),
 
         ];
     }
+
+
 
 }
