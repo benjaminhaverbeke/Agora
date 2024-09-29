@@ -6,6 +6,7 @@
     <section class="box">
 
             {{ form(form, {action: path('proposal.edit', {id: proposal.id})}) }}
+        <a class="btn" href="{{ path('salon.index', {id: salon.id}) }}">Retour</a>
     </section>
 
 

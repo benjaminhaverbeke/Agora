@@ -7,6 +7,7 @@
 
 <turbo-frame id="salon_{{ salon.id }}">
     {{ form(form, {action: path('salon.edit', {id: salon.id})}) }}
+    <a class="btn" href="{{ path('salon.index', {id: salon.id}) }}">Retour</a>
 </turbo-frame>
 
 

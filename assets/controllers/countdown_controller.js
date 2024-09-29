@@ -32,6 +32,8 @@ export default class extends Controller {
         if (now < this._date) {
 
             let diff = this._date - now;
+
+
             let totalhours = Math.floor(diff / (1000 * 60 * 60));
             let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             let seconds = Math.floor((diff % (1000 * 60)) / 1000);
@@ -75,6 +77,8 @@ export default class extends Controller {
                 this.time()
             }, 1000);
             this.time();
+
+
         } else if (this._type !== "results") {
 
             this.fetchDuration().then(r => {
