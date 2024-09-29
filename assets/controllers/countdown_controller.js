@@ -89,7 +89,7 @@ export default class extends Controller {
 
 
                 }
-            ).catch(e => {
+            ).catch(() => {
                     throw new Error('Impossible de contacter le serveur')
 
                 }
