@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Invitation;
 use App\Entity\Proposal;
 use App\Entity\Sujet;
+use App\Entity\User;
 use App\Form\InvitType;
 use App\Form\MessageType;
 use App\Form\ProposalType;
@@ -31,6 +32,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\UX\Turbo\TurboBundle;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
@@ -62,11 +64,29 @@ class SalonController extends AbstractController
         ProposalRepository     $pm,
         InvitationRepository   $im,
         EntityManagerInterface $em,
-        ElectionManager $election
+        ElectionManager $election,
+        #[CurrentUser] User $currentUser
     ): Response
     {
 
+
+
         $salon = $this->sm->findSalonIndex($id);
+
+
+
+        $users = $salon->getUsers();
+
+        $hasAccess = $users->exists(function($key, $value) use ($currentUser){
+            return $value === $currentUser;
+        });
+
+        if(!$hasAccess){
+
+            $this->addFlash('error', "Vous n'avez pas accès à cette assemblée");
+            return $this->redirectToRoute('home');
+        }
+
 
         /***chat envoi message***/
         $message = new Message();
@@ -132,7 +152,7 @@ class SalonController extends AbstractController
 
 
                 }else {
-                    $sender = $this->getUser();
+                    $sender = $currentUser;
                     $invit = new Invitation();
 
                     $invit->setSalon($salon);
@@ -164,7 +184,7 @@ class SalonController extends AbstractController
         if ($time['type'] === 'vote') {
 
 
-//            $user = $this->getUser();
+//            $user = $currentUser;
 //            $voted = $user->getVoted();
 //            $voted->clear();
 //
@@ -188,9 +208,9 @@ class SalonController extends AbstractController
 //                $em->persist($sujet);
 //                $em->flush();
 
-                $userhasVoted = $voters->exists(function ($key, $value) {
+                $userhasVoted = $voters->exists(function ($key, $value) use ($currentUser)  {
 
-                    if($value === $this->getUser())
+                    if($value === $currentUser)
                     {
                         return $value;
                     }
@@ -210,7 +230,7 @@ class SalonController extends AbstractController
                 }
                 else {
 
-                    $votes = $this->getUser()->getVotes();
+                    $votes = $currentUser->getVotes();
 
 
                     $result = $votes->filter(function($element, $sujet){
@@ -330,13 +350,13 @@ class SalonController extends AbstractController
     }
 
     #[Route('salon/create', name: 'salon.create')]
-    public function create(Request $request, EntityManagerInterface $em): Response
+    public function create(Request $request, EntityManagerInterface $em, #[CurrentUser] User $currentUser): Response
     {
 
-        $user = $this->getUser();
+
         $salon = new Salon();
-        $salon->setUser($user);
-        $salon->addUser($user);
+        $salon->setUser($currentUser);
+        $salon->addUser($currentUser);
 
 
         $form = $this->createForm(SalonType::class, $salon);
@@ -376,17 +396,17 @@ class SalonController extends AbstractController
     }
 
     #[Route('salon/list', name: 'salon.list')]
-    public function salonlist(SujetRepository $sujm, SalonRepository $salm, Request $request): Response
+    public function salonlist(SujetRepository $sujm, SalonRepository $salm, Request $request, #[CurrentUser] User $currentUser): Response
     {
 
-        $user = $this->getUser();
-        $userId = $user->getId();
-//
+
+
+
 
         /***pagination***/
         $limit = 2;
         $page = $request->query->getInt('page', 1);
-        $salons = $salm->paginateSalons($userId, $page, $limit);
+        $salons = $salm->paginateSalons($currentUser->getId(), $page, $limit);
         $maxPage = ceil($salons->count() / $limit);
 
 
@@ -405,19 +425,16 @@ class SalonController extends AbstractController
 
 
         /***vérifie que l'utilisateur est connecté***/
-        if (empty($user)) {
-            {
-                return $this->redirectToRoute('home');
-            }
 
-        } else {
+
+
             return $this->render('salon/list.html.twig', [
 
                 'salonlist' => $salonlist,
                 'maxPage' => $maxPage,
                 'page' => $page
             ]);
-        }
+
 
     }
 
@@ -488,7 +505,7 @@ class SalonController extends AbstractController
     }
 
     #[Route('salon/chat/{id}', name: "salon.chat", requirements: ['id' => '\d+'])]
-    public function chat(request $request, int $id): Response
+    public function chat(request $request, int $id, #[CurrentUser] User $currentUser): Response
     {
         $salon = $this->sm->find($id);
         $message = new Message();
@@ -503,7 +520,7 @@ class SalonController extends AbstractController
 
             $content = $messageForm->getData()->getContent();
             $message->setContent($content);
-            $message->setUser($this->getUser());
+            $message->setUser($currentUser);
 
             $message->setSalon($salon);
 

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Message;
 use App\Entity\Proposal;
 use App\Entity\Sujet;
+use App\Entity\User;
 use App\Form\MessageType;
 use App\Form\ProposalType;
 use App\Form\SujetType;
@@ -16,16 +17,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\UX\Turbo\TurboBundle;
 
 class ProposalController extends AbstractController
 {
-    private $mm;
-    private $em;
+    private MessageRepository $mm;
+    private EntityManagerInterface $em;
 
-    private $sujm;
+    private SujetRepository $sujm;
 
-    private $pm;
+    private ProposalRepository $pm;
 
     public function __construct(MessageRepository $mm, EntityManagerInterface $em, ProposalRepository $pm, SujetRepository $sujm)
     {
@@ -37,13 +39,27 @@ class ProposalController extends AbstractController
 
 
     #[Route('/proposal/create/{id}', name: 'proposal.create', requirements: ['id' => '\d+'])]
-    public function create(int $id, Request $request): Response
+    public function create(int $id, Request $request, #[CurrentUser] User $currentUser): Response
     {
 
         $sujet = $this->sujm->find($id);
+
         $salon = $sujet->getSalon();
 
+        $users = $salon->getUsers();
+
+        $hasAccess = $users->exists(function ($key, $value) use ($currentUser) {
+            return $value === $currentUser;
+        });
+
+        if(!$hasAccess){
+
+            return $this->redirectToRoute('home');
+
+        }
+
         /***chat envoi message***/
+
         $message = new Message();
         $messageForm = $this->createForm(MessageType::class, $message);
 
@@ -55,10 +71,9 @@ class ProposalController extends AbstractController
 
         /******/
 
-
-
-
         $proposal = new Proposal();
+
+
         $form = $this->createForm(ProposalType::class, $proposal);
 
         $form->handleRequest($request);
@@ -97,11 +112,23 @@ class ProposalController extends AbstractController
     }
 
     #[Route('proposal/{id}/edit', name: 'proposal.edit', requirements: ['id' => '\d+'])]
-    public function edit(int $id, Request $request): Response
+    public function edit(int $id, Request $request, #[CurrentUser] User $currentUser): Response
     {
 
         $proposal = $this->pm->find($id);
         $salon = $proposal->getSalon();
+
+        $users = $salon->getUsers();
+
+        $hasAccess = $users->exists(function ($key, $value) use ($currentUser) {
+            return $value === $currentUser;
+        });
+
+        if(!$hasAccess){
+
+            return $this->redirectToRoute('home');
+
+        }
 
         /***chat envoi message***/
         $message = new Message();
@@ -142,11 +169,23 @@ class ProposalController extends AbstractController
 
 
     #[Route('proposal/{id}/delete', name: 'proposal.delete')]
-    public function delete(int $id, ProposalRepository $pm, EntityManagerInterface $em, Request $request): Response
+    public function delete(int $id, ProposalRepository $pm, EntityManagerInterface $em, Request $request, #[CurrentUser] User $currentUser): Response
     {
+        $proposal = $this->pm->findBy(['id' => $id]);
+        $salon = $proposal->getSalon();
+        $users = $salon->getUsers();
 
-        $proposal = $pm->find($id);
-        $salonId = $proposal->getSalon()->getId();
+        $hasAccess = $users->exists(function ($key, $value) use ($currentUser) {
+            return $value === $currentUser;
+        });
+
+        if(!$hasAccess){
+
+            return $this->redirectToRoute('home');
+
+        }
+
+
 
 
         $em->remove($proposal);
@@ -156,6 +195,6 @@ class ProposalController extends AbstractController
 
 
 
-        return $this->redirectToRoute('salon.index', ['id' => $salonId]);
+        return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
     }
 }

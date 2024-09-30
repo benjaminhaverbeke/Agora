@@ -67,7 +67,7 @@ class ElectionManager
 
                 /****stocke la mention gagnante de LA proposition****/
                 $resultprop[] = [
-                    "proposalId" => $prop->getId(),
+                    "proposalId" => (string)$prop->getId(),
                     "proposalTitle" => $prop->getTitle(),
                     "proposalDescription" => $prop->getDescription(),
                     "mention_win" => $result->getMentionGagnante(),
@@ -135,6 +135,7 @@ class ElectionManager
 
     public function departageMentions(array $matchingVotes)
     {
+
         /***mentions de départ***/
         $mentions = ['inadapte', 'passable', 'bien', 'tresbien', 'excellent'];
 
@@ -145,14 +146,14 @@ class ElectionManager
 
 
 
-        /***tableau a remplir avec les mention exclue qui a precedemment gagne****/
+        /***tableau a remplir avec les mention exclues qui ont precedemment gagné****/
         $mentionsExcluded = [];
-
         /****stock les tours********/
         $stocklastresult = [];
         /***seulement 4 tours possibles***/
 
         for ($i = 0; $i < 4; $i++) {
+
 
             $stocklastresult[] = $lastresult;
 
@@ -187,7 +188,6 @@ class ElectionManager
                          * stockresult retourne les
                          */
 
-//                        var_dump($stocklastresult[0]);
                         return $stocklastresult[0];
 
                     }
@@ -226,7 +226,7 @@ class ElectionManager
 
                         $newresult[] =
                             [
-                                "proposalId" => $match['proposalId'],
+                                "proposalId" => (string)$match['proposalId'],
                                 "proposalTitle" => $match['proposalTitle'],
                                 "proposalDescription" => $match['proposalDescription'],
                                 "mention_win" => $result->getMentionGagnante(),
@@ -253,7 +253,7 @@ class ElectionManager
         /****si on sort de la boucle (4tours max) alors les propositions sont à égalité,
          * dans ce cas on retourne un tableau avec plusieurs valeurs***
          */
-
+        dump($stocklastresult);
         return $stocklastresult;
 
     }

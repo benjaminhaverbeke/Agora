@@ -222,26 +222,23 @@
 
                     <h3>{{ result.sujet.title }}</h3>
 
-
-
-
                         {% for sujet in result.result %}
                             <p>Tour {{ loop.index }}</p>
                             <p id="winner"></p>
                     <div data-results-target="grid" class="grid-vote" id="tour_{{ loop.index }}">
-                        {% for prop in sujet %}
+{#                        {% for prop in sujet %}#}
 
-                        <div class="proposal_{{ prop.proposalId }} row">
+{#                        <div class="proposal_{{ prop.proposalId }} row">#}
 
-                                                            <div class="proposal-title">{{ prop.proposalTitle }}</div>
-                                                            <div class="inadapte"></div>
-                                                            <div class="passable"></div>
-                                                            <div class="bien"></div>
-                                                            <div class="tresbien"></div>
-                                                            <div class="excellent"></div>
+{#                                                            <div class="proposal-title">{{ prop.proposalTitle }}</div>#}
+{#                                                            <div class="inadapte"></div>#}
+{#                                                            <div class="passable"></div>#}
+{#                                                            <div class="bien"></div>#}
+{#                                                            <div class="tresbien"></div>#}
+{#                                                            <div class="excellent"></div>#}
 
-                                                        </div>
-                            {% endfor %}
+{#                                                        </div>#}
+{#                            {% endfor %}#}
                     </div>
 
                         {% endfor %}

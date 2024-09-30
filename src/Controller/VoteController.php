@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Message;
+use App\Entity\User;
 use App\Entity\Vote;
 use App\Form\MessageType;
 use App\Form\VoteType;
@@ -12,16 +13,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class VoteController extends AbstractController
 {
     #[Route('/vote/create/{id}', name: 'vote.create', requirements: ['id' => '\d+'])]
-    public function index(int $id, Request $request, ProposalRepository $pm, EntityManagerInterface $em): Response
+    public function index(int $id, Request $request, ProposalRepository $pm, EntityManagerInterface $em, #[CurrentUser] User $currentUser): Response
     {
 
         $proposal = $pm->find($id);
         $salon = $proposal->getSalon();
         $sujet = $proposal->getSujet();
+
+        $users = $salon->getUsers();
+
+        $hasAccess = $users->exists(function ($key, $value) use ($currentUser) {
+            return $value === $currentUser;
+        });
+
+        if(!$hasAccess){
+
+            return $this->redirectToRoute('home');
+
+        }
 
         /***chat envoi message***/
         $message = new Message();

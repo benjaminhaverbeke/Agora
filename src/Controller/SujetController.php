@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\UX\Turbo\TurboBundle;
 use App\Entity\Vote;
 
@@ -47,11 +48,22 @@ class SujetController extends AbstractController
 
 
     #[Route('sujet/{id}/edit', name: 'sujet.edit', requirements: ['id' => '\d+'])]
-    public function edit(int $id, Request $request, SalonController $sm): Response
+    public function edit(int $id, Request $request, SalonController $sm, #[CurrentUser] User $currentUser): Response
     {
         $sujet = $this->sujm->find($id);
 
         $salon = $sujet->getSalon();
+        $users = $salon->getUsers();
+
+        $hasAccess = $users->exists(function ($key, $value) use ($currentUser) {
+            return $value === $currentUser;
+        });
+
+        if (!$hasAccess) {
+
+            return $this->redirectToRoute('home');
+        }
+
 
         /***chat envoi message***/
         $message = new Message();
@@ -66,13 +78,10 @@ class SujetController extends AbstractController
         /******/
 
 
-
         $form = $this->createForm(SujetType::class, $sujet, ['vote' => false]);
 
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-
-
+        if ($form->isSubmitted() && $form->isValid()) {
 
 
             $this->em->flush();
@@ -81,18 +90,29 @@ class SujetController extends AbstractController
         }
 
         return $this->render('sujet/edit.html.twig', [
-            'sujet' =>$sujet,
-            'form' =>$form,
-            'messages'=> $messages,
+            'sujet' => $sujet,
+            'form' => $form,
+            'messages' => $messages,
             'messageForm' => $messageForm,
             'salon' => $salon
         ]);
     }
 
     #[Route('sujet/create/{id}', name: 'sujet.create', requirements: ['id' => '\d+'])]
-    public function create(Request $request, int $id): Response
+    public function create(Request $request, int $id, #[CurrentUser] User $currentUser): Response
     {
         $salon = $this->sm->find($id);
+
+        $users = $salon->getUsers();
+
+        $hasAccess = $users->exists(function ($key, $value) use ($currentUser) {
+            return $value === $currentUser;
+        });
+
+        if (!$hasAccess) {
+
+            return $this->redirectToRoute('home');
+        }
 
         /***chat envoi message***/
         $message = new Message();
@@ -113,7 +133,7 @@ class SujetController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
 
             $sujet->setSalon($salon);
@@ -128,7 +148,7 @@ class SujetController extends AbstractController
         }
         return $this->render('sujet/create.html.twig', [
             'form' => $form,
-            'messages'=> $messages,
+            'messages' => $messages,
             'messageForm' => $messageForm,
             'salon' => $salon
 
@@ -137,29 +157,58 @@ class SujetController extends AbstractController
     }
 
     #[Route('sujet/{id}/delete', name: 'sujet.delete')]
-    public function delete(int $id, SujetRepository $sujet, EntityManagerInterface $em, Request $request): Response {
+    public function delete(int $id, SujetRepository $sujet, EntityManagerInterface $em, Request $request, #[CurrentUser] User $currentUser): Response
+    {
+
+        $sujetTodelete = $sujet->find($id);
+        $salon = $sujetTodelete->getSalon();
 
 
-            $sujetTodelete = $sujet->find($id);
+        $users = $salon->getUsers();
 
-            $em->remove($sujetTodelete);
-            $em->flush();
+        $hasAccess = $users->exists(function ($key, $value) use ($currentUser) {
+            return $value === $currentUser;
+        });
 
-            $this->addFlash('success', 'Le sujet a bien été supprimé');
+        if(!$hasAccess){
+
+            return $this->redirectToRoute('home');
+
+        }
 
 
-            return $this->redirectToRoute('salon.index', ['id' => $sujetTodelete->getSalon()->getId()]);
+        $em->remove($sujetTodelete);
+        $em->flush();
+
+        $this->addFlash('success', 'Le sujet a bien été supprimé');
+
+
+        return $this->redirectToRoute('salon.index', ['id' => $sujetTodelete->getSalon()->getId()]);
     }
 
 
     #[Route('sujet/{id}/vote', name: 'sujet.vote', requirements: ['id' => '\d+'])]
-    public function vote(int $id, Request $request, EntityManagerInterface $em): Response
+    public function vote(int $id, Request $request, EntityManagerInterface $em, #[CurrentUser] User $currentUser): Response
     {
+
+
+
+
         $sujet = $this->sujm->find($id);
 
         $salon = $sujet->getSalon();
 
-        $user = $this->getUser();
+        $users = $salon->getUsers();
+
+        $hasAccess = $users->exists(function ($key, $value) use ($currentUser) {
+            return $value === $currentUser;
+        });
+
+        if(!$hasAccess){
+
+            return $this->redirectToRoute('home');
+
+        }
 
         /***chat envoi message***/
         $message = new Message();
@@ -175,19 +224,17 @@ class SujetController extends AbstractController
 
         $proposals = $sujet->getProposals();
 
-        foreach($proposals as $proposal) {
+        foreach ($proposals as $proposal) {
 
             $vote = new Vote();
             $vote->setProposal($proposal);
-            $vote->setUser($user);
+            $vote->setUser($currentUser);
             $vote->setSujet($sujet);
             $proposal->addVote($vote);
         }
 
 
-
         $form = $this->createForm(SujetType::class, $sujet, ['vote' => true]);
-
 
 
         $form->handleRequest($request);
@@ -196,8 +243,7 @@ class SujetController extends AbstractController
 
         $token = $this->isCsrfTokenValid('vote', $submittedToken);
         dump($token);
-        if($form->isSubmitted() && $token){
-
+        if ($form->isSubmitted() && $token) {
 
 
             $user = $this->getUser();
@@ -213,15 +259,13 @@ class SujetController extends AbstractController
         }
 
         return $this->render('sujet/vote.html.twig', [
-            'sujet' =>$sujet,
+            'sujet' => $sujet,
             'form' => $form,
-            'messages'=> $messages,
+            'messages' => $messages,
             'messageForm' => $messageForm,
             'salon' => $salon
         ]);
     }
-
-
 
 
 }
