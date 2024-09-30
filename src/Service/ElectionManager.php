@@ -152,7 +152,8 @@ class ElectionManager
         $stocklastresult = [];
         /***seulement 4 tours possibles***/
 
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 2; $i++) {
+
 
 
             $stocklastresult[] = $lastresult;
