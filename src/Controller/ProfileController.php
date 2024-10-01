@@ -3,11 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\InvitationType;
-use App\Form\RejoinType;
 use App\Repository\InvitationRepository;
 use App\Repository\SalonRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
