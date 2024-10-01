@@ -4,11 +4,18 @@
 
 
 {% block body %}
-    <section>
+    <section class="profile-content">
         <h2>Mes informations</h2>
-        <p>Mon nom d'utilisateur : {{ app.user.username }}</p>
-        <p>Mon Email : {{ app.user.email }}</p>
-        <a class="btn" href="{{ path('profile.edit') }}">Modifier mes informations</a>
+
+            <div class="box profil-info">
+                <p><span class="darkgrey-color">Mon nom d'utilisateur :</span> {{ app.user.username }}</p>
+                <p><span class="darkgrey-color">Mon Email :</span> {{ app.user.email }}</p>
+                <a class="btn" href="{{ path('profile.edit') }}">Modifier mes informations</a>
+            </div>
+
+
+
+
 
     </section>
     {#    <section> #}
@@ -39,19 +46,20 @@
     {#        </table> #}
     {#    </section> #}
 
-    <section>
-        <a class="btn" href="{{ path('salon.create') }}">Créer un nouveau salon</a>
 
-    </section>
-    <section>
+    <section class="invit-profil-content">
         <h2>Nouvelles invitations</h2>
         {% for invit in invits %}
-        <article class="box">
-            <p>Invité par {{ invit.sender.username }}</p>
-            <p>Nom de l'assemblée : {{ invit.salon.title }}</p>
-            <p>Le {{ invit.createdAt|date("d/m/Y") }}</p>
-            <a class="btn" href="{{ path('profile.invit', {id: invit.id}) }}">Rejoindre</a>
-            <a class="btn" href="{{ path('profile.refuse', {id: invit.id}) }}">Refuser</a>
+        <article class="box invit-box">
+
+                <p><span class="darkgrey-color">Invité par</span> {{ invit.sender.username }}</p>
+                <p><span class="darkgrey-color">Nom de l'assemblée :</span> {{ invit.salon.title }}</p>
+            <p><span class="darkgrey-color">Créé le</span> {{ invit.createdAt|date("d/m/Y") }}</p>
+            <div class="btn-invit">
+                <a class="btn" href="{{ path('profile.invit', {id: invit.id}) }}">Rejoindre</a>
+                <a class="btn" href="{{ path('profile.refuse', {id: invit.id}) }}">Refuser</a>
+            </div>
+
         </article>
         {% endfor %}
 

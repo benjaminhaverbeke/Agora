@@ -21,19 +21,25 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                "label" => "Nom d'utilisateur"
+                "label" => "Nom d'utilisateur",
+                'attr' => ['placeholder' => "Nom d'utilisateur"],
+
             ])
             ->add('email', EmailType::class, [
-                "label" => "Email"
+                "label" => "Email",
+                'attr' => ['placeholder' => "Email"],
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmation du mot de passe'],
+                'first_options' => ['label' => 'Mot de passe',
+                    'attr' => ['placeholder' => 'Mot de passe']],
+                'second_options' => ['label' => 'Confirmation du mot de passe',
+                    'attr' => ['placeholder' => 'Confirmation du mot de passe']],
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'attr' => ['autocomplete' => 'new-password',
+                ],
                 'constraints' => [
 
                     new NotBlank([

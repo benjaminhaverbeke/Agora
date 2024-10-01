@@ -1,5 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body%}
-    {{ form(form) }}
+    <section>
+        <div class="box profil-edit">
+            {{ form_start(form) }}
+            {{ form_row(form.username) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.plainPassword) }}
+            {{ form_end(form) }}
+        </div>
+        <a href="{{ path('profile') }}" class="btn profil-backbutton">Revenir sur le profil</a>
+    </section>
+
+
+
 {% endblock %}
