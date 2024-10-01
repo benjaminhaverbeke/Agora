@@ -42,14 +42,12 @@ class ProfileController extends AbstractController
     {
 
         $invit = $im->find($id);
-
-
         $salon = $invit->getSalon();
         $salon->addUser($currentUser);
+        $salon->removeInvitation($invit);
+
 
         $em->persist($salon);
-
-        $em->remove($invit);
 
         $em->flush();
 
@@ -63,10 +61,7 @@ class ProfileController extends AbstractController
     {
 
         $invit = $im->find($id);
-        $salon = $invit->getSalon();
-
         $em->remove($invit);
-
         $em->flush();
 
         return $this->redirectToRoute('profile');

@@ -31,7 +31,7 @@ class Sujet
     #[ORM\OneToMany(targetEntity: Proposal::class, mappedBy: 'sujet', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $proposals;
 
-    #[ORM\ManyToOne(inversedBy: 'sujets')]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'sujets')]
     private ?Salon $salon = null;
 
     /**

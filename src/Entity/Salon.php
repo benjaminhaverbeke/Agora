@@ -23,7 +23,7 @@ class Salon
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'])]
     private ?User $user = null;
 
 
@@ -42,26 +42,30 @@ class Salon
     /**
      * @var Collection<int, user>
      */
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'salons', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'salons', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $users;
 
     /**
      * @var Collection<int, Message>
      */
-    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'salon', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'salon', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $messages;
 
     /**
      * @var Collection<int, Sujet>
      */
-    #[ORM\OneToMany(targetEntity: Sujet::class, mappedBy: 'salon', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: Sujet::class, mappedBy: 'salon', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $sujets;
+
+    #[ORM\OneToMany(targetEntity: Invitation::class, mappedBy: 'salon', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $invitations;
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->messages = new ArrayCollection();
         $this->sujets = new ArrayCollection();
+        $this->invitations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -214,6 +218,33 @@ class Salon
     public function removeSujet(Sujet $sujet): static
     {
         $this->sujets->removeElement($sujet);
+
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection<int, Invitation>
+     */
+    public function getInvitations(): Collection
+    {
+        return $this->invitations;
+    }
+
+    public function addInvitation(Invitation $invitation): static
+    {
+        if (!$this->invitations->contains($invitation)) {
+            $this->invitations->add($invitation);
+            $invitation->setSalon($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvitation(Invitation $invitation): static
+    {
+        $this->invitations->removeElement($invitation);
 
 
         return $this;

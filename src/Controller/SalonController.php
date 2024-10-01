@@ -137,9 +137,12 @@ class SalonController extends AbstractController
 
             } else {
 
-                $isInvited = $im->findBy(['receiver' => $receiver, 'salon' => $salon]);
+                $invitations = $salon->getInvitations();
+                $isInvited = $invitations->filter(function($key, $value) use ($receiver){
+                    return $value === $receiver;
+                });
 
-                dump(count($isInvited));
+
                 if(count($isInvited) > 0) {
 
                     if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
@@ -158,7 +161,9 @@ class SalonController extends AbstractController
                     $invit->setSalon($salon);
                     $invit->setReceiver($receiver);
                     $invit->setSender($sender);
+                    $salon->addInvitation($invit);
 
+                    $this->em->persist($salon);
                     $this->em->persist($invit);
                     $this->em->flush();
 
@@ -381,12 +386,17 @@ class SalonController extends AbstractController
     }
 
     #[Route('salon/{id}/delete', name: 'salon.delete')]
-    public function delete(int $id, SalonRepository $salon, EntityManagerInterface $em): Response
+    public function delete(int $id, SalonRepository $sm, EntityManagerInterface $em): Response
     {
 
-        $salonTodelete = $salon->find($id);
+        $salon = $sm->find($id);
+        $user = $salon->getUser();
+        $user->removeSalon($salon);
 
-        $em->remove($salonTodelete);
+
+        $em->persist($user);
+
+        $em->remove($salon);
         $em->flush();
 
         $this->addFlash('success-salon-delete', 'Le salon a bien été supprimé');

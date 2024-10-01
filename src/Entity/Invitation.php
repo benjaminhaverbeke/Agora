@@ -20,7 +20,7 @@ class Invitation
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $receiver = null;
 
-    #[ORM\ManyToOne(targetEntity: Salon::class)]
+    #[ORM\ManyToOne(targetEntity: Salon::class, cascade: ['persist'], inversedBy: 'invitations')]
     private ?Salon $salon = null;
 
     #[ORM\Column]

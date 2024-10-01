@@ -18,12 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueEntity(fields: ['username'], message: "Ce nom d'utilisateur existe déjà")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    public function __construct(){
-        $this->created_at = new \DateTimeImmutable();
-        $this->salons = new ArrayCollection();
-        $this->votes = new ArrayCollection();
-        $this->voted = new ArrayCollection();
-    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -68,6 +63,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Sujet::class, mappedBy: 'voters', cascade: ['persist', 'remove'])]
     private Collection $voted;
 
+
+    public function __construct(){
+        $this->created_at = new \DateTimeImmutable();
+        $this->salons = new ArrayCollection();
+        $this->votes = new ArrayCollection();
+        $this->voted = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
