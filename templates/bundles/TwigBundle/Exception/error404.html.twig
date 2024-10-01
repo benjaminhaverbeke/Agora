@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section class="error404">
+        <h1>404</h1>
+
+        <h2>Page introuvable</h2>
+        <p>
+            La page demandée n'est pas localisée. Vérifiez l'URL ou
+            <a href="{{ path('home') }}">retournez sur la page d'accueil</a>.
+        </p>
+    </section>
+
+{% endblock %}

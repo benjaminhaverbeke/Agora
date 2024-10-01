@@ -63,7 +63,7 @@ login
                 {% endif %}
 
                 {% if is_granted('ROLE_ADMIN') %}
-                    <li><a href="{{ path('bundle') }}">Administration</a></li>
+                    <li><a href="{{ path('bundles') }}">Administration</a></li>
                 {% endif %}
             </ul>
         </nav>

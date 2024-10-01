@@ -9,4 +9,4 @@ framework:
             medium: ['email']
             low: ['email']
         admin_recipients:
-            - { email: bundle@example.com }
+            - { email: bundles@example.com }

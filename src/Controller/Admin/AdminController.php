@@ -32,7 +32,7 @@ class AdminController extends AbstractDashboardController
 
 
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/bundle', name: 'bundle')]
+    #[Route('/bundles', name: 'bundles')]
     public function index(): Response
     {
 

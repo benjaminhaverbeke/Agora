@@ -34,9 +34,9 @@ class ProposalFixtures extends Fixture
     {
         $user = (new User());
         $user->setRoles(['ROLE_ADMIN'])
-            ->setEmail('bundle@gmail.com')
-            ->setUsername('bundle')
-            ->setPassword($this->hasher->hashPassword($user, 'bundle'));
+            ->setEmail('bundles@gmail.com')
+            ->setUsername('bundles')
+            ->setPassword($this->hasher->hashPassword($user, 'bundles'));
 
 
         $manager->persist($user);
