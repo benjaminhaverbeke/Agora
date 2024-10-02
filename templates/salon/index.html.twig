@@ -77,45 +77,51 @@
 
         <article id="sujet_remove_{{ sujet.id }}" class="box">
 
-            <h3>{{ sujet.title }}</h3>
+            <span class="arrow-sujet material-symbols-outlined">
+keyboard_arrow_up
+</span>
+                <h3>{{ sujet.title }}</h3>
 
-            {#                            <p> #}
-            {#                                  Description : {{ sujet.description }} } #}
-            {#                               </p> #}
+                {#                            <p> #}
+                {#                                  Description : {{ sujet.description }} } #}
+                {#                               </p> #}
 
-            {#*********MODIFICATION DU SUJET EN CAMPAGNE************#}
+                {#*********MODIFICATION DU SUJET EN CAMPAGNE************#}
 
-            <section class="sujet-btn">
-                <div class="btn-icon">
-                    <span class="material-symbols-outlined">search</span>
-                </div>
+                <section class="sujet-btn">
+                    <div class="btn-icon">
+                        <span class="material-symbols-outlined">search</span>
+                    </div>
 
-                <a class="btn-icon" href="{{ path('sujet.edit', {id: sujet.id}) }}"><span
-                            class="material-symbols-outlined">edit</span>
-                </a>
+                    <a class="btn-icon" href="{{ path('sujet.edit', {id: sujet.id}) }}"><span
+                                class="material-symbols-outlined">edit</span>
+                    </a>
 
-                <a class="btn-icon" href="{{ path('sujet.delete', {id: sujet.id}) }}"><span
-                            class="material-symbols-outlined">delete</span>
-                </a>
+                    <a class="btn-icon" href="{{ path('sujet.delete', {id: sujet.id}) }}"><span
+                                class="material-symbols-outlined">delete</span>
+                    </a>
 
-                <a class="btn-icon" href="{{ path('proposal.create', {id: sujet.id}) }}"><span
-                            class="material-symbols-outlined">add</span>
-                </a>
-
-
-            </section>
+                    <a class="btn-icon" href="{{ path('proposal.create', {id: sujet.id}) }}"><span
+                                class="material-symbols-outlined">add</span>
+                    </a>
 
 
-            <ul class="proposals proposal_create_{{ sujet.id }}">
+                </section>
+
+
+
+
+
+            <ul class="proposal-ul proposal_create_{{ sujet.id }}">
 
                 {#*********************BLOC PROPOSITIONS EDITABLE EN CAMPAGNE*******************#}
 
                 {% for proposal in sujet.proposals %}
-                    <li id="delete_proposal_{{ proposal.id }}">
+                    <li class="proposal-li proposal_{{ proposal.id }}">
                         <p>{{ proposal.title }}</p>
 
 
-                        <section>
+                        <section class="proposal-btn">
                             <div class="btn-icon">
                                 <span class="material-symbols-outlined">
                                     search

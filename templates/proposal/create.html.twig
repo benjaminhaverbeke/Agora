@@ -3,7 +3,7 @@
 {% block title %}Proposition{% endblock %}
 
 {% block body %}
-    <section class="box">
+    <section class="box proposal-create">
             <h1>Créer une nouvelle proposition</h1>
 
             {{ form(form, {action: path('proposal.create', {id: sujet.id})}) }}

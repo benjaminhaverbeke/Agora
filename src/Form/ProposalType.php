@@ -92,7 +92,7 @@ class ProposalType extends AbstractType
                 ->add('description', TextareaType::class, [
                     'label' => false,
                     'attr' => [
-                        'rows' => "10",
+                        'rows' => "15",
                         'placeholder' => 'Description',
                     ]
                 ])

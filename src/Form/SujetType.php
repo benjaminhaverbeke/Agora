@@ -56,6 +56,8 @@ class SujetType extends AbstractType
                 ->add('description', TextareaType::class, [
                     'label' => 'Description',
                     'attr' => [
+                        'rows'=> "15",
+                        'class' => 'sujet-input-description',
                         'placeholder' => 'Description',
                     ]
                 ])
