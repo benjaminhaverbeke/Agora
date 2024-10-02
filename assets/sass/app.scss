@@ -814,6 +814,13 @@ p {
 .proposal-ul {
 
   list-style-type: none;
+  display: none;
+
+}
+
+.proposal-ul.active {
+
+  display: block;
 
 
 }
