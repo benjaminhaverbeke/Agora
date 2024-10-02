@@ -1,9 +1,12 @@
-import { Controller } from '@hotwired/stimulus';
+import {Controller} from '@hotwired/stimulus';
 
 export default class extends Controller {
 
-    static targets = ['arrow', 'ul'];
-    static values = { isOpen: {type: Boolean, default: false}}
+    static targets = ['arrow', 'ul', 'loupe', 'sujetDescript'];
+    static values = {
+        isViewing: {type: Boolean, default: false},
+        isOpen: {type: Boolean, default: false}
+    }
 
     animate() {
 
@@ -14,14 +17,33 @@ export default class extends Controller {
 
     hide() {
         this.ulTarget.classList.remove("active");
-        this.arrowTarget.style.rotate= "0deg";
+        this.arrowTarget.style.rotate = "0deg";
     }
 
     show() {
         this.ulTarget.classList.add("active");
-        this.arrowTarget.style.rotate="180deg";
+        this.arrowTarget.style.rotate = "180deg";
     }
 
+
+    animDesSujet() {
+
+        this.isViewingValue ? this.close() : this.open();
+        this.isViewingValue = !this.isViewingValue;
+
+    }
+
+    open() {
+
+        this.sujetDescriptTarget.classList.add("active");
+
+
+    }
+
+    close() {
+
+        this.sujetDescriptTarget.classList.remove('active');
+    }
 
 
 }

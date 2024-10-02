@@ -82,14 +82,12 @@ keyboard_arrow_up
 </span>
                 <h3>{{ sujet.title }}</h3>
 
-                {#                            <p> #}
-                {#                                  Description : {{ sujet.description }} } #}
-                {#                               </p> #}
+
 
                 {#*********MODIFICATION DU SUJET EN CAMPAGNE************#}
 
                 <section class="sujet-btn">
-                    <div class="btn-icon">
+                    <div data-action="click->deroulant#animDesSujet" class="btn-icon">
                         <span class="material-symbols-outlined">search</span>
                     </div>
 
@@ -109,7 +107,7 @@ keyboard_arrow_up
                 </section>
 
 
-
+            <p data-deroulant-target="sujetDescript" class="sujet-content">{{ sujet.description }}</p>
 
 
             <ul class="proposal-ul" data-deroulant-target="ul">
@@ -123,7 +121,7 @@ keyboard_arrow_up
 
                         <section class="proposal-btn">
                             <div class="btn-icon">
-                                <span class="material-symbols-outlined">
+                                <span  class="material-symbols-outlined">
                                     search
                                 </span>
                             </div>

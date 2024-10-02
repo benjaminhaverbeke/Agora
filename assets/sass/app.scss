@@ -221,7 +221,7 @@ h1 {
 
   h2 {
 
-    font-weight:  $light;
+    font-weight: $light;
   }
 
 }
@@ -234,12 +234,13 @@ h1 {
   padding: 1em;
   text-align: left;
 
-p {
-  margin: .5rem;
-}
+  p {
+    margin: .5rem;
+  }
 
 }
-.btn-invit  {
+
+.btn-invit {
   display: flex;
   justify-content: space-evenly;
   width: 100%;
@@ -247,9 +248,7 @@ p {
 }
 
 
-
-
-.profil-edit{
+.profil-edit {
 
   input {
     margin: .5rem;
@@ -276,29 +275,25 @@ p {
     margin-bottom: .8rem;
   }
 
-    textarea {
-      border-radius: 15px;
-    }
+  textarea {
+    border-radius: 15px;
+  }
 
 
+  .btn {
 
-
-    .btn {
-
-      margin-top: .5rem;
-    }
-
-
+    margin-top: .5rem;
+  }
 
 
 }
-
 
 
 /*login*/
 .login input, .login h1 {
   margin-bottom: 1.5rem;
 }
+
 .login {
 
   margin-top: 6rem;
@@ -316,7 +311,6 @@ p {
     margin-bottom: 1rem;
   }
 }
-
 
 
 .rememberbox {
@@ -342,7 +336,6 @@ p {
 
 
 /**************************salon list*******************************/
-
 
 
 .salonlist {
@@ -658,6 +651,7 @@ p {
     border-radius: 10px;
     padding: .7rem;
   }
+
   .warning {
 
     background-color: orange;
@@ -767,14 +761,7 @@ p {
 }
 
 
-
-
-
-
-
 /*************SUJET EDIT BOX*******************/
-
-
 
 
 .sujet-app {
@@ -810,7 +797,6 @@ p {
 /***proposal***/
 
 
-
 .proposal-ul {
 
   list-style-type: none;
@@ -825,6 +811,7 @@ p {
 
 }
 
+
 .proposal-li {
 
   display: flex;
@@ -834,8 +821,6 @@ p {
   margin-top: .5rem;
   margin-bottom: .5rem;
   padding: .5rem;
-
-
 
 
 }
@@ -848,10 +833,27 @@ p {
   padding-right: .2rem;
 }
 
+
+.sujet-content {
+
+
+  display: none;
+  background-color: white;
+  border-radius: 15px;
+  overflow: scroll;
+  text-align: justify;
+  width: 100%;
+  word-wrap: break-word;
+  padding: 1em;
+}
+
+.sujet-content.active {
+
+  display: block;
+
+}
+
 /*** Chat ***/
-
-
-
 
 
 #message_save {
@@ -862,7 +864,6 @@ p {
   background-color: transparent;
   width: 3rem;
 }
-
 
 
 #messages {
@@ -876,11 +877,11 @@ p {
   flex-direction: column-reverse;
 
 
-
   .message-user {
     text-align: left;
 
   }
+
   .message-date {
 
     text-align: right;
@@ -916,7 +917,6 @@ p {
 }
 
 
-
 .bulle_chat {
 
   width: 90%;
@@ -945,7 +945,7 @@ p {
 
 .button-chat {
 
-  position : absolute;
+  position: absolute;
   left: 140vw;
   top: 18vh;
   rotate: -45deg;
@@ -998,6 +998,7 @@ p {
   }
 
 }
+
 #save-vote {
 
   margin: .5rem;
@@ -1019,6 +1020,7 @@ p {
   justify-content: space-between;
 
 }
+
 /**************PHASE RESULTATS*******************/
 /***************SALON*******************/
 
@@ -1058,6 +1060,7 @@ p {
 
 
   }
+
   .proposal-title {
 
     writing-mode: vertical-lr;
@@ -1073,8 +1076,6 @@ p {
   font-size: 1rem;
   flex-grow: 0;
   flex-basis: 1rem;
-
-
 
 
 }
@@ -1128,9 +1129,7 @@ p {
 /*****ADMIN*********/
 
 
-
 /*******ERREUR 404***********/
-
 
 
 .error404, .error403, .error {
@@ -1170,11 +1169,6 @@ p {
     padding-bottom: 1em;
     text-align: left;
   }
-
-
-
-
-
 
 
 }
@@ -1219,12 +1213,7 @@ p {
   }
 
 
-
-
 }
-
-
-
 
 
 @media screen and (max-width: 1600px) {
@@ -1234,8 +1223,6 @@ p {
 
 
 /* for desktop */
-
-
 
 
 /**********A GARDER POUR AFFICHER RESULTATS DESKTOP********************/
