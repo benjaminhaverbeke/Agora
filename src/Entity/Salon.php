@@ -42,7 +42,7 @@ class Salon
     /**
      * @var Collection<int, user>
      */
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'salons', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'salons', cascade: ['persist'])]
     private Collection $users;
 
     /**

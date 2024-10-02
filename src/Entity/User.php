@@ -60,7 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Sujet>
      */
-    #[ORM\ManyToMany(targetEntity: Sujet::class, mappedBy: 'voters', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToMany(targetEntity: Sujet::class, mappedBy: 'voters', cascade: ['persist'])]
     private Collection $voted;
 
 

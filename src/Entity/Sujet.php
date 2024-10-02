@@ -25,13 +25,13 @@ class Sujet
     private ?string $description = null;
 
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'])]
     private ?User $user;
 
     #[ORM\OneToMany(targetEntity: Proposal::class, mappedBy: 'sujet', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $proposals;
 
-    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'sujets')]
+    #[ORM\ManyToOne(targetEntity: Salon::class, inversedBy: 'sujets')]
     private ?Salon $salon = null;
 
     /**

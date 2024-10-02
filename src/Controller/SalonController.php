@@ -391,14 +391,9 @@ class SalonController extends AbstractController
     public function delete(int $id, SalonRepository $sm, EntityManagerInterface $em): Response
     {
 
-        $salon = $sm->find($id);
-        $user = $salon->getUser();
-        $user->removeSalon($salon);
-
-
-        $em->persist($user);
-
+        $salon = $sm->findSalonIndex($id);
         $em->remove($salon);
+
         $em->flush();
 
         $this->addFlash('success-salon-delete', 'Le salon a bien été supprimé');
