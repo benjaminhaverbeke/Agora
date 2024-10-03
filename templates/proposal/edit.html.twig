@@ -3,7 +3,7 @@
 {% block title %}Proposition{% endblock %}
 
 {% block body %}
-    <section class="box">
+    <section class="box proposal-edit">
 
             {{ form(form, {action: path('proposal.edit', {id: proposal.id})}) }}
         <a class="btn" href="{{ path('salon.index', {id: salon.id}) }}">Retour</a>

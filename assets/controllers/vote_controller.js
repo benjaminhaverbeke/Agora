@@ -3,53 +3,34 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
 
-    static targets = ['inadapte', 'passable', 'bien', 'tresbien', 'excellent', 'id' ];
-
-    static values = { validMention: {
-        mention: String, id: Number
-        }}
-
-    const
-    inadapte() {
+    static targets = ['mentionUl', 'originalSelect'];
 
 
-        this.validMentionValue.mention = 'inadapte';
-        this.validMentionValue.id = this.idTarget.dataset.id;
+    initialize() {
 
 
-    }
 
-    passable() {
+       const mentions =  this.mentionUlTarget.querySelectorAll('.mention-li');
 
-        this.validMentionValue.mention = 'passable';
-        this.validMentionValue.id = this.idTarget.dataset.id;
+        mentions.forEach((mention) => {
 
-    }
+            let select = this.originalSelectTarget;
 
-    bien() {
+            mention.addEventListener('click', function() {
 
-        this.validMentionValue.mention = 'bien';
-        this.validMentionValue.id = this.idTarget.dataset.id;
+
+                select.value = mention.dataset.mention;
+
+            });
+        })
 
     }
 
-    tresbien() {
-
-        this.validMentionValue.mention = 'tresbien';
-        this.validMentionValue.id = this.idTarget.dataset.id;
-    }
-
-    excellent() {
-
-        this.validMentionValue.mention = 'excellent';
-        this.validMentionValue.id = this.idTarget.dataset.id;
-
-    }
+    animate(){
 
 
-    test() {
 
-        this.dispatch('click', {detail: {content: this.validMentionValue}})
+
     }
 
 

@@ -30,6 +30,10 @@ class VoteType extends AbstractType
                 'disabled' => true
             ])
             ->add('notes', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'original-select-vote',
+                    'data-vote-target' => 'originalSelect'
+                ],
                 'choices' => [
 
                     'Inadapté' => 'inadapte',
@@ -39,6 +43,14 @@ class VoteType extends AbstractType
                     'Excellent' => 'excellent',
 
                 ],
+                'choice_attr' => [
+                    'Inadapté' => ['data-mention' => 'inadapte'],
+                    'Passable' => ['data-mention' => 'passable'],
+                    'Bien' => ['data-mention' => 'bien'],
+                    'Très Bien' => ['data-mention' => 'tresbien'],
+                    'Excellent' => ['data-mention' => 'excellent'],
+                ],
+
                 'empty_data' => 'bien'
             ]);
 

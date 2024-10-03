@@ -179,14 +179,15 @@ h1 {
 
 .profile-content {
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   h2 {
 
     font-weight: $light;
   }
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 
   .profil-info {
 
@@ -816,13 +817,39 @@ h1 {
 
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   border-radius: 15px;
   border: solid 1px black;
   margin-top: .5rem;
   margin-bottom: .5rem;
   padding: .5rem;
 
+  p:first-child, .proposal-btn {
 
+    flex-basis: 8em;
+  }
+
+
+}
+
+
+.proposal-content {
+  display: none;
+  background-color: white;
+  border-radius: 10px;
+  overflow: scroll;
+  text-align: justify;
+  width: 100%;
+  word-wrap: break-word;
+  padding: 1em;
+  margin-top: .5rem;
+
+
+}
+
+.proposal-content.active {
+
+  display: block;
 }
 
 .proposal-btn {
@@ -833,13 +860,23 @@ h1 {
   padding-right: .2rem;
 }
 
+.proposal-edit {
+
+  input, .btn, textarea {
+
+    margin-bottom: 1rem;
+  }
+
+
+}
+
 
 .sujet-content {
 
 
   display: none;
   background-color: white;
-  border-radius: 15px;
+  border-radius: 10px;
   overflow: scroll;
   text-align: justify;
   width: 100%;
@@ -1020,6 +1057,107 @@ h1 {
   justify-content: space-between;
 
 }
+
+
+.sujet-vote {
+
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h3 {
+
+    font-weight: $light;
+  }
+
+}
+
+.select-vote select {
+
+  display: none;
+
+
+}
+
+
+.original-select-vote {
+
+  display: none;
+
+
+}
+
+.vote-form {
+
+  ul {
+    list-style-type: none;
+
+
+  }
+
+
+}
+
+.mention-ul {
+
+
+  .mention-li {
+
+    padding: .2rem 1rem .2rem 1rem;
+    border-radius: 10px;
+    color: white;
+    margin: .3rem;
+
+
+  }
+
+
+
+  .mention-li:first-child {
+
+    background-color: red;
+
+  }
+
+  .mention-li:nth-child(2) {
+
+
+    background-color: brown;
+  }
+
+  .mention-li:nth-child(3) {
+
+
+    background-color: yellow;
+  }
+
+  .mention-li:nth-child(4) {
+
+    background-color: orange;
+
+  }
+
+  .mention-li:nth-child(5) {
+
+    background-color: green;
+  }
+
+
+}
+
+.mention-li:hover {
+
+  opacity: 80%;
+  cursor: pointer;
+}
+
+.vote-title, .vote-description {
+
+  background-color: $lightgrey;
+
+}
+
 
 /**************PHASE RESULTATS*******************/
 /***************SALON*******************/

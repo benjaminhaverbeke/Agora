@@ -42,8 +42,18 @@ class ProposalType extends AbstractType
             $builder
                 ->add('title', TextType::class, [
                     'label' => 'Titre',
+                    'attr' => [
+                      'class' => 'vote-title'
+                    ],
                     'disabled' => true
 
+                ])
+                ->add('description', TextareaType::class, [
+                    'label' => 'Description',
+                    'attr' => [
+                        'class' => 'vote-description'
+                    ],
+                    'disabled' => true
                 ])
                 ->add('votes', CollectionType::class,
                 [
@@ -56,29 +66,6 @@ class ProposalType extends AbstractType
 
                 ]);
 
-
-
-
-
-
-
-//                function (FormEvent $event) use ($isVote) {
-//
-//                    $votes = $event->getData();
-//                    $form = $event->getForm();
-//
-//
-//                    $newVote = $votes->filter(function($element) {
-//                        return $element->getId() === null;
-//                    });
-//
-//                    $form->remove('votes');
-//
-//
-//
-//
-//
-//                });
 
         } else {
 

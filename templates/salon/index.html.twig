@@ -115,31 +115,35 @@ keyboard_arrow_up
                 {#*********************BLOC PROPOSITIONS EDITABLE EN CAMPAGNE*******************#}
 
                 {% for proposal in sujet.proposals %}
-                    <li class="proposal-li proposal_{{ proposal.id }}">
-                        <p>{{ proposal.title }}</p>
+                    <li class="proposal-li proposal_{{ proposal.id }}" data-controller="proposal">
+
+                            <p>{{ proposal.title }}</p>
 
 
-                        <section class="proposal-btn">
-                            <div class="btn-icon">
+                            <section class="proposal-btn">
+                                <div class="btn-icon" data-action="click->proposal#animate">
                                 <span  class="material-symbols-outlined">
                                     search
                                 </span>
-                            </div>
+                                </div>
 
-                            <a class="btn-icon" href="{{ path('proposal.edit', {id: proposal.id}) }}"><span
-                                        class="material-symbols-outlined">
+                                <a class="btn-icon" href="{{ path('proposal.edit', {id: proposal.id}) }}"><span
+                                            class="material-symbols-outlined">
                                     edit
                                 </span>
-                            </a>
+                                </a>
 
 
-                            <a class="btn-icon" href="{{ path('proposal.delete', {id: proposal.id}) }}"><span
-                                        class="material-symbols-outlined">
+                                <a class="btn-icon" href="{{ path('proposal.delete', {id: proposal.id}) }}"><span
+                                            class="material-symbols-outlined">
                                     delete
                                 </span>
-                            </a>
-                        </section>
+                                </a>
+                            </section>
 
+
+
+                        <p data-proposal-target="description" class="proposal-content">{{ proposal.description }}</p>
 
                     </li>
                 {% endfor %}
@@ -153,7 +157,11 @@ keyboard_arrow_up
 
                 {% for sujet in sujetIsVoted %}
 
-            <article class="box">
+            <article class="box sujet-vote" data-controller="deroulant">
+
+                    <span data-deroulant-target="arrow" data-action="click->deroulant#animate" class="arrow-sujet material-symbols-outlined">
+keyboard_arrow_up
+</span>
 
                     <h3>{{ sujet.sujet.title }}</h3>
 
@@ -177,23 +185,22 @@ keyboard_arrow_up
 
                         {#*************CAS SUJET SANS PROPOSITIONS*****************#}
 
-                        <article class="box">
+                        <article>
                             <p>Ce sujet n'a pas reçu de proposition</p>
                         </article>
 
 
-
-
-
-
-
                     {% else %}
-                        <article class="box">
+                        <article>
 
                         <section class="sujet-btn">
 
+                            <div data-action="click->deroulant#animDesSujet" class="btn-icon">
+                                <span class="material-symbols-outlined">search</span>
+                            </div>
+
                             <a class="btn-icon" href="{{ path('sujet.vote', {id: sujet.sujet.id}) }}"><span
-                                        class="material-symbols-outlined">edit</span>
+                                        class="material-symbols-outlined">how_to_vote</span>
                             </a>
 
                         </section>
