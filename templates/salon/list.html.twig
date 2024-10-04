@@ -4,25 +4,27 @@
 
 {% block body %}
     <h1>Mes assemblées</h1>
+<section class="salonlist-container">
+    {% for salon in salonlist %}
+        <article class="box salonlist">
+            <h3>{{ salon["salon"].title }}</h3>
+            <div class="list-content">
+                <p>Nombre de sujets : {{ salon["nbSujets"] }}</p>
 
-        {% for salon in salonlist %}
-<article class="box salonlist">
-    <h3>{{ salon["salon"].title }}</h3>
-<div class="list-content">
-    <p>Nombre de sujets : {{ salon["nbSujets"] }}</p>
-
-    <p>Nombre d'utilisateurs : {{ salon["nbUsers"] }}</p>
-    <p>Fin de la campagne : {{ salon["salon"].dateCampagne|date("d/m/Y H:m") }}</p>
-    <p>Clôture des votes : {{ salon["salon"].dateVote|date("d/m/Y H:m") }}</p>
-    <p>Crée par : {{ salon["salon"].user.username }}</p>
-</div>
-
-
-    <a class="btn" href="{{ path('salon.index', {id: salon["salon"].id}) }}">Rejoindre</a>
-</article>
+                <p>Nombre d'utilisateurs : {{ salon["nbUsers"] }}</p>
+                <p>Fin de la campagne : {{ salon["salon"].dateCampagne|date("d/m/Y H:m") }}</p>
+                <p>Clôture des votes : {{ salon["salon"].dateVote|date("d/m/Y H:m") }}</p>
+                <p>Crée par : {{ salon["salon"].user.username }}</p>
+            </div>
 
 
-        {% endfor %}
+            <a class="btn" href="{{ path('salon.index', {id: salon["salon"].id}) }}">Rejoindre</a>
+        </article>
+
+
+    {% endfor %}
+</section>
+
 
 <div class="pagination">
     {% if page > 1 %}

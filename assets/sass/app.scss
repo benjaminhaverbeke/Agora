@@ -127,8 +127,9 @@ textarea {
 
 .btn:hover {
 
-  background-color: $lightgrey;
+  background-color: $lightpurple;
   color: $darkblue;
+  cursor: pointer;
 }
 
 
@@ -146,31 +147,23 @@ h1 {
   margin-bottom: 2rem;
 }
 
+.container {
 
-@media screen and (max-width: 425px) {
-  /*titres*/
-
-  /*container*/
-  .container {
-
-    margin: auto;
-    width: 100%;
-  }
+  margin: auto;
+  width: 100%;
+}
 
 
-  /* for mobile phones */
+/* for mobile phones */
 
-  .box {
+.box {
 
-    width: 90%;
-    margin: 1rem auto 2rem auto;
-    background-color: $lightgrey;
-    padding: 1em;
-    text-align: center;
-    border-radius: 20px;
-
-
-  }
+  width: 90%;
+  margin: 1rem auto 2rem auto;
+  background-color: $lightgrey;
+  padding: 1em;
+  text-align: center;
+  border-radius: 20px;
 
 
 }
@@ -379,7 +372,6 @@ h1 {
   width: 100%;
   padding: 1em;
   position: absolute;
-  bottom: 0;
   text-align: center;
 }
 
@@ -426,7 +418,8 @@ h1 {
 }
 
 #logo {
-  width: 20%;
+  width: auto;
+  max-height: 5.2rem;
 }
 
 /* Sidenav menu */
@@ -1273,6 +1266,7 @@ h1 {
   justify-content: space-evenly;
   height: fit-content;
 
+
   .row {
 
     display: flex;
@@ -1438,48 +1432,304 @@ h1 {
 
 }
 
+/*****************************************************/
+/*                   DESKTOP                         */
+/*****************************************************/
 
-@media screen and (max-width: 1600px) {
 
+@media screen and (min-width: 1024px) {
+
+
+  /***HEADER***/
+
+  .header {
+
+    height: 6rem;
+    width: 100vw;
+
+    z-index: 3;
+
+
+  }
+
+
+  .sidenav {
+
+    width: 28vw;
+
+
+    a {
+
+      font-size: 1.4rem;
+    }
+
+    ul {
+
+      max-height: 5.2rem;
+
+
+    }
+
+
+  }
+
+
+  /*** SALON LIST DESKTOP ***/
+
+  .salonlist-container {
+
+
+    display: flex;
+    justify-content: space-between;
+
+
+  }
+  .salonlist {
+
+    width: 30%;
+
+
+  }
+
+  .create-salon {
+
+    background-color: white;
+  }
+
+
+  /***CREATION D'ASSEMBLEE DESKTOP***/
+
+  .salon-form {
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 60vh;
+    justify-content: space-evenly;
+    width: 87rem;
+
+
+    div:first-child {
+
+      flex-basis: 10%;
+
+    }
+
+    div:nth-child(2) {
+
+
+      flex-basis: 90%;
+
+    }
+
+    div:nth-child(3) {
+
+      flex-basis: 20%;
+
+    }
+
+    div:nth-child(4) {
+
+    flex-basis: 30%;
+    }
+
+    textarea {
+
+      width: 40rem;
+      height: 48vh;
+    }
+
+    input {
+
+      width: 40rem;
+    }
+  }
+
+
+  /*** HOME DESKTOP***/
+
+  .home-content {
+
+    h1 {
+      background-color: $lightpurple;
+      padding: 1rem 3rem;
+      border-radius: 10px;
+      color: white;
+      margin: 1rem;
+
+
+    }
+  }
+
+  .home-box {
+
+
+    h2 {
+      padding: 0;
+    }
+
+    margin: 2rem 5rem;
+
+    background-color: $lightgrey;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .register-btn {
+
+    align-self: center;
+    margin: 2rem;
+    padding: 1rem 3rem;
+
+  }
+
+
+  /***LOGIN DESKTOP***/
+
+
+  .login, .register, .contact {
+
+    background-color: $lightgrey;
+    width: 50vw;
+    margin: 9rem auto;
+    padding: 2rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+
+    h1 {
+
+      margin: 1rem;
+    }
+
+    input {
+
+      width: 20vw;
+    }
+
+    form {
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 1rem;
+    }
+
+    .btn {
+
+      width: 10vw;
+      margin: 0;
+    }
+
+
+  }
+
+
+  .contact {
+
+    input {
+
+      width: 45vw;
+    }
+
+    .btn {
+
+      margin-top: 1rem;
+
+    }
+
+  }
+
+
+  /***PROFIL CONTENT***/
+
+
+  .profile-content {
+
+
+    background-color: lightgrey;
+    width: 40vw;
+    margin: 5rem auto;
+    border-radius: 10px;
+    padding: 1rem;
+
+    h2 {
+
+
+      padding: 1rem;
+    }
+
+    .btn {
+
+      margin-top: 1rem;
+
+    }
+
+
+  }
+
+
+  /***CHAT DESKTOP***/
+
+  .button-chat {
+
+    display: none;
+
+
+  }
+
+  .message_content {
+
+
+    input {
+
+
+      width: 5rem;
+    }
+
+  }
+
+  .chat-container {
+
+    order: 1;
+
+    .chat-window {
+
+          position: static;
+          height: 5rem;
+          width: 30vw;
+
+      input {
+
+        width: 5rem;
+
+      }
+    }
+
+
+
+  }
+
+  #message {
+
+  }
+
+
+
+
+
+
+
+
+
+  /**end**/
 
 }
 
 
-/* for desktop */
 
-
-/**********A GARDER POUR AFFICHER RESULTATS DESKTOP********************/
-//.grid-vote {
-//  width: 95%;
-//  display: flex;
-//  margin: auto;
-//  flex-direction: column;
-//  border-left: 5px black solid;
-//  border-bottom: 5px black solid;
-//  padding: .5rem;
-//
-//  .row {
-//
-//    display: flex;
-//    justify-content: flex-start;
-//
-//
-//  }
-//}
-//
-////.transition {
-////  width: 100%;
-////  overflow: visible;
-////
-////  transition: width 4s ease-in;
-////}
-//
-//.row > * {
-//
-//  font-size: 1rem;
-//  flex-grow: 0;
-//  flex-basis: 0;
-//  margin-top: 1em;
-//  width: 100vw;
-//
-//}

@@ -8,7 +8,7 @@ export default class extends Controller {
 
     initialize() {
 
-        let title = this.titleTarget;
+
 
        const mentions =  this.mentionUlTarget.querySelectorAll('.mention-li');
 

@@ -11,10 +11,10 @@
 
                 <a class="btn" href="{{ path('salon.create') }}">Nouvelle assemblée</a>
             </section>
-        {% else %}
 
-            <a class="btn register-btn" href="{{ path('register') }}">S'inscrire</a>
         {% endif %}
+
+
         <section class="box home-box">
             <h2>C'est quoi Agora ?</h2>
             <p>Agora est une application destinée à s’organiser entre militants,
@@ -29,6 +29,8 @@
                 membres.
             </p>
             <p> Prêt à rejoindre votre première assemblée ? </p>
+            <a class="btn register-btn" href="{{ path('register') }}">S'inscrire</a>
+
         </section>
 
 
