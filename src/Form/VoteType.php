@@ -46,7 +46,8 @@ class VoteType extends AbstractType
                 'choice_attr' => [
                     'Inadapté' => ['data-mention' => 'inadapte'],
                     'Passable' => ['data-mention' => 'passable'],
-                    'Bien' => ['data-mention' => 'bien'],
+                    'Bien' => ['data-mention' => 'bien',
+                        'selected' => "selected"],
                     'Très Bien' => ['data-mention' => 'tresbien'],
                     'Excellent' => ['data-mention' => 'excellent'],
                 ],

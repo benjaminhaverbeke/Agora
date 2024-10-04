@@ -2,10 +2,11 @@ import {Controller} from '@hotwired/stimulus';
 
 export default class extends Controller {
 
-    static targets = ['arrow', 'ul', 'loupe', 'sujetDescript'];
+    static targets = ['arrow', 'ul', 'loupe', 'sujetDescript', 'votedUl'];
     static values = {
         isViewing: {type: Boolean, default: false},
-        isOpen: {type: Boolean, default: false}
+        isOpen: {type: Boolean, default: false},
+        votedUl: {type: Boolean, default: false}
     }
 
     animate() {
@@ -43,6 +44,28 @@ export default class extends Controller {
     close() {
 
         this.sujetDescriptTarget.classList.remove('active');
+    }
+
+    animVoted() {
+
+        this.votedUlValue ? this.closeVoted() : this.openVoted();
+        this.votedUlValue = !this.votedUlValue;
+
+    }
+
+    openVoted() {
+
+        this.votedUlTarget.classList.add("active");
+        this.arrowTarget.style.rotate = "180deg";
+
+
+    }
+
+    closeVoted() {
+
+        this.votedUlTarget.classList.remove('active');
+        this.arrowTarget.style.rotate = "0deg";
+
     }
 
 

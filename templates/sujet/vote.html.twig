@@ -11,15 +11,16 @@
 
         <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
 
-        <ul class="tags">
+        <ul >
             {% for proposal in form.proposals %}
-                <li>{{ form_row(proposal.title) }}</li>
-                <li>{{ form_row(proposal.description) }}</li>
+
+                <li data-controller="vote" class="proposal-vote-content">
+                <p data-vote-target="title">{{ form_row(proposal.title) }}</p>
+                <p>{{ form_row(proposal.description) }}</p>
                 {% for vote in proposal.votes %}
 
                     {% if field_value(vote.user) == app.user.email %}
-                        <div data-controller="vote">
-                    <span data-action="click->vote#animate" class="material-symbols-outlined">how_to_vote</span>
+                        <div >
                             {{ form_row(vote.notes) }}
                             <ul data-vote-target="mentionUl" class="mention-ul">
                                 <li data-mention="inadapte" class="mention-li">Inadapté</li>
@@ -30,9 +31,10 @@
                             </ul>
                         </div>
 
-
                     {% endif %}
+
                 {% endfor %}
+                </li>
             {% endfor %}
         </ul>
 

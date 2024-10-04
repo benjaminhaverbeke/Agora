@@ -157,15 +157,15 @@ keyboard_arrow_up
 
                 {% for sujet in sujetIsVoted %}
 
-            <article class="box sujet-vote" data-controller="deroulant">
+            <section class="box sujet-vote" data-controller="deroulant">
 
-                    <span data-deroulant-target="arrow" data-action="click->deroulant#animate" class="arrow-sujet material-symbols-outlined">
-keyboard_arrow_up
-</span>
 
                     <h3>{{ sujet.sujet.title }}</h3>
+                    <span data-deroulant-target="arrow" data-action="click->deroulant#animVoted" class="arrow-sujet material-symbols-outlined">
+                    keyboard_arrow_up
+                    </span>
 
-
+                    <section class="voted-section" data-deroulant-target="votedUl">
                     {% if sujet.voted == true %}
 
                         <ul class="proposals">
@@ -173,14 +173,25 @@ keyboard_arrow_up
 
                             <li class="hasvoted">
                                 <p>{{ vote.proposal.title }}</p>
-                                <p>{{ vote.notes }}</p>
+
+                                {% if vote.notes == 'inadapate' %}
+                                <p class="red">Inadapté</p>
+                                {% elseif vote.notes == 'passable' %}
+                                <p class="brown">Passable</p>
+                                {% elseif vote.notes == 'bien' %}
+                                <p class="yellow">Bien</p>
+                                {% elseif vote.notes == 'tresbien' %}
+                                <p class="orange">Très Bien</p>
+                                {% else %}
+                                <p class="green">Excellent</p>
+                                {% endif %}
                             </li>
 
 
                         {% endfor %}
                         </ul>
 
-                        </article>
+
                     {% elseif sujet.sujet.proposals|length == 0 %}
 
                         {#*************CAS SUJET SANS PROPOSITIONS*****************#}
@@ -191,7 +202,7 @@ keyboard_arrow_up
 
 
                     {% else %}
-                        <article>
+
 
                         <section class="sujet-btn">
 
@@ -209,12 +220,12 @@ keyboard_arrow_up
 
                     {% endif %}
 
-
+                    </section>
 
                 {% endfor %}
                 {#            verification des sujets déjà validés #}
 
-                </article>
+                </section>
 
             {% else %}
 
@@ -239,7 +250,7 @@ keyboard_arrow_up
                         {% for sujet in result.result %}
                             <p>Tour {{ loop.index }}</p>
                             <p id="winner"></p>
-                    <div data-results-target="grid" class="grid-vote" id="tour_{{ loop.index }}">
+                    <div data-results-target="grid" class="grid-vote tour_{{ loop.index }}">
                         {% for prop in sujet %}
 
                         <div class="proposal_{{ prop.proposalId }} row">
@@ -279,7 +290,7 @@ keyboard_arrow_up
 
 
 
-    </section>
+
     {% if time.type == 'campagne' %}
         <section class="sujet-app-create">
             <a class="btn" href="{{ path('sujet.create', {id: salon.id}) }}">Créer un nouveau sujet</a>
@@ -287,7 +298,7 @@ keyboard_arrow_up
     {% endif %}
 
 
-
+</section>
 
 
     {% block chat %}

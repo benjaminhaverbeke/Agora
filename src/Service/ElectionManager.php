@@ -91,9 +91,7 @@ class ElectionManager
     /****stock les mentions gagnantes pour chaque proposition****/
     public function allWinnerMentions(array $mentionsarray): array
     {
-
         /****itération de la mention la plus grande à la plus petite***/
-
         $comparearray = ["inadapte", "passable", "bien", "tresbien", "excellent"];
         /***stock le ou les résultats***/
         $matchingVotes = [];
@@ -133,9 +131,8 @@ class ElectionManager
     }
 
 
-    public function departageMentions(array $matchingVotes)
+    public function departageMentions(array $matchingVotes) : array
     {
-
         /***mentions de départ***/
         $mentions = ['inadapte', 'passable', 'bien', 'tresbien', 'excellent'];
 
@@ -188,8 +185,7 @@ class ElectionManager
                          * il y a donc égalité parfaite
                          * stockresult retourne les
                          */
-
-                        return $stocklastresult[0];
+                        return $stocklastresult;
 
                     }
 
@@ -253,9 +249,7 @@ class ElectionManager
 
         /****si on sort de la boucle (4tours max) alors les propositions sont à égalité,
          * dans ce cas on retourne un tableau avec plusieurs valeurs***
-         */
-        dump($stocklastresult);
-        return $stocklastresult;
+         */ return $stocklastresult;
 
     }
 
@@ -279,7 +273,22 @@ class ElectionManager
         $result = $this->departageMentions($all_win_mentions);
 //       var_dump($result);
 
-        return $result;
+
+        $results = [$all_mentions];
+
+        foreach ($result as $match) {
+
+            if(!empty($match)){
+
+                $results[] = $match;
+
+            }
+
+        }
+
+
+
+        return $results;
 
     }
 

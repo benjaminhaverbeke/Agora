@@ -40,7 +40,6 @@ export default class extends Controller {
 
                 } else {
 
-                    console.log(element.result)
 
                     const sujet = document.querySelector('#sujet_results_' + element.sujet);
 
@@ -49,11 +48,9 @@ export default class extends Controller {
 
                         index++;
 
-                        const grid = sujet.querySelector('#tour_' + index);
+                        const grid = sujet.querySelector('.tour_' + index);
 
 
-                        console.log(grid)
-                        console.log(typeof result)
                         result.forEach((prop) => {
 
 

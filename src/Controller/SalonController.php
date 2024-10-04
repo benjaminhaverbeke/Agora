@@ -296,6 +296,7 @@ class SalonController extends AbstractController
             }
 
 
+
             return $this->render('salon/index.html.twig', [
                 'messageForm' => $messageForm,
                 'salon' => $salon,
