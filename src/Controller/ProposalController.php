@@ -171,7 +171,7 @@ class ProposalController extends AbstractController
     #[Route('proposal/{id}/delete', name: 'proposal.delete')]
     public function delete(int $id, ProposalRepository $pm, EntityManagerInterface $em, Request $request, #[CurrentUser] User $currentUser): Response
     {
-        $proposal = $this->pm->findBy(['id' => $id]);
+        $proposal = $this->pm->find($id);
         $salon = $proposal->getSalon();
         $users = $salon->getUsers();
 

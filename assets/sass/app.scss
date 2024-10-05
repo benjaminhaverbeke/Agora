@@ -108,7 +108,6 @@ textarea {
   background-color: white;
   color: black;
   display: flex;
-  padding: .5rem;
   text-decoration: none;
   width: 3rem;
   height: 3rem;
@@ -754,6 +753,18 @@ h1 {
 
 }
 
+.sujet-campagne {
+
+  h3 {
+
+    font-weight: $light;
+    overflow-wrap: anywhere;
+    width: 100%
+  }
+
+
+}
+
 
 /*************SUJET EDIT BOX*******************/
 
@@ -769,6 +780,7 @@ h1 {
 
     text-decoration: none;
     color: black;
+
 
   }
 
@@ -800,7 +812,7 @@ h1 {
 
 .proposal-ul.active {
 
-  display: block;
+  display: flex;
 
 
 }
@@ -810,16 +822,17 @@ h1 {
 
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
-  border-radius: 15px;
+  border-radius: 10px;
   border: solid 1px black;
-  margin-top: .5rem;
-  margin-bottom: .5rem;
   padding: .5rem;
+  margin-bottom: .5rem;
+  align-items: center;
 
-  p:first-child, .proposal-btn {
+  p:first-child {
 
-    flex-basis: 8em;
+    flex-basis: 70%;
+    overflow-wrap: anywhere;
+    text-align: left;
   }
 
 
@@ -847,10 +860,11 @@ h1 {
 
 .proposal-btn {
 
-
+  flex-basis: 25%;
   display: flex;
-  justify-content: space-evenly;
-  padding-right: .2rem;
+  justify-content: space-around;
+
+
 }
 
 .proposal-edit {
@@ -875,6 +889,8 @@ h1 {
   width: 100%;
   word-wrap: break-word;
   padding: 1em;
+  margin-bottom: .5rem;
+
 }
 
 .sujet-content.active {
@@ -923,7 +939,7 @@ h1 {
   bottom: 0;
   display: flex;
   padding: 1rem;
-  width: 100vw;
+  width: 100%;
   justify-content: space-between;
   background-color: $lightpurple;
 }
@@ -1501,48 +1517,7 @@ h1 {
 
   .salon-form {
 
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    height: 60vh;
-    justify-content: space-evenly;
-    width: 87rem;
 
-
-    div:first-child {
-
-      flex-basis: 10%;
-
-    }
-
-    div:nth-child(2) {
-
-
-      flex-basis: 90%;
-
-    }
-
-    div:nth-child(3) {
-
-      flex-basis: 20%;
-
-    }
-
-    div:nth-child(4) {
-
-    flex-basis: 30%;
-    }
-
-    textarea {
-
-      width: 40rem;
-      height: 48vh;
-    }
-
-    input {
-
-      width: 40rem;
-    }
   }
 
 
@@ -1559,6 +1534,13 @@ h1 {
 
 
     }
+
+    .create-salon {
+
+      position: static;
+
+    }
+
   }
 
   .home-box {
@@ -1674,57 +1656,44 @@ h1 {
   }
 
 
+  /***SALON EDIT***/
+
+  .salon-edit-app {
+
+
+    .btn {
+      margin: 1rem;
+    }
+
+
+  }
+
+  /***SALON INDEX CAMPAGNE***/
+
+  .proposal-ul {
+
+
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+
+  }
+
+  .proposal-li {
+
+    flex-basis: 49%;
+  }
+
+
   /***CHAT DESKTOP***/
 
-  .button-chat {
 
-    display: none;
-
-
-  }
-
-  .message_content {
+  .chat-window {
 
 
-    input {
-
-
-      width: 5rem;
-    }
+    width: 30vw;
 
   }
-
-  .chat-container {
-
-    order: 1;
-
-    .chat-window {
-
-          position: static;
-          height: 5rem;
-          width: 30vw;
-
-      input {
-
-        width: 5rem;
-
-      }
-    }
-
-
-
-  }
-
-  #message {
-
-  }
-
-
-
-
-
-
-
 
 
   /**end**/

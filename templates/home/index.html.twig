@@ -6,13 +6,7 @@
     <section class="home-content">
 
         <h1>Bienvenue sur Agora</h1>
-        {% if app.user %}
-            <section class="create-salon">
 
-                <a class="btn" href="{{ path('salon.create') }}">Nouvelle assemblée</a>
-            </section>
-
-        {% endif %}
 
 
         <section class="box home-box">
@@ -33,7 +27,13 @@
 
         </section>
 
+        {% if app.user %}
+            <section class="create-salon">
 
+                <a class="btn" href="{{ path('salon.create') }}">Nouvelle assemblée</a>
+            </section>
+
+        {% endif %}
 
     </section>
 

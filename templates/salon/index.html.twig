@@ -73,13 +73,12 @@
         {% for sujet in salon.sujets %}
 
 
-
-
-        <article class="box" data-controller="deroulant">
+        <article class="box sujet-campagne" data-controller="deroulant">
 
             <span data-deroulant-target="arrow" data-action="click->deroulant#animate" class="arrow-sujet material-symbols-outlined">
-keyboard_arrow_up
-</span>
+                keyboard_arrow_up
+                </span>
+
                 <h3>{{ sujet.title }}</h3>
 
 
@@ -148,9 +147,10 @@ keyboard_arrow_up
                     </li>
                 {% endfor %}
             </ul>
+        </article>
             {% endfor %}
 
-            </article>
+
             {% elseif time.type == "vote" %}
 
                 {#**********PHASE DE VOTE*************#}
