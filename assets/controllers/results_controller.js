@@ -84,7 +84,7 @@ export default class extends Controller {
 
                     const lasttour = element.result[nbtour - 1];
 
-                    const winnerDisplay = sujet.querySelector('#winner');
+                    const winnerDisplay = sujet.querySelector('.winner');
 
 
                     if (lasttour.length > 1) {
@@ -93,7 +93,8 @@ export default class extends Controller {
 
                         lasttour.forEach((prop) => {
 
-                            winnerDisplay.textContent = winnerDisplay.textContent + "" + prop.proposalTitle;
+                            winnerDisplay.textContent = winnerDisplay.textContent + " " + prop.proposalTitle+" ";
+
 
                         });
 

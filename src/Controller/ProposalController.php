@@ -44,8 +44,8 @@ class ProposalController extends AbstractController
 
         $sujet = $this->sujm->find($id);
 
-        $salon = $sujet->getSalon();
 
+        $salon = $sujet->getSalon();
         $users = $salon->getUsers();
 
         $hasAccess = $users->exists(function ($key, $value) use ($currentUser) {

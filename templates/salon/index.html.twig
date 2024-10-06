@@ -245,11 +245,15 @@
                     <h3>{{ result.sujet.title }}</h3>
 
 
-
+                    <p class="winner"></p>
 
                         {% for sujet in result.result %}
-                            <p>Tour {{ loop.index }}</p>
-                            <p id="winner"></p>
+                            <p class="tour-title">Tour {{ loop.index }}</p>
+
+                            <div class="pourcent-scale">
+                                <p>100%</p>
+                                <p>50%</p>
+                            </div>
                     <div data-results-target="grid" class="grid-vote tour_{{ loop.index }}">
                         {% for prop in sujet %}
 

@@ -134,7 +134,7 @@ textarea {
 
 h2 {
   word-wrap: break-word;
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: $regular;
   text-align: center;
 
@@ -370,7 +370,6 @@ h1 {
   background-color: $lightpurple;
   width: 100%;
   padding: 1em;
-  position: absolute;
   text-align: center;
 }
 
@@ -746,12 +745,7 @@ h1 {
 
 /************SUJET ON SALON******************/
 
-.arrow-sujet {
 
-  float: right;
-
-
-}
 
 .sujet-campagne {
 
@@ -800,6 +794,28 @@ h1 {
   gap: .5rem;
 }
 
+/***SUJET EDIT PAGE***/
+
+.sujet-edit {
+
+  input {
+
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+
+
+  .btn {
+
+    margin: 1rem;
+  }
+
+
+}
+
+
+
 /***proposal***/
 
 
@@ -813,6 +829,7 @@ h1 {
 .proposal-ul.active {
 
   display: flex;
+  flex-direction: column;
 
 
 }
@@ -821,6 +838,7 @@ h1 {
 .proposal-li {
 
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   border-radius: 10px;
   border: solid 1px black;
@@ -830,7 +848,7 @@ h1 {
 
   p:first-child {
 
-    flex-basis: 70%;
+    flex-basis: 60%;
     overflow-wrap: anywhere;
     text-align: left;
   }
@@ -1259,28 +1277,51 @@ h1 {
   float: right;
 }
 
-//.results-container {
-//
-//  display: none;
-//}
-//
-//.active {
-//
-//  display: block;
-//
-//}
+.results-container {
+
+  display: flex;
+  flex-wrap: wrap;
+
+  h3, .tour-title{
+    flex-basis: 100%;
+  }
+}
+
+.winner {
+
+  flex-basis: 100%;
+  margin: 0.4rem 0 0.4rem 0;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.pourcent-scale {
+
+  flex-basis: 5%;
+  font-size: 1rem;
+  display: flex;
+  height: auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 1rem 0 1rem 0;
+}
+
+
 
 .grid-vote {
   width: 95%;
   display: flex;
-  margin: 1rem;
+  margin: 1rem 0.2rem 1rem 0.2rem;
   flex-direction: row;
   border-left: 5px black solid;
   border-bottom: 5px black solid;
-  padding: .5rem;
   flex-wrap: nowrap;
   justify-content: space-evenly;
   height: fit-content;
+  flex-basis: 80%;
+
+
 
 
   .row {
@@ -1289,6 +1330,7 @@ h1 {
     flex-direction: column-reverse;
     height: 30vh;
     min-height: 30vh;
+    min-width: 2rem;
 
   }
 
@@ -1298,9 +1340,13 @@ h1 {
     rotate: 180deg;
     text-align: center;
     font-size: 1.2rem;
-    padding: 0.5rem;
-    overflow: hidden;
-    flex-basis: 5rem;
+    flex-basis: 0;
+    color: white;
+    height: 0;
+    position: relative;
+    bottom: 8vh;
+    left:-20%;
+
   }
 }
 
@@ -1389,7 +1435,7 @@ h1 {
 .home-box {
 
   background-color: $lightpurple;
-  padding: 0 1.2rem 0 1.2rem;
+  padding: 0 1.2rem 1rem 1.2rem;
 
   h2 {
     color: $darkpurple;
@@ -1434,15 +1480,18 @@ h1 {
 
   margin-top: 4em;
 
+
   input {
 
     margin-bottom: 1rem;
+    text-align:center;
+    padding: 0.3rem 0 0.3rem 0;
 
   }
 
   .btn {
 
-    margin-top: 1rem;
+    margin: 1rem;
   }
 
 
@@ -1469,12 +1518,14 @@ h1 {
   }
 
 
+
+
   .sidenav {
 
     width: 28vw;
 
 
-    a {
+    a, .invit-li, .invit-title {
 
       font-size: 1.4rem;
     }
@@ -1545,18 +1596,16 @@ h1 {
 
   .home-box {
 
-
-    h2 {
-      padding: 0;
-    }
-
     margin: 2rem 5rem;
-
     background-color: $lightgrey;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
+    h2 {
+      padding: 0;
+    }
   }
 
   .register-btn {
@@ -1683,6 +1732,38 @@ h1 {
 
     flex-basis: 49%;
   }
+
+  /***SALON PHASE DE VOTE DESKTOP***/
+
+
+
+  .sujet-vote{
+
+
+    span {
+
+      flex-basis: 1%;
+
+    }
+  }
+
+  .proposals {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .hasvoted {
+
+      flex-basis: 49%;
+      margin: 0.5rem 0 0.5rem 0;
+    }
+
+
+
+  }
+
+
 
 
   /***CHAT DESKTOP***/

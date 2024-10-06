@@ -6,6 +6,9 @@
     <section class="box sujet-create">
         <h1>Créer un nouveau sujet</h1>
         {{ form(form) }}
+
+        <a class="btn" href="{{ path('salon.index', {id: salon.id}) }}">Retour</a>
+
     </section>
 
 
