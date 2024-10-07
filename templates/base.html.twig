@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 {% block head %}
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -28,8 +28,8 @@
                                           alt="logo du site agora"/></a>
         <nav id="mySidenav" class="sidenav" data-menu-target="list">
             <span data-action="click->menu#animate" data-menu-target="close" class="material-symbols-outlined close">
-close
-</span>
+                close
+            </span>
             <ul {% if is_granted('ROLE_ADMIN') %}
                 class="uladmin"
             {% elseif app.user %}

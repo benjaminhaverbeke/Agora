@@ -2,9 +2,9 @@
 
 $white: #FFFFFF;
 $darkpurple: #805D93;
-$lightpurple: #BCBCF0;
+$lightpurple: #BCBCF0FF;
 $lightgrey: #D9D9D9;
-$darkgrey: #808080;
+$darkgrey: #454545;
 $darkblue: #6215C6;
 $purple: #9747FF;
 $red: #F50000;
@@ -162,7 +162,7 @@ h1 {
   background-color: $lightgrey;
   padding: 1em;
   text-align: center;
-  border-radius: 20px;
+  border-radius: 10px;
 
 
 }
@@ -266,7 +266,7 @@ h1 {
   }
 
   textarea {
-    border-radius: 15px;
+    border-radius: 10px;
   }
 
 
@@ -659,7 +659,7 @@ h1 {
 .alert {
 
   color: white;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: .5rem;
   text-align: center;
 
@@ -692,7 +692,7 @@ h1 {
 .time-container {
 
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   padding: .5rem;
   text-align: center;
   border-radius: 10px;
@@ -1048,7 +1048,7 @@ h1 {
   flex-direction: row;
   justify-content: space-between;
   border: 1px solid black;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: .5rem;
   margin: .5rem;
 
@@ -1089,7 +1089,7 @@ h1 {
 
     color: white;
     padding: .4rem;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 5em;
 
   }
