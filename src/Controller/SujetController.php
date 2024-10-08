@@ -246,12 +246,11 @@ class SujetController extends AbstractController
         if ($form->isSubmitted() && $token) {
 
 
-            $user = $this->getUser();
 
-            $sujet->addVoter($user);
-            $user->addVoted($sujet);
+            $sujet->addVoter($currentUser);
+            $currentUser->addVoted($sujet);
             $em->persist($sujet);
-            $em->persist($user);
+            $em->persist($currentUser);
 
             $this->em->flush();
             $this->addFlash('success', "Les votes ont bien été pris en compte");
