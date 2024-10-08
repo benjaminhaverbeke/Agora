@@ -33,8 +33,6 @@ export default class extends Controller {
         let now = new Date().getTime();
         this._diff = this._date - now;
 
-        if (this._diff > 0) {
-
             let totalhours = Math.floor(this._diff / (1000 * 60 * 60));
             let minutes = Math.floor((this._diff % (1000 * 60 * 60)) / (1000 * 60));
             let seconds = Math.floor((this._diff % (1000 * 60)) / 1000);
@@ -44,9 +42,6 @@ export default class extends Controller {
 
             days === 0 ? (this.countTarget.innerHTML = ` ${hours} h ${minutes} m ${seconds} s`)
                 : (this.countTarget.innerHTML = ` ${days} j ${hours} h ${minutes} m ${seconds} s`)
-
-
-        }
 
 
     }
@@ -60,7 +55,6 @@ export default class extends Controller {
                 this.messageTarget.innerHTML = r.time_message;
                 this._type = r.type;
                 this.idTarget.classList.add(r.type);
-                console.log(this._type)
 
                 if (this._type === 'campagne' || this._type === 'vote') {
 
@@ -79,7 +73,7 @@ export default class extends Controller {
                 }
 
             }
-        ).catch(e => {
+        ).catch(() => {
                 throw new Error('Impossible de contacter le serveur')
 
             }

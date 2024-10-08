@@ -45,7 +45,6 @@ class SalonController extends AbstractController
     private $em;
 
 
-
     public function __construct(MessageRepository $mm, SalonRepository $sm, EntityManagerInterface $em)
     {
 
@@ -64,24 +63,22 @@ class SalonController extends AbstractController
         ProposalRepository     $pm,
         InvitationRepository   $im,
         EntityManagerInterface $em,
-        ElectionManager $election,
-        #[CurrentUser] User $currentUser
+        ElectionManager        $election,
+        #[CurrentUser] User    $currentUser
     ): Response
     {
-
 
 
         $salon = $this->sm->findSalonIndex($id);
 
 
-
         $users = $salon->getUsers();
 
-        $hasAccess = $users->exists(function($key, $value) use ($currentUser){
+        $hasAccess = $users->exists(function ($key, $value) use ($currentUser) {
             return $value === $currentUser;
         });
 
-        if(!$hasAccess){
+        if (!$hasAccess) {
 
             $this->addFlash('error', "Vous n'avez pas accès à cette assemblée");
             return $this->redirectToRoute('home');
@@ -104,17 +101,17 @@ class SalonController extends AbstractController
         /*** invitation ***/
 
         $form = $this->createFormBuilder()
-        ->add('email', EmailType::class, [
-            'attr' => [
-                'placeholder' => "Email de l'utilisateur"
-            ]
-        ])
-        ->add('save', SubmitType::class, [
-            'label' => 'Envoyer',
-            'attr' => [
-                'class'=> "btn"
-            ]
-        ])->getForm();
+            ->add('email', EmailType::class, [
+                'attr' => [
+                    'placeholder' => "Email de l'utilisateur"
+                ]
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => 'Envoyer',
+                'attr' => [
+                    'class' => "btn"
+                ]
+            ])->getForm();
 
         $form->handleRequest($request);
 
@@ -138,12 +135,12 @@ class SalonController extends AbstractController
             } else {
 
                 $invitations = $salon->getInvitations();
-                $isInvited = $invitations->filter(function($key, $value) use ($receiver){
+                $isInvited = $invitations->filter(function ($key, $value) use ($receiver) {
                     return $value === $receiver;
                 });
 
 
-                if(count($isInvited) > 0) {
+                if (count($isInvited) > 0) {
 
                     if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
 
@@ -154,7 +151,7 @@ class SalonController extends AbstractController
                     }
 
 
-                }else {
+                } else {
                     $sender = $currentUser;
                     $invit = new Invitation();
 
@@ -173,7 +170,7 @@ class SalonController extends AbstractController
 
                         // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
                         $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-                        return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'valid', 'form'=> $form]);
+                        return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'valid', 'form' => $form]);
                     }
                 }
 
@@ -213,10 +210,9 @@ class SalonController extends AbstractController
 //                $em->persist($sujet);
 //                $em->flush();
 
-                $userhasVoted = $voters->exists(function ($key, $value) use ($currentUser)  {
+                $userhasVoted = $voters->exists(function ($key, $value) use ($currentUser) {
 
-                    if($value === $currentUser)
-                    {
+                    if ($value === $currentUser) {
                         return $value;
                     }
 
@@ -232,36 +228,31 @@ class SalonController extends AbstractController
                         'sujet' => $sujet
                     ];
 
-                }
-                else {
+                } else {
 
                     $votes = $currentUser->getVotes();
 
 
-                    $result = $votes->filter(function($element, $sujet){
+                    $result = $votes->filter(function ($element, $sujet) {
 
-                            if($element->getSujet($sujet))
-                            {
+                        if ($element->getSujet($sujet)) {
 
-                                return $element;
-                            }
-
+                            return $element;
+                        }
 
 
-                   });
+                    });
 
 
                     $sujetIsVoted[] = [
-                      'voted' => true,
-                      'sujet' => $sujet,
+                        'voted' => true,
+                        'sujet' => $sujet,
                         'votes' => $result
                     ];
                 }
 
 
             }
-
-
 
 
             return $this->render('salon/index.html.twig', [
@@ -274,27 +265,25 @@ class SalonController extends AbstractController
 
             ]);
 
-        }
-        elseif($time["type"] === "results"){
+        } elseif ($time["type"] === "results") {
 
             $sujets = $salon->getSujets();
 
 
             $results = [];
 
-            foreach($sujets as $sujet){
+            foreach ($sujets as $sujet) {
 
                 $result = $election->isElected($sujet->getId());
 
                 $results[] = [
-                    'sujet'=> $sujet,
+                    'sujet' => $sujet,
                     'result' => $result
 
                 ];
 
 
             }
-
 
 
             return $this->render('salon/index.html.twig', [
@@ -408,9 +397,6 @@ class SalonController extends AbstractController
     {
 
 
-
-
-
         /***pagination***/
         $limit = 2;
         $page = $request->query->getInt('page', 1);
@@ -435,13 +421,12 @@ class SalonController extends AbstractController
         /***vérifie que l'utilisateur est connecté***/
 
 
+        return $this->render('salon/list.html.twig', [
 
-            return $this->render('salon/list.html.twig', [
-
-                'salonlist' => $salonlist,
-                'maxPage' => $maxPage,
-                'page' => $page
-            ]);
+            'salonlist' => $salonlist,
+            'maxPage' => $maxPage,
+            'page' => $page
+        ]);
 
 
     }
@@ -556,33 +541,16 @@ class SalonController extends AbstractController
     }
 
     #[Route('salon/get-results/{id}', name: "salon.get-results", requirements: ['id' => '\d+'])]
-    public function results(int $id, SalonRepository $sm, ElectionManager $election): JsonResponse
+    public function results(int $id, SujetRepository $sujm, ElectionManager $election): JsonResponse
     {
 
+        $sujet = $sujm->find($id);
 
-        $salon = $sm->find($id);
-
-        $sujets = $salon->getSujets();
-
-        $results = [];
-
-        foreach($sujets as $sujet){
-
-            $result = $election->isElected($sujet->getId());
-
-            dump($result);
-
-            $results[] = [
-                'sujet'=> $sujet->getId(),
-                'result' => $result
-
-            ];
+        $result = $election->isElected($sujet->getId());
 
 
-        }
 
-
-        return new JsonResponse($results);
+        return new JsonResponse($result);
 
     }
 

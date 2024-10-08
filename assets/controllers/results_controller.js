@@ -2,13 +2,15 @@ import {Controller} from '@hotwired/stimulus';
 
 export default class extends Controller {
 
-    static targets = ['grid'];
+    static targets = ['grid', 'id'];
 
 
     async fetchResults() {
 
 
-        const id = document.querySelector('#time').dataset.salonId;
+        const id = this.idTarget.dataset.id;
+
+
         const r = await fetch(`/salon/get-results/${id}`, {
             method: 'GET',
             headers: {
@@ -25,88 +27,91 @@ export default class extends Controller {
             throw new Error('Impossible de contacter le serveur')
         }
 
+
     }
 
     initialize() {
 
-        this.fetchResults().then((res) => {
+        this.fetchResults().then((result) => {
 
 
-            res.forEach((element) => {
+            if (result[0].length === 0) {
 
-                if (element.result.length === 0) {
+                return null;
 
-                    return null;
+            } else {
 
-                } else {
+                /***le résultat contient tous les tours***/
+                result.forEach((tour, index) => {
 
+                    /***incrémentation du tour***/
+                    index++;
 
-                    const sujet = document.querySelector('#sujet_results_' + element.sujet);
-
-
-                    element.result.forEach((result, index) => {
-
-                        index++;
-
-                        const grid = sujet.querySelector('.tour_' + index);
+                    /***recupère la grille pour afficher les résultats du tour***/
+                    const grid = this.idTarget.querySelector('.tour_' + index);
 
 
-                        result.forEach((prop) => {
+                    tour.forEach((prop) => {
 
 
-                            const proposal = grid.querySelector('.proposal_' + prop.proposalId);
+                        /***Pour selection la ligne correspondante dans la grille pour chaque proposition***/
+                        const proposal = grid.querySelector('.proposal_' + prop.proposalId);
 
+                        /***on récupère les pourcentages de la proposition***/
+                        const pourcent = Object.entries(prop.pourcent);
 
-                            const resultArray = Object.entries(prop.pourcent);
+                        /***les porucentage sont injectés grâce aux classes portant le nom de mentions***/
+                        pourcent.forEach((mention) => {
 
+                            const vote = mention[1];
 
-                            resultArray.forEach((element) => {
-                                const vote = element[1];
+                            const mentionDom = proposal.querySelector('.' + mention[0]);
 
+                            mentionDom.style.flexGrow = vote;
 
-                                const mention = proposal.querySelector('.' + element[0]);
-
-                                mention.style.flexGrow = vote;
-
-
-                            });
-
-
-                        })
-
+                        });
 
                     })
+
 
                     /*****AFFICHAGE DU GAGNANT******/
 
 
-                    const nbtour = element.result.length;
-
-                    const lasttour = element.result[nbtour - 1];
-
-                    const winnerDisplay = sujet.querySelector('.winner');
+                    const lasttour = result[result.length - 1];
 
 
-                    if (lasttour.length > 1) {
+                         const winnerDisplay = this.idTarget.querySelector('.winner');
 
-                        winnerDisplay.textContent = "Egalité entre les propositions "
+                         /***on vérifie le dernier tour, si il reste plusieurs propositions, alors elles sont à égalité***/
 
-                        lasttour.forEach((prop) => {
-
-                            winnerDisplay.textContent = winnerDisplay.textContent + " " + prop.proposalTitle+" ";
+                        if (lasttour.length > 1) {
 
 
-                        });
+                            winnerDisplay.textContent = "Egalité entre les propositions "
 
-                    } else {
+                            lasttour.forEach((prop, index) => {
 
-                        winnerDisplay.textContent = "La proposition " + lasttour[0].proposalTitle + " a gagné !"
-                    }
+                                if(index+1 !== lasttour.length){
+
+                                    winnerDisplay.textContent = winnerDisplay.textContent + " " + prop.proposalTitle + " &";
+
+                                }
+                                else {
+                                    winnerDisplay.textContent = winnerDisplay.textContent + " " + prop.proposalTitle;
+
+                                }
 
 
-                }
+                            });
 
-            })
+                        } else {
+
+                            winnerDisplay.textContent = "La proposition " + lasttour[0].proposalTitle + " a gagné !"
+                        }
+
+
+                })
+            }
 
 
         })

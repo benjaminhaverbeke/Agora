@@ -972,9 +972,10 @@ h1 {
 
 }
 
-.close_chat :hover {
+.close_chat:hover {
 
   color: $darkgrey;
+  cursor: pointer;
 }
 
 
@@ -1022,6 +1023,7 @@ h1 {
 .button-chat:hover {
 
   color: white;
+  cursor:pointer;
 
 }
 

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 
-{% block title %}Salon{% endblock %}
+{% block title %}Assemblée{% endblock %}
 
 
 
@@ -232,15 +232,15 @@
                 {# ********************PHASE RESULTS********************* #}
 
             {%  for result in results %}
+                {% if result.result[0]|length == 0 %}
 
-                {% if result.result|length == 0 %}
                     <article class="box vote-container">
                         <h3>{{ result.sujet.title }}</h3>
                         <p>Il n'y avait pas de propositions pour ce sujet</p>
                     </article>
 
                 {% else %}
-                <article data-controller="results" class="results-container box" id="sujet_results_{{ result.sujet.id }}">
+                <article data-controller="results" class="results-container box" data-results-target="id" data-id="{{ result.sujet.id }}" id="sujet_results_{{ result.sujet.id }}">
 
                     <h3>{{ result.sujet.title }}</h3>
 
