@@ -327,6 +327,11 @@ h1 {
 
 /**************************salon list*******************************/
 
+.salonlist-container {
+
+  height: 100vh;
+
+}
 
 .salonlist {
 
@@ -368,6 +373,7 @@ h1 {
   width: 100%;
   padding: 1em;
   text-align: center;
+
 }
 
 .salon-form {
@@ -1342,9 +1348,9 @@ h1 {
     flex-basis: 0;
     color: white;
     height: 0;
-    position: relative;
     bottom: 8vh;
     left:-20%;
+    white-space: nowrap;
 
   }
 }
@@ -1547,6 +1553,7 @@ h1 {
 
     display: flex;
     justify-content: space-between;
+
 
 
   }

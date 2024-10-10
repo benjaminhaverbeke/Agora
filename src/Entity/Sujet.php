@@ -37,15 +37,8 @@ class Sujet
     /**
      * @var Collection<int, User>
      */
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'voted')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'voted', cascade: ['persist'])]
     private Collection $voters;
-
-    /**
-     * @var Collection<int, User>
-     */
-
-
-
 
 
 

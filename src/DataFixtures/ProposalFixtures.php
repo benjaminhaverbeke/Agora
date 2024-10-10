@@ -32,87 +32,128 @@ class ProposalFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $user = (new User());
-        $user->setRoles(['ROLE_ADMIN'])
-            ->setEmail('bundles@gmail.com')
-            ->setUsername('bundles')
-            ->setPassword($this->hasher->hashPassword($user, 'bundles'));
+        $user = new User();
+        $user->setRoles(['ROLE_ADMIN, ROLE_USER'])
+            ->setEmail('admin@gmail.com')
+            ->setUsername('Admin')
+            ->setPassword($this->hasher->hashPassword($user, 'admin'));
+        $user2 = new User();
+        $user2->setRoles(['ROLE_USER'])
+            ->setEmail('benjamin@gmail.com')
+            ->setUsername('Benjamin')
+            ->setPassword($this->hasher->hashPassword($user2, 'test'));
+        $user3 = new User();
+        $user3->setRoles(['ROLE_USER'])
+            ->setEmail('lea@gmail.com')
+            ->setUsername('Léa')
+            ->setPassword($this->hasher->hashPassword($user3, 'test'));
+        $user4 = new User();
+        $user4->setRoles(['ROLE_USER'])
+            ->setEmail('carmen@gmail.com')
+            ->setUsername('Carmen')
+            ->setPassword($this->hasher->hashPassword($user4, 'test'));
+        $user5 = new User();
+        $user5->setRoles(['ROLE_USER'])
+            ->setEmail('mathilde@gmail.com')
+            ->setUsername('Mathilde')
+            ->setPassword($this->hasher->hashPassword($user5, 'test'));
+        $user6 = new User();
+        $user6->setRoles(['ROLE_USER'])
+            ->setEmail('bob@gmail.com')
+            ->setUsername('Bob')
+            ->setPassword($this->hasher->hashPassword($user6, 'test'));
+
+        $userArray = [$user, $user2, $user3, $user4, $user5, $user6];
+        $mentions = ['inadapte', 'passable', 'bien', 'tresbien', 'excellent'];
+
+        for($i = 0; $i < 5; $i++ )
+        {
+            $keySalon = array_rand($userArray, 1);
+            $campagne = new \DateTimeImmutable('2024-10-08 10:00:00');
+            $vote = new \DateTimeImmutable('2024-10-09 10:00:00');
 
 
-        $manager->persist($user);
+
+            $salon = new Salon();
+            $salon
+                ->setTitle('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices accumsan enim vitae interdum')
+                ->setDescription('Aenean fermentum tortor imperdiet elit rhoncus tempor. Etiam maximus commodo libero, nec lobortis massa auctor non. Pellentesque eu turpis id lorem facilisis malesuada. Etiam gravida vulputate efficitur. Vestibulum vel ullamcorper velit. Integer nunc magna, auctor vitae semper sed, vulputate sit amet nisl. Proin in neque vitae turpis vulputate ultrices ut at purus. Duis vel purus elementum quam iaculis aliquam id ac lectus. Donec fringilla suscipit aliquam. Donec et erat eget lectus sagittis finibus nec et nunc. Vestibulum non posuere ipsum, semper condimentum leo.')
+                ->setUser($userArray[$keySalon])
+                ->setCreatedAt(new \DateTimeImmutable())
+                ->setDateCampagne($campagne)
+                ->setDateVote($vote)
+                ->addUser($user)
+                ->addUser($user2)
+                ->addUser($user3)
+                ->addUser($user4)
+                ->addUser($user5)
+                ->addUser($user6);
+
+            $user->addSalon($salon);
+            $user2->addSalon($salon);
+            $user3->addSalon($salon);
+            $user4->addSalon($salon);
+            $user5->addSalon($salon);
+            $user6->addSalon($salon);
+
+            for($n = 0; $n < 6; $n++ ){
+                $keySujet = array_rand($userArray, 1);
+                $sujet = new Sujet();
+                $sujet->setTitle('Lorem ipsum dolor sit amet')
+                    ->setDescription('Aenean congue nisl eget aliquet tempus. Maecenas in massa dolor. Mauris vitae pulvinar nisl. Nulla facilisi. Nam maximus interdum pellentesque. Phasellus id blandit lacus. Sed malesuada augue nisl, malesuada bibendum nisl vestibulum et. Mauris ullamcorper consectetur feugiat. Duis sit amet arcu ut velit cursus ultricies. Nam molestie augue sed tellus feugiat aliquet. Duis volutpat elementum ligula, sit amet viverra nisl bibendum vitae. Integer eu lacus aliquet, interdum elit vitae, rutrum nisi.')
+                    ->setSalon($salon)
+                    ->setUser($userArray[$keySujet]);
 
 
-        $salon = new Salon();
-        $salon
-            ->setTitle('title')
-            ->setDescription('description')
-            ->setUser($user)
-            ->setCreatedAt(new \DateTimeImmutable())
-            ->setDateCampagne(new \DateTimeImmutable())
-            ->setDateVote(new \DateTimeImmutable())
-            ->addUser($user);
+                for($o = 0; $o < 6; $o++ ){
+                    $keyProposal = array_rand($userArray, 1);
+                    $proposal = new Proposal();
+                    $proposal->setTitle('Lorem ipsum dolor sit amet')
+                        ->setDescription('Sed vel ultrices ligula, id hendrerit mauris. Curabitur facilisis, mauris eget accumsan gravida, diam urna ullamcorper felis, eget vehicula dui risus ut risus. Sed mattis, ante ut vestibulum convallis, ipsum purus ultricies magna, sit amet lacinia risus tortor sed ex. Morbi velit nisl, facilisis porttitor sapien vel, dapibus egestas justo. Cras non arcu semper, commodo nunc vitae, imperdiet est. Nullam interdum vel turpis quis auctor. Vivamus ipsum quam, scelerisque ac ipsum at, facilisis sagittis lacus.')
+                        ->setSalon($salon)
+                        ->setUser($userArray[$keyProposal])
+                        ->setSujet($sujet);
 
+                    foreach($userArray as $voter){
 
+                        $voteKey = array_rand($mentions);
+                        $vote = new Vote();
 
-        $manager->persist($salon);
+                        $vote->setSujet($sujet)
+                            ->setNotes($mentions[$voteKey])
+                            ->setUser($voter)
+                            ->setProposal($proposal);
 
+                        $sujet->addVoter($voter);
+                        $proposal->addVote($vote);
 
-        for ($i = 0; $i < 10; $i++) {
+                        $voter->addVoted($sujet);
 
-            $sujet = new Sujet();
-            $sujet->setTitle('title')
-                ->setDescription('description')
-                ->setSalon($salon)
-                ->setUser($user);
+                    }
 
-            $manager->persist($sujet);
-
-
-        }
-
-        $manager->flush();
-
-        $sm = $manager->getRepository(Sujet::class);
-        $lastsujet = $sm->findLastInserted();
-
-        for ($i = 0; $i < 4; $i++) {
-
-            $proposals = new Proposal();
-
-            $proposals
-                ->setTitle('title' . $i)
-                ->setDescription('description' . $i)
-                ->setSujet($lastsujet)
-                ->setSalon($salon)
-                ->setUser($user);
-
-            $manager->persist($proposals);
-        }
-
-        $manager->flush();
-
-        $pm = $manager->getRepository(Proposal::class);
-        $allprops = $pm->AllPropositionSujet($lastsujet->getId());
-
-        $notesArray = ['passable', 'bien','tresbien'];
-        $nbVotants = 5;
-
-        foreach ($allprops as $prop) {
-
-            for ($i = 0; $i < $nbVotants; $i++) {
-                $vote = new Vote();
-                $randnote = array_rand($notesArray);
-                $vote->setSujet($lastsujet)
-                    ->setProposal($prop)
-                    ->setNotes($notesArray[$randnote]);
-
-                $manager->persist($vote);
+                    $sujet->addProposal($proposal);
+                }
+                $salon->addSujet($sujet);
 
             }
-
-
+            $manager->persist($salon);
+            $manager->flush();
         }
 
-        $manager->flush();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
