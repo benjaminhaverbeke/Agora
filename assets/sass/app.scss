@@ -746,9 +746,14 @@ h1 {
 
 }
 
-.salon-edit  {
+.proposal-edit, .sujet-edit, .salon-edit {
 
   margin: 8rem auto 1rem auto;
+
+}
+
+.salon-edit  {
+
 
   input, textarea {
     margin-bottom: .5rem;
