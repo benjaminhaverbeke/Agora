@@ -3,12 +3,11 @@
 {% block title %}Salon{% endblock %}
 
 {% block body %}
-    <h1>{{ salon.title }}</h1>
 
-<turbo-frame id="salon_{{ salon.id }}">
+<section class="box salon-edit">
     {{ form(form, {action: path('salon.edit', {id: salon.id})}) }}
     <a class="btn" href="{{ path('salon.index', {id: salon.id}) }}">Retour</a>
-</turbo-frame>
+</section>
 
 
 

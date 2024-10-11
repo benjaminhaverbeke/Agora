@@ -18,7 +18,7 @@ use App\Repository\SujetRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 
-class ProposalFixtures extends Fixture
+class GeneralFixtures extends Fixture
 {
 
 
@@ -69,8 +69,8 @@ class ProposalFixtures extends Fixture
         for($i = 0; $i < 5; $i++ )
         {
             $keySalon = array_rand($userArray, 1);
-            $campagne = new \DateTimeImmutable('2024-10-08 10:00:00');
-            $vote = new \DateTimeImmutable('2024-10-09 10:00:00');
+            $campagne = new \DateTimeImmutable('2024-10-12 10:00:00');
+            $vote = new \DateTimeImmutable('2024-10-13 10:00:00');
 
 
 

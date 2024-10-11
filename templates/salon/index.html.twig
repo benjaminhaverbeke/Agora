@@ -37,12 +37,9 @@
 
             {# *********SI CAMPAGNE ON PEUT MODIFIER LE SALON*********** #}
             <div class="salon-app-btn">
-                <turbo-frame class="salon-edit-app" id="salon_{{ salon.id }}">
                     <a class="btn-icon" href="{{ path('salon.edit', {id: salon.id}) }}">
                         <span class="material-symbols-outlined">edit</span>
                     </a>
-                </turbo-frame>
-
                 <a class="btn-icon salon-delete-app" href="{{ path('salon.delete', {id: salon.id}) }}">
                     <span class="material-symbols-outlined">delete</span>
                 </a>

@@ -3,9 +3,9 @@
 {% block title %}Mes salons{% endblock %}
 
 {% block body %}
-    <section class="salonlist-container">
-    <h1>Mes assemblées</h1>
 
+    <h1>Mes assemblées</h1>
+        <section class="salonlist-container">
     {% for salon in salonlist %}
         <article class="box salonlist">
             <h3>{{ salon["salon"].title }}</h3>
@@ -25,7 +25,7 @@
 
     {% endfor %}
 
-
+    </section>
 
 <div class="pagination">
     {% if page > 1 %}
@@ -42,7 +42,7 @@
 
     </section>
 
-    </section>
+
 {% endblock %}
 
 

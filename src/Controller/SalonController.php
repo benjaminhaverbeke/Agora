@@ -73,7 +73,10 @@ class SalonController extends AbstractController
 
         $salon = $this->sm->findSalonIndex($id);
 
+        if($salon === null){
 
+            return $this->redirectToRoute('home');
+        }
         $users = $salon->getUsers();
 
         $hasAccess = $users->exists(function ($key, $value) use ($currentUser) {
@@ -479,14 +482,14 @@ class SalonController extends AbstractController
             $interval = $campagne->diff($now);
             $displaytime["time"] = $campagne;
 
-            $displaytime["time_message"] = "Temps de délibération restant :";
+            $displaytime["time_message"] = "Temps de délibération restant : ";
             $displaytime["type"] = "campagne";
 
         } elseif ($now < $vote) {
 
             $interval = $vote->diff($now);
             $displaytime["time"] = $vote;
-            $displaytime["time_message"] = "Temps pour voter restant :";
+            $displaytime["time_message"] = "Temps pour voter restant : ";
             $displaytime["type"] = "vote";
 
         } else {
