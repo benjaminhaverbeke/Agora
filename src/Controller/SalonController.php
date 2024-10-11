@@ -22,6 +22,7 @@ use App\Repository\SujetRepository;
 use App\Repository\UserRepository;
 use App\Service\ElectionManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\ErrorRenderer\TwigErrorRenderer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -35,6 +36,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\UX\Turbo\TurboBundle;
 use Symfony\Component\HttpClient\Response\MockResponse;
+use function PHPUnit\Framework\throwException;
 
 
 class SalonController extends AbstractController

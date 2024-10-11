@@ -33,7 +33,7 @@ class ProposalFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $user = new User();
-        $user->setRoles(['ROLE_ADMIN, ROLE_USER'])
+        $user->setRoles(['ROLE_ADMIN', 'ROLE_USER'])
             ->setEmail('admin@gmail.com')
             ->setUsername('Admin')
             ->setPassword($this->hasher->hashPassword($user, 'admin'));
