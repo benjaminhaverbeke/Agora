@@ -52,8 +52,8 @@ class MentionManager
 
     public function calculMention(array $notesinput, array $mentions): MentionManager
     {
-        /***** parametres nb de mention variable, notes******/
 
+       /**take notes array and a mention array in parameters (mentions can vary)**/
 
         $notesoutput = [
             "inadapte" => 0,
@@ -62,6 +62,8 @@ class MentionManager
             "tresbien" => 0,
             "excellent" => 0
         ];
+
+        /**this iteration take input and check if it matches with specific mention, positive results are stocked into notesoutput***/
 
         foreach ($mentions as $mention) {
 
@@ -77,9 +79,9 @@ class MentionManager
             }
         }
 
-/***notesoutput est un tableau associatif qui recupere les mentions utilisées et comptabilise les points par mention***/
 
-/****Calcul des effectifs cumulés*****/
+
+/***this part's getting cumulative workforce (effectifs cumulés)***/
 
         $effectifsCumules = [];
         $effectifTotal = 0;
@@ -91,7 +93,8 @@ class MentionManager
 
         }
 
-/***Calcul des pourcentages****/
+/***percent calculation***/
+
         $pourcentages = [];
         foreach ($notesoutput as $note => $effectif) {
             $pourcentages[$note] = $effectifTotal === 0 ? 0 : round(($effectif / $effectifTotal) * 100, 2);
