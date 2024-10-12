@@ -72,7 +72,8 @@ class SalonController extends AbstractController
         }
 
 
-        /***chat envoi message***/
+        /***initialize chat form***/
+
         $message = new Message();
         $messageForm = $this->createForm(MessageType::class, $message);
 
@@ -109,6 +110,7 @@ class SalonController extends AbstractController
 
             $receiver = $um->findOneBy(['email' => $email]);
 
+            /***user not found***/
             if ($receiver === null) {
 
                 if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
@@ -119,12 +121,15 @@ class SalonController extends AbstractController
                 }
 
 
-            } else {
+            }
+            else {
 
+                /***check if user is already invited***/
                 $invitations = $salon->getInvitations();
                 $isInvited = $invitations->filter(function ($key, $value) use ($receiver) {
                     return $value === $receiver;
                 });
+
 
 
                 if (count($isInvited) > 0) {
@@ -138,7 +143,28 @@ class SalonController extends AbstractController
                     }
 
 
-                } else {
+                }
+                else {
+
+                    /***check if user already in salon***/
+                    $users = $salon->getUsers();
+
+                    $alreadyInSalon = $users->filter(function ($key, $value) use ($receiver) {
+                        return $value === $receiver;
+                    });
+
+                    if($alreadyInSalon){
+
+                        if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
+
+                            // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
+                            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+                            return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'already', 'form' => $form]);
+                        }
+
+                    }
+
+
                     $sender = $currentUser;
                     $invit = new Invitation();
 

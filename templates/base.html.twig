@@ -27,7 +27,7 @@
     <header class="header" data-controller="menu" data-action="turbolinks:before-cache@window->menu#animate">
         <a href="{{ path('home') }}"><img id="logo" src="{{ asset('build/images/logo.png') }}"
                                           alt="logo du site agora"></a>
-        <nav id="mySidenav" class="sidenav" data-menu-target="list">
+        <nav id="mySidenav" class="sidenav" data-menu-target="list" data-turbo-temporary>
             <span data-action="click->menu#animate" data-menu-target="close" class="material-symbols-outlined close">
                 close
             </span>

@@ -1,5 +1,4 @@
-
-{%  block success_stream %}
+{% block success_stream %}
 
 
     <turbo-stream action="replace" method="morph" target="invit-request">
@@ -18,13 +17,14 @@
                         <p class="error">Utilisateur introuvable</p>
                     {% elseif invit == 'exist' %}
                         <p class="warning">L'utilisateur a déjà reçu une invitation</p>
+                    {% elseif invit == 'already' %}
+                        <p class="warning">L'utilisateur est déjà un membre de l'assemblée</p>
                     {% else %}
                         <p class="success">Invitation envoyée</p>
                     {% endif %}
                 </div>
 
             </li>
-
 
 
         </template>
