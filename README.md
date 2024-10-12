@@ -2,7 +2,7 @@
 
 # Project Description
 
-Agora is an online voting platform based on majority rule. Groups can gather in assemblies, invite other users, and vote on topics through proposals. A campaign phase allows users to discuss proposals through the chat feature. A voting phase enables users to vote for their preferred proposal. Finally, the last phase presents the voting results for each topic.
+Agora is a Symfony project online voting platform based on majority rule. Groups can gather in assemblies, invite other users, and vote on topics through proposals. A campaign phase allows users to discuss proposals through the chat feature. A voting phase enables users to vote for their preferred proposal. Finally, the last phase presents the voting results for each topic.
 
 # Online Version
 
