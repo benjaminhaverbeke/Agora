@@ -11,6 +11,7 @@ An online version of the site is available at:
 Test credentials:
 
 Email: test@test.fr
+
 Password: Test_1234
 
 # Prerequisites
@@ -67,7 +68,9 @@ composer update
 
 Go to the project's root directory and install JavaScript dependencies via yarn:
 
+```
 yarn install
+```
 
 # Running the Project
 
