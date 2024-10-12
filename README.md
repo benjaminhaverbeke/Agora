@@ -16,10 +16,12 @@ Password: Test_1234
 
 ## Prerequisites
 
-Ensure the following software are installed in your system:
+Ensure the following softwares are installed in your system:
 
 Wamp
+
 Composer
+
 Node.js
 
 ## Installation
