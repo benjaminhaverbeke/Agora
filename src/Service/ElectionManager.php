@@ -3,25 +3,38 @@
 
 namespace App\Service;
 
+use App\Entity\Proposal;
 use App\Repository\ProposalRepository;
 use App\Entity\Sujet;
 use App\Repository\VoteRepository;
-use App\Service\MentionManager;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+
 
 readonly class ElectionManager
 {
 
+    private MentionManager $mm;
+    private ProposalRepository $pm;
 
-    public function __construct(readonly ProposalRepository $pm, readonly VoteRepository $vm, readonly MentionManager $mm)
+    private VoteRepository $vm;
+
+    public function __construct(ProposalRepository $pm, VoteRepository $vm, MentionManager $mm)
     {
-
+        $this->mm = $mm;
+        $this->pm = $pm;
+        $this->vm = $vm;
 
     }
 
     /***get all winner mentions by proposal***/
-    public function allMentionsByProposal(array $props): array
+
+    /**
+     * @param Sujet $sujet
+     * @return array
+     */
+    public function allMentionsByProposal(Sujet $sujet): array
     {
+        $props = $this->pm->proposalsAndVotesBySujet($sujet->getId());
+
         /***input asks proposals array***/
 
         /***basic mentions used, could be more complex***/
@@ -32,11 +45,10 @@ readonly class ElectionManager
         /***empty array needed for output function***/
         $resultprop = [];
 
-
         foreach ($props as $prop) {
 
             /***getting votes for each proposal***/
-            $votes = $this->vm->findAllVotesByProposal($prop->getId());
+            $votes = $prop->getVotes();
 
 
             if (count($votes) > 0) {
@@ -58,7 +70,7 @@ readonly class ElectionManager
 
                 $result = $this->mm->calculMention($notearray, $mentions);
 
-                /***some necessary informations stocked in a new array***/
+                /***some necessary information stocked in a new array***/
 
                 $resultprop[] = [
                     "proposalId" => (string)$prop->getId(),
@@ -190,7 +202,7 @@ readonly class ElectionManager
 
 
                     /***We compare the base mentions with the excluded mentions. A new table is outputted without the excluded mentions,
-                     so that we can recalculate the winning mention***/
+                     * so that we can recalculate the winning mention***/
 
                     $new_mentions = array_diff($mentions, $mentionsExcluded);
 
@@ -225,13 +237,16 @@ readonly class ElectionManager
 
 
     /***this last method taking a Sujet id in parameter ***/
-    public function isElected(int $id): array
+    /**
+     * @param Sujet $sujet
+     * @return array
+     */
+    public function isElected(Sujet $sujet): array
     {
 
 
-        $all_props = $this->pm->allPropositionSujet($id);
+        $all_mentions = $this->allMentionsByProposal($sujet);
 
-        $all_mentions = $this->allMentionsByProposal($all_props);
 
         $all_win_mentions = $this->allWinnerMentions($all_mentions);
 

@@ -30,6 +30,7 @@ class UserType extends AbstractType
                 'attr' => ['placeholder' => "Email"],
             ])
             ->add('plainPassword', RepeatedType::class, [
+                'invalid_message'=> 'Les mots de passe ne correspondent pas',
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Mot de passe',
                     'attr' => ['placeholder' => 'Mot de passe']],

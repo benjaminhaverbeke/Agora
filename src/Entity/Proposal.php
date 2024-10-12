@@ -6,7 +6,6 @@ use App\Repository\ProposalRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping\JoinColumn;
 
 #[ORM\Entity(repositoryClass: ProposalRepository::class)]
 class Proposal
@@ -28,15 +27,14 @@ class Proposal
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne]
     private ?User $user;
 
+    /**
+     * @var Collection<int, Vote>
+     */
     #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'proposal', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $votes;
-
-    /**
-     * @var Collection<int, User>
-     */
 
 
     public function __construct(){
@@ -119,21 +117,21 @@ class Proposal
         return $this;
     }
 
+
     /**
-     * @return Collection
+     * @return Collection<int, Vote>
      */
     public function getVotes(): Collection
     {
         return $this->votes;
     }
 
-    /**
-     * @param Collection $votes
-     */
+
     public function addVote(Vote $vote): static
     {
         if (!$this->votes->contains($vote)) {
             $this->votes->add($vote);
+            $vote->setProposal($this);
 
         }
 

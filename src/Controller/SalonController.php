@@ -3,80 +3,62 @@
 namespace App\Controller;
 
 use App\Entity\Invitation;
-use App\Entity\Proposal;
-use App\Entity\Sujet;
 use App\Entity\User;
-use App\Form\InvitType;
 use App\Form\MessageType;
-use App\Form\ProposalType;
 use App\Form\SalonType;
 use App\Entity\Salon;
 use App\Entity\Message;
-use App\Form\SujetType;
-use App\Form\VoteType;
-use App\Repository\InvitationRepository;
 use App\Repository\MessageRepository;
-use App\Repository\ProposalRepository;
 use App\Repository\SalonRepository;
 use App\Repository\SujetRepository;
 use App\Repository\UserRepository;
+use App\Repository\VoteRepository;
 use App\Service\ElectionManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\ErrorRenderer\TwigErrorRenderer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\UX\Turbo\TurboBundle;
-use Symfony\Component\HttpClient\Response\MockResponse;
-use function PHPUnit\Framework\throwException;
 
 
 class SalonController extends AbstractController
 {
-    private $mm;
-    private $sm;
+    private MessageRepository $mm;
+    private SalonRepository $sm;
+    private EntityManagerInterface $em;
 
-    private $em;
+    private ElectionManager $electionManager;
 
 
-    public function __construct(MessageRepository $mm, SalonRepository $sm, EntityManagerInterface $em)
+    public function __construct(MessageRepository $mm, SalonRepository $sm, EntityManagerInterface $em, ElectionManager $electionManager)
     {
 
         $this->mm = $mm;
         $this->sm = $sm;
         $this->em = $em;
+        $this->electionManager = $electionManager;
 
     }
 
     #[Route('/salon/{id}', name: 'salon.index', requirements: ['id' => '\d+'])]
     public function index(
         int                    $id,
-        SujetRepository        $sujm,
         Request                $request,
         UserRepository         $um,
-        ProposalRepository     $pm,
-        InvitationRepository   $im,
-        EntityManagerInterface $em,
-        ElectionManager        $election,
-        #[CurrentUser] User    $currentUser
+        #[CurrentUser] User    $currentUser,
+        VoteRepository         $vm,
+        SujetRepository        $sujm,
     ): Response
     {
 
 
         $salon = $this->sm->findSalonIndex($id);
 
-        if($salon === null){
-
-            return $this->redirectToRoute('home');
-        }
         $users = $salon->getUsers();
 
         $hasAccess = $users->exists(function ($key, $value) use ($currentUser) {
@@ -97,9 +79,9 @@ class SalonController extends AbstractController
         $messageForm->handleRequest($request);
 
 
-        /******/
 
-        /*** compte a rebours ***/
+
+        /*** countdown ***/
 
         $time = $this->timeProcess($salon);
 
@@ -191,29 +173,15 @@ class SalonController extends AbstractController
         if ($time['type'] === 'vote') {
 
 
-//            $user = $currentUser;
-//            $voted = $user->getVoted();
-//            $voted->clear();
-//
-//            $em->persist($user);
-//
-//            $em->flush();
-
-
             $sujetIsVoted = [];
 
 
-            $sujets = $salon->getSujets();
+            $sujets = $sujm->findSujetsWithCollections($salon->getId());
 
             foreach ($sujets as $sujet) {
 
 
                 $voters = $sujet->getVoters();
-
-//                $voters->clear();
-//
-//                $em->persist($sujet);
-//                $em->flush();
 
                 $userhasVoted = $voters->exists(function ($key, $value) use ($currentUser) {
 
@@ -235,24 +203,13 @@ class SalonController extends AbstractController
 
                 } else {
 
-                    $votes = $currentUser->getVotes();
-
-
-                    $result = $votes->filter(function ($element, $sujet) {
-
-                        if ($element->getSujet($sujet)) {
-
-                            return $element;
-                        }
-
-
-                    });
+                    $votes = $vm->findVotesOnSujetByUser($currentUser->getId(), $sujet->getId());
 
 
                     $sujetIsVoted[] = [
                         'voted' => true,
                         'sujet' => $sujet,
-                        'votes' => $result
+                        'votes' => $votes
                     ];
                 }
 
@@ -279,7 +236,7 @@ class SalonController extends AbstractController
 
             foreach ($sujets as $sujet) {
 
-                $result = $election->isElected($sujet->getId());
+                $result = $this->electionManager->isElected($sujet);
 
                 $results[] = [
                     'sujet' => $sujet,
@@ -479,7 +436,6 @@ class SalonController extends AbstractController
 
         if ($now < $campagne) {
 
-            $interval = $campagne->diff($now);
             $displaytime["time"] = $campagne;
 
             $displaytime["time_message"] = "Temps de délibération restant : ";
@@ -487,7 +443,6 @@ class SalonController extends AbstractController
 
         } elseif ($now < $vote) {
 
-            $interval = $vote->diff($now);
             $displaytime["time"] = $vote;
             $displaytime["time_message"] = "Temps pour voter restant : ";
             $displaytime["type"] = "vote";
@@ -551,7 +506,7 @@ class SalonController extends AbstractController
 
         $sujet = $sujm->find($id);
 
-        $result = $election->isElected($sujet->getId());
+        $result = $election->isElected($sujet);
 
 
 

@@ -582,7 +582,7 @@ h1 {
 }
 
 
-/*******************************ASSEMBLEE INDEX**************************************************/
+/*******************************SALON INDEX**************************************************/
 
 
 /*INVITATION*/
@@ -979,6 +979,11 @@ h1 {
 
 }
 
+#message_save:hover {
+
+  cursor: pointer;
+}
+
 
 #messages {
 
@@ -1217,6 +1222,11 @@ h1 {
 
 }
 
+.arrow-sujet:hover {
+
+  cursor:pointer;
+}
+
 .select-vote select {
 
   display: none;
@@ -1405,8 +1415,9 @@ h1 {
     flex-basis: 0;
     color: white;
     height: 0;
-    bottom: 8vh;
-    left:-20%;
+    position: relative;
+    top: -20px;
+    left: -2px;
     white-space: nowrap;
 
   }
@@ -1767,6 +1778,11 @@ h1 {
 
   }
 
+  .invit-box {
+
+    width: 40vw;
+  }
+
 
   /***SALON EDIT***/
 
@@ -1838,6 +1854,9 @@ h1 {
     width: 300px;
 
   }
+
+
+
 
 
   /**end**/

@@ -16,9 +16,9 @@ class MessageRepository extends ServiceEntityRepository
         parent::__construct($registry, Message::class);
     }
 
-    //    /**
-    //     * @return Message[] Returns an array of Message objects
-    //     */
+        /**
+         * @return Message[] Returns an array of Message objects
+         */
         public function findBySalons(int $id): array
         {
             return $this->createQueryBuilder('m')

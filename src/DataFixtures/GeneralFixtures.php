@@ -69,8 +69,8 @@ class GeneralFixtures extends Fixture
         for($i = 0; $i < 5; $i++ )
         {
             $keySalon = array_rand($userArray, 1);
-            $campagne = new \DateTimeImmutable('2024-10-12 10:00:00');
-            $vote = new \DateTimeImmutable('2024-10-13 10:00:00');
+            $campagne = new \DateTimeImmutable('2024-10-10 10:00:00');
+            $vote = new \DateTimeImmutable('2024-10-11 11:00:00');
 
 
 

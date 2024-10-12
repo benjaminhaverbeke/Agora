@@ -24,9 +24,10 @@ class Vote
     private ?string $notes = null;
 
     #[ORM\ManyToOne(inversedBy: 'votes')]
-    private ?User $User = null;
+    private ?User $user = null;
     public function __construct()
     {
+
     }
 
     public function getId(): ?int
@@ -72,12 +73,12 @@ class Vote
 
     public function getUser(): ?User
     {
-        return $this->User;
+        return $this->user;
     }
 
     public function setUser(?User $User): static
     {
-        $this->User = $User;
+        $this->user = $User;
 
         return $this;
     }
