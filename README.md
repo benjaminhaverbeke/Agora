@@ -27,7 +27,9 @@ Cloning the GitHub repository:
 
 Copy the git clone code
 
+```
 https://github.com/benjaminhaverbeke/Agora.git
+```
 
 Using Wamp
 
@@ -39,25 +41,28 @@ Make sure Wamp is running and the Apache server is started.
 
 Symfony .env need to link your database 
 
+```
 DATABASE_URL="mysql://root:@127.0.0.1:3306/agora?serverVersion=8.3.0&charset=utf8mb4"
+```
 
 # Generate Schema Database
 
 The database schema is generated using the command:
 
+```
 php bin/doctrine orm:schema-tool:create
-
+```
 
 # Installing PHP Dependencies
 
 Go to the project's root directory and install PHP dependencies via Composer:
-
+```
 composer install
-
+```
 update dependencies
-
+```
 composer update
-
+```
 # Installing JavaScript Dependencies
 
 Go to the project's root directory and install JavaScript dependencies via yarn:
