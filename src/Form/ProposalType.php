@@ -26,12 +26,6 @@ use Symfony\Component\Validator\Constraints\Count;
 class ProposalType extends AbstractType
 {
 
-    public function __construct(
-        readonly Security $security,
-    )
-    {
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
@@ -43,7 +37,7 @@ class ProposalType extends AbstractType
                 ->add('title', TextType::class, [
                     'label' => 'Titre',
                     'attr' => [
-                      'class' => 'vote-title'
+                        'class' => 'vote-title'
                     ],
                     'disabled' => true
 
@@ -56,15 +50,14 @@ class ProposalType extends AbstractType
                     'disabled' => true
                 ])
                 ->add('votes', CollectionType::class,
-                [
-                    'entry_type' => VoteType::class,
-                    'entry_options' => [
-                        'label' => false
-                    ],
+                    [
+                        'entry_type' => VoteType::class,
+                        'entry_options' => [
+                            'label' => false
+                        ],
 
 
-
-                ]);
+                    ]);
 
 
         } else {

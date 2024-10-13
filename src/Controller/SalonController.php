@@ -31,7 +31,6 @@ class SalonController extends AbstractController
     private MessageRepository $mm;
     private SalonRepository $sm;
     private EntityManagerInterface $em;
-
     private ElectionManager $electionManager;
 
 
@@ -47,19 +46,19 @@ class SalonController extends AbstractController
 
     #[Route('/salon/{id}', name: 'salon.index', requirements: ['id' => '\d+'])]
     public function index(
-        int                    $id,
-        Request                $request,
-        UserRepository         $um,
-        #[CurrentUser] User    $currentUser,
-        VoteRepository         $vm,
-        SujetRepository        $sujm,
+        int                 $id,
+        Request             $request,
+        UserRepository      $um,
+        #[CurrentUser] User $currentUser,
+        VoteRepository      $vm,
+        SujetRepository     $sujm,
     ): Response
     {
 
-
         $salon = $this->sm->findSalonIndex($id);
-
         $users = $salon->getUsers();
+
+        /***check user access, if user exists in salon users collection***/
 
         $hasAccess = $users->exists(function ($key, $value) use ($currentUser) {
             return $value === $currentUser;
@@ -72,6 +71,8 @@ class SalonController extends AbstractController
         }
 
 
+        /***CHAT***/
+
         /***initialize chat form***/
 
         $message = new Message();
@@ -79,14 +80,14 @@ class SalonController extends AbstractController
 
         $messageForm->handleRequest($request);
 
+        /*****/
 
 
-
-        /*** countdown ***/
+        /***COUNTDOWN***/
 
         $time = $this->timeProcess($salon);
 
-        /*** invitation ***/
+        /***INVITATION***/
 
         $form = $this->createFormBuilder()
             ->add('email', EmailType::class, [
@@ -103,67 +104,59 @@ class SalonController extends AbstractController
 
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             $email = $form->getData()["email"];
 
             $receiver = $um->findOneBy(['email' => $email]);
 
-            /***user not found***/
+            /***if user not found, turbo injects a block containing warning message***/
             if ($receiver === null) {
 
+                /***to use Turbostream, request need to accept turbo format***/
                 if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
-
 
                     $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
                     return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'introuvable', 'form' => $form]);
                 }
 
 
-            }
-            else {
+            } else {
 
-                /***check if user is already invited***/
+                /***same process if user is already invited***/
+
                 $invitations = $salon->getInvitations();
                 $isInvited = $invitations->filter(function ($key, $value) use ($receiver) {
                     return $value === $receiver;
                 });
 
-
-
                 if (count($isInvited) > 0) {
 
                     if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
 
-
-                        // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
                         $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
                         return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'exist', 'form' => $form]);
                     }
 
+                } else {
 
-                }
-                else {
+                    /***check if user is already a salon member***/
 
-                    /***check if user already in salon***/
                     $users = $salon->getUsers();
-
                     $alreadyInSalon = $users->filter(function ($key, $value) use ($receiver) {
                         return $value === $receiver;
                     });
 
-                    if($alreadyInSalon){
+                    if ($alreadyInSalon) {
 
                         if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
 
-                            // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
                             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
                             return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'already', 'form' => $form]);
                         }
-
                     }
 
+                    /***else an invitation is instanciated***/
 
                     $sender = $currentUser;
                     $invit = new Invitation();
@@ -171,41 +164,42 @@ class SalonController extends AbstractController
                     $invit->setSalon($salon);
                     $invit->setReceiver($receiver);
                     $invit->setSender($sender);
+
+                    /***not forgeting to add it in salon collection***/
                     $salon->addInvitation($invit);
 
                     $this->em->persist($salon);
                     $this->em->persist($invit);
                     $this->em->flush();
 
-
+                    /***display success message***/
                     if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
 
-
-                        // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
                         $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
                         return $this->renderBlock('partials/invit_flash.stream.html.twig', 'success_stream', ["invit" => 'valid', 'form' => $form]);
                     }
                 }
 
-
             }
-
 
         }
 
-        /*********PHASE VOTE************/
+
+        /********************************************/
+        /*                VOTE PHASE                */
+        /********************************************/
 
 
         if ($time['type'] === 'vote') {
 
 
-            $sujetIsVoted = [];
+            /***need to check if user has already voted to give access to vote form or to vote answers***/
 
+            $sujetIsVoted = [];
 
             $sujets = $sujm->findSujetsWithCollections($salon->getId());
 
             foreach ($sujets as $sujet) {
-
 
                 $voters = $sujet->getVoters();
 
@@ -219,6 +213,7 @@ class SalonController extends AbstractController
 
                 });
 
+                /***This boolean is used to display information according to the context***/
 
                 if ($userhasVoted === false) {
 
@@ -242,23 +237,26 @@ class SalonController extends AbstractController
 
             }
 
-
             return $this->render('salon/index.html.twig', [
                 'messageForm' => $messageForm,
                 'salon' => $salon,
                 'time' => $time,
                 'form' => $form,
                 'sujetIsVoted' => $sujetIsVoted
-
-
             ]);
+
+
+            /*****************************************/
+            /*               RESULTS                 */
+            /*****************************************/
 
         } elseif ($time["type"] === "results") {
 
             $sujets = $salon->getSujets();
 
-
             $results = [];
+
+            /***getting results for each sujet***/
 
             foreach ($sujets as $sujet) {
 
@@ -267,12 +265,8 @@ class SalonController extends AbstractController
                 $results[] = [
                     'sujet' => $sujet,
                     'result' => $result
-
                 ];
-
-
             }
-
 
             return $this->render('salon/index.html.twig', [
                 'messageForm' => $messageForm,
@@ -280,29 +274,38 @@ class SalonController extends AbstractController
                 'time' => $time,
                 'form' => $form,
                 'results' => $results
-
-
             ]);
 
-
         }
+
+        /********************************************************/
+        /*                    CAMPAGNE                          */
+        /********************************************************/
+
+
+        /***controller is rendering a default block if time type is campagne***/
+
         return $this->render('salon/index.html.twig', [
             'messageForm' => $messageForm,
             'salon' => $salon,
             'time' => $time,
             'form' => $form,
-
-
         ]);
-
-
     }
 
     #[Route('salon/{id}/edit', name: 'salon.edit', requirements: ['id' => '\d+'])]
-    public function edit(int $id, Request $request, EntityManagerInterface $em): Response
+    public function edit(
+        int                    $id,
+        Request                $request,
+        EntityManagerInterface $em
+    ): Response
     {
 
-        /***chat envoi message***/
+        $salon = $this->sm->findSalonWithMessages($id);
+
+        /***CHAT***/
+
+        /***chat form***/
         $message = new Message();
         $messageForm = $this->createForm(MessageType::class, $message);
 
@@ -312,7 +315,9 @@ class SalonController extends AbstractController
 
         $messages = $this->mm->findBySalons($id);
 
-        $salon = $this->sm->find($id);
+        /****/
+
+        /****create salon form***/
 
         $form = $this->createForm(SalonType::class, $salon);
 
@@ -335,14 +340,17 @@ class SalonController extends AbstractController
     }
 
     #[Route('salon/create', name: 'salon.create')]
-    public function create(Request $request, EntityManagerInterface $em, #[CurrentUser] User $currentUser): Response
+    public function create(
+        Request                $request,
+        EntityManagerInterface $em,
+        #[CurrentUser] User    $currentUser
+    ): Response
     {
 
 
         $salon = new Salon();
         $salon->setUser($currentUser);
         $salon->addUser($currentUser);
-
 
         $form = $this->createForm(SalonType::class, $salon);
 
@@ -352,7 +360,6 @@ class SalonController extends AbstractController
 
             $salon->setCreatedAt(new \DateTimeImmutable());
 
-
             $em->persist($salon);
             $em->flush();
             $this->addFlash('success-salon-create', 'Le salon a bien été crée');
@@ -361,15 +368,17 @@ class SalonController extends AbstractController
         return $this->render('salon/create.html.twig', [
             'form' => $form
         ]);
-
-
     }
 
-    #[Route('salon/{id}/delete', name: 'salon.delete')]
-    public function delete(int $id, SalonRepository $sm, EntityManagerInterface $em): Response
-    {
 
-        $salon = $sm->findSalonIndex($id);
+    #[Route('salon/{id}/delete', name: 'salon.delete')]
+    public function delete(
+        int                    $id,
+        EntityManagerInterface $em
+    ): Response
+    {
+        $salon = $this->sm->find($id);
+
         $em->remove($salon);
 
         $em->flush();
@@ -381,16 +390,19 @@ class SalonController extends AbstractController
     }
 
     #[Route('salon/list', name: 'salon.list')]
-    public function salonlist(SujetRepository $sujm, SalonRepository $salm, Request $request, #[CurrentUser] User $currentUser): Response
+    public function salonlist(
+        SujetRepository     $sujm,
+        SalonRepository     $salm,
+        Request             $request,
+        #[CurrentUser] User $currentUser
+    ): Response
     {
-
 
         /***pagination***/
         $limit = 2;
         $page = $request->query->getInt('page', 1);
         $salons = $salm->paginateSalons($currentUser->getId(), $page, $limit);
         $maxPage = ceil($salons->count() / $limit);
-
 
         $salonlist = [];
 
@@ -405,10 +417,6 @@ class SalonController extends AbstractController
             $salonlist[] = $salonTab;
         }
 
-
-        /***vérifie que l'utilisateur est connecté***/
-
-
         return $this->render('salon/list.html.twig', [
 
             'salonlist' => $salonlist,
@@ -416,54 +424,39 @@ class SalonController extends AbstractController
             'page' => $page
         ]);
 
-
     }
 
+
     #[Route('salon/get-duration/{id}', name: "salon.get-duration", requirements: ['id' => '\d+'])]
-    public function duration(int $id, SalonRepository $sm): JsonResponse
+    public function duration(
+        int             $id,
+        SalonRepository $sm
+    ): JsonResponse
     {
 
         $salon = $sm->find($id);
-
         $time = $this->timeProcess($salon);
-
         return new JsonResponse($time);
 
     }
 
-
     public function timeProcess(Salon $salon): array
     {
 
-        /*méthode qui
-         * soit affiche le décompte fin de campagne,
-         * soit affiche le décompte fin de vote,
-         * soit autorise le résultat des votes (??a passer en paramètre de isElected ??)
-         * */
-
-        /***init variable qui stock le resultat***/
+        /***This internal API allows to retrieve the salon's deadlines***/
 
         $displaytime = [];
-
-        /*prend le salon en parametre pour recuperer les dates*/
 
         $campagne = $salon->getDateCampagne();
         $vote = $salon->getDateVote();
 
-        /*on stock la date actuelle*/
+        /***stocking current date to compare***/
 
         $now = new \DateTimeImmutable('now');
-
-
-        /***si la date actuelle est plus grande que la cloture de campagne
-         * alors on affiche un décompte jusqu'à la fin de la camapgne**
-         */
-
 
         if ($now < $campagne) {
 
             $displaytime["time"] = $campagne;
-
             $displaytime["time_message"] = "Temps de délibération restant : ";
             $displaytime["type"] = "campagne";
 
@@ -484,14 +477,20 @@ class SalonController extends AbstractController
     }
 
     #[Route('salon/chat/{id}', name: "salon.chat", requirements: ['id' => '\d+'])]
-    public function chat(request $request, int $id, #[CurrentUser] User $currentUser): Response
+    public function chat(
+        int                 $id,
+        Request             $request,
+        #[CurrentUser] User $currentUser
+    ): Response
     {
+        /***processing chat requests***/
+
         $salon = $this->sm->find($id);
+
         $message = new Message();
         $messageForm = $this->createForm(MessageType::class, $message);
 
         $messageForm->handleRequest($request);
-
 
         if ($messageForm->isSubmitted() && $messageForm->isValid()) {
 
@@ -507,6 +506,7 @@ class SalonController extends AbstractController
 
             $this->em->flush();
 
+            /***message block is streamed***/
 
             if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
 
@@ -518,27 +518,25 @@ class SalonController extends AbstractController
                 );
             }
 
-
         }
 
         return $this->redirectToRoute('salon.index', ["id" => $id]);
 
-
     }
 
     #[Route('salon/get-results/{id}', name: "salon.get-results", requirements: ['id' => '\d+'])]
-    public function results(int $id, SujetRepository $sujm, ElectionManager $election): JsonResponse
+    public function results(
+        int $id,
+        SujetRepository $sujm,
+        ElectionManager $election
+    ): JsonResponse
     {
+        /***internal api to get results***/
 
         $sujet = $sujm->find($id);
-
         $result = $election->isElected($sujet);
 
-
-
         return new JsonResponse($result);
-
     }
-
 
 }

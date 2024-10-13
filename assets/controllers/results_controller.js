@@ -41,26 +41,31 @@ export default class extends Controller {
 
             } else {
 
-                /***le résultat contient tous les tours***/
+                /***response contains all rounds***/
+
                 result.forEach((tour, index) => {
 
-                    /***incrémentation du tour***/
+                    /***incrementing counter***/
                     index++;
 
-                    /***recupère la grille pour afficher les résultats du tour***/
+
+                    /***get grid to display round results***/
+
                     const grid = this.idTarget.querySelector('.tour_' + index);
 
 
                     tour.forEach((prop) => {
 
+                        /***to select grid row for each proposal***/
 
-                        /***Pour selection la ligne correspondante dans la grille pour chaque proposition***/
                         const proposal = grid.querySelector('.proposal_' + prop.proposalId);
 
-                        /***on récupère les pourcentages de la proposition***/
+                        /***getting proposal percent***/
+
                         const pourcent = Object.entries(prop.pourcent);
 
-                        /***les porucentage sont injectés grâce aux classes portant le nom de mentions***/
+                        /***percents injected by classes with same mention names***/
+
                         pourcent.forEach((mention) => {
 
                             const vote = mention[1];
@@ -74,67 +79,45 @@ export default class extends Controller {
                     })
 
 
-                    /*****AFFICHAGE DU GAGNANT******/
+                    /**********WINNER DISPLAY***********/
 
 
                     const lasttour = result[result.length - 1];
 
 
-                         const winnerDisplay = this.idTarget.querySelector('.winner');
+                    const winnerDisplay = this.idTarget.querySelector('.winner');
 
-                         /***on vérifie le dernier tour, si il reste plusieurs propositions, alors elles sont à égalité***/
+                    /***checking last tour, if more than one proposal, its equality***/
 
-                        if (lasttour.length > 1) {
-
-
-                            winnerDisplay.textContent = "Egalité entre les propositions "
-
-                            lasttour.forEach((prop, index) => {
-
-                                if(index+1 !== lasttour.length){
-
-                                    winnerDisplay.textContent = winnerDisplay.textContent + " " + prop.proposalTitle + " &";
-
-                                }
-                                else {
-                                    winnerDisplay.textContent = winnerDisplay.textContent + " " + prop.proposalTitle;
-
-                                }
+                    if (lasttour.length > 1) {
 
 
-                            });
+                        winnerDisplay.textContent = "Egalité entre les propositions "
 
-                        } else {
+                        lasttour.forEach((prop, index) => {
 
-                            winnerDisplay.textContent = "La proposition " + lasttour[0].proposalTitle + " a gagné !"
-                        }
+                            if (index + 1 !== lasttour.length) {
+
+                                winnerDisplay.textContent = winnerDisplay.textContent + " " + prop.proposalTitle + " &";
+
+                            } else {
+                                winnerDisplay.textContent = winnerDisplay.textContent + " " + prop.proposalTitle;
+
+                            }
+
+
+                        });
+
+                    } else {
+
+                        winnerDisplay.textContent = "La proposition " + lasttour[0].proposalTitle + " a gagné !"
+                    }
 
 
                 })
             }
 
-
         })
-
-
-        /***target grid******/
-        // const grid = container.querySelector('.grid');
-
-
-        // let toggle = container.classList.toggle("active");
-
-        /***target rows******/
-        // let rows = grid.querySelectorAll('.row');
-
-
-        /***test de mettre une transition pour afficher les résultats*********/
-        // rows.forEach((row)=> {
-        //     row.classList.toggle('transition');
-        //
-        // });
-
-
     }
-
 
 }

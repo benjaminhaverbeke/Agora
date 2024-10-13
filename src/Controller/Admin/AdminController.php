@@ -30,34 +30,15 @@ class AdminController extends AbstractDashboardController
      * @throws ContainerExceptionInterface
      */
 
-
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
 
-
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-//        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-
-        // Option 1. Make your dashboard redirect to the same page for all users
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
 
-        // Option 1. Make your dashboard redirect to the same page for all users
         return $this->redirect($adminUrlGenerator->setController(UserCrudController::class)->generateUrl());
 
-
-        // Option 2. You can make your dashboard redirect to different pages depending on the user
-        //
-        // if ('jane' === $this->getUser()->getUsername()) {
-        //     return $this->redirect('...');
-        // }
-
-        // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        //
-        // return $this->render('some/path/my-dashboard.html.twig');
     }
 
     public function configureDashboard(): Dashboard
@@ -71,15 +52,15 @@ class AdminController extends AbstractDashboardController
 
         return [
             MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
-        MenuItem::linkToRoute('Retour sur le site', 'fas fa-list', 'home'),
-        MenuItem::linkToCrud('Utilisateurs', 'fas fa-list', User::class),
-        MenuItem::linkToCrud('Message', 'fas fa-list', Message::class),
-        MenuItem::linkToCrud('Contact', 'fas fa-list', Contact::class),
-        MenuItem::linkToCrud('Sujet', 'fas fa-list', Sujet::class),
-        MenuItem::linkToCrud('Proposal', 'fas fa-list', Proposal::class),
-        MenuItem::linkToCrud('Vote', 'fas fa-list', Vote::class),
-        MenuItem::linkToCrud('Salon', 'fas fa-list', Salon::class),
-        MenuItem::linkToCrud('Invitation', 'fas fa-list', Invitation::class),
+        MenuItem::linkToRoute('Retour sur le site', 'fas fa-right-left', 'home'),
+        MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class),
+        MenuItem::linkToCrud('Message', 'fas fa-message', Message::class),
+        MenuItem::linkToCrud('Contact', 'fas fa-address-book', Contact::class),
+        MenuItem::linkToCrud('Sujet', 'fas fa-list-check', Sujet::class),
+        MenuItem::linkToCrud('Proposal', 'fas fa-pen', Proposal::class),
+        MenuItem::linkToCrud('Vote', 'fas fa-check-to-slot', Vote::class),
+        MenuItem::linkToCrud('Salon', 'fas fa-users', Salon::class),
+        MenuItem::linkToCrud('Invitation', 'fas fa-envelope', Invitation::class),
         ];
 
 

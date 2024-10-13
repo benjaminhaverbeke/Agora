@@ -34,12 +34,6 @@ export default class extends Controller {
 
     }
 
-    reinitValue(event) {
-        console.log(event)
-        this.inputTarget.reset();
-        console.log(this.input.Target)
-    }
-
 
 
 }

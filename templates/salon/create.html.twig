@@ -6,11 +6,10 @@
     <section>
         <h1>Créer un nouveau salon</h1>
 
-        {{ form_start(form, { 'attr': {'class': 'box salon-form'} }) }}
+        {{ form_start(form, { 'attr': {'class': 'box salon-form', 'data-controller': 'date'} }) }}
 
         {{ form_row(form.title) }}
         {{ form_row(form.description) }}
-{#        {{ form_row(form.dateCampagne, { 'attr': {'class': 'date-create'}}) }}#}
         <div class="dates-box">
 
             {{ form_row(form.dateCampagne, { 'attr': {'class': 'date-create'}}) }}

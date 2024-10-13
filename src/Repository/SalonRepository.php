@@ -48,5 +48,16 @@ class SalonRepository extends ServiceEntityRepository
 
     }
 
+    public function findSalonWithMessages(int $id): Salon
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s', 'm')
+            ->leftJoin('s.messages', 'm')
+            ->andWhere('s.id =:id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+    }
 
 }

@@ -1,28 +1,18 @@
 {% extends 'base.html.twig' %}
 
-
 {% block title %}Assemblée{% endblock %}
-
-
 
 {% block invitation %}
 
-
-
         <li class="invit-li" id="invit-request">
             <p class="invit-title">Invitation</p>
-
             {{ form_start(form, {'attr': {'id': 'invitation'}}) }}
             {{ form_row(form.email,{'label': 'Email'}) }}
             {{ form_row(form.save, {'label': 'Inviter'}) }}
             {{ form_end(form) }}
-
         </li>
 
-
-
 {% endblock %}
-
 
 {% block body %}
 
@@ -35,7 +25,7 @@
 
         {% if time.type == 'campagne' %}
 
-            {# *********SI CAMPAGNE ON PEUT MODIFIER LE SALON*********** #}
+            {# *********IF CAMPAIGN TYPE, WE CAN EDIT SALON PARAMETERS*********** #}
             <div class="salon-app-btn">
                     <a class="btn-icon" href="{{ path('salon.edit', {id: salon.id}) }}">
                         <span class="material-symbols-outlined">edit</span>
@@ -48,7 +38,7 @@
 
     </section>
 
-{#*************BLOC COMPTE A REBOURS*******toujours affiché*********#}
+{#************COUNTDOWN*******always displaying*********#}
 
     <div class="box time-container" data-controller="countdown" id="time" data-countdown-target="id"
          data-salon-id="{{ salon.id }}">
@@ -80,9 +70,9 @@
 
 
 
-                {#*********MODIFICATION DU SUJET EN CAMPAGNE************#}
+                {#*********EDITING SUJET IN CAMPAIGN************#}
 
-                <section class="sujet-btn">
+                <div class="sujet-btn">
                     <div data-action="click->deroulant#animDesSujet" class="btn-icon">
                         <span class="material-symbols-outlined">search</span>
                     </div>
@@ -100,7 +90,7 @@
                     </a>
 
 
-                </section>
+                </div>
 
 
             <p data-deroulant-target="sujetDescript" class="sujet-content">{{ sujet.description }}</p>
@@ -108,7 +98,7 @@
 
             <ul class="proposal-ul" data-deroulant-target="ul">
 
-                {#*********************BLOC PROPOSITIONS EDITABLE EN CAMPAGNE*******************#}
+                {#*********************BLOCK PROPOSAL EDITABLE IN CAMPAIGN*******************#}
 
                 {% for proposal in sujet.proposals %}
                     <li class="proposal-li proposal_{{ proposal.id }}" data-controller="proposal">
@@ -116,7 +106,7 @@
                             <p>{{ proposal.title }}</p>
 
 
-                            <section class="proposal-btn">
+                            <div class="proposal-btn">
                                 <div class="btn-icon" data-action="click->proposal#animate">
                                 <span  class="material-symbols-outlined">
                                     search
@@ -129,15 +119,12 @@
                                 </span>
                                 </a>
 
-
                                 <a class="btn-icon" href="{{ path('proposal.delete', {id: proposal.id}) }}"><span
                                             class="material-symbols-outlined">
                                     delete
                                 </span>
                                 </a>
-                            </section>
-
-
+                            </div>
 
                         <p data-proposal-target="description" class="proposal-content">{{ proposal.description }}</p>
 
@@ -150,7 +137,7 @@
 
             {% elseif time.type == "vote" %}
 
-                {#**********PHASE DE VOTE*************#}
+                {#**********VOTE TIME*************#}
 
                 {% for sujet in sujetIsVoted %}
 
@@ -162,7 +149,7 @@
                     keyboard_arrow_up
                     </span>
 
-                    <section class="voted-section" data-deroulant-target="votedUl">
+                    <div class="voted-section" data-deroulant-target="votedUl">
                     {% if sujet.voted == true %}
 
                         <ul class="proposals">
@@ -184,14 +171,13 @@
                                 {% endif %}
                             </li>
 
-
                         {% endfor %}
                         </ul>
 
 
                     {% elseif sujet.sujet.proposals|length == 0 %}
 
-                        {#*************CAS SUJET SANS PROPOSITIONS*****************#}
+                        {#*************CASE SUJET WITHOUT PROPOSALS*****************#}
 
                         <article>
                             <p>Ce sujet n'a pas reçu de proposition</p>
@@ -201,7 +187,7 @@
                     {% else %}
 
 
-                        <section class="sujet-btn">
+                        <div class="sujet-btn">
 
                             <div data-action="click->deroulant#animDesSujet" class="btn-icon">
                                 <span class="material-symbols-outlined">search</span>
@@ -211,22 +197,19 @@
                                         class="material-symbols-outlined">how_to_vote</span>
                             </a>
 
-                        </section>
+                        </div>
 
 
 
                     {% endif %}
 
-                    </section>
+                    </div>
             </section>
                 {% endfor %}
-                {#            verification des sujets déjà validés #}
-
-
 
             {% else %}
 
-                {# ********************PHASE RESULTS********************* #}
+                {# ********************RESULTS TIME********************* #}
 
             {%  for result in results %}
                 {% if result.result[0]|length == 0 %}
@@ -240,7 +223,6 @@
                 <article data-controller="results" class="results-container box" data-results-target="id" data-id="{{ result.sujet.id }}" id="sujet_results_{{ result.sujet.id }}">
 
                     <h3>{{ result.sujet.title }}</h3>
-
 
                     <p class="winner"></p>
 
@@ -269,22 +251,11 @@
 
                         {% endfor %}
 
-
-
-
-
-
-
                 </article>
-
-
 
                     {% endif %}
 
             {% endfor %}
-
-
-
 
             {% endif %}
 
@@ -293,20 +264,17 @@
 
 
     {% if time.type == 'campagne' %}
-        <section class="sujet-app-create">
+        <div class="sujet-app-create">
             <a class="btn" href="{{ path('sujet.create', {id: salon.id}) }}">Créer un nouveau sujet</a>
-        </section>
+        </div>
     {% endif %}
 
-
 </section>
-
 
     {% block chat %}
         <div class="chat-container">
             {{ include('chat/chat.html.twig') }}
         </div>
-
     {% endblock %}
 
 {% endblock %}

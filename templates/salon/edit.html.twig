@@ -4,17 +4,13 @@
 
 {% block body %}
 
-<section class="box salon-edit">
+<div class="box salon-edit">
     {{ form(form, {action: path('salon.edit', {id: salon.id})}) }}
     <a class="btn" href="{{ path('salon.index', {id: salon.id}) }}">Retour</a>
-</section>
-
-
-
+</div>
 
     {% block chat %}
         {{ include('chat/chat.html.twig') }}
     {% endblock %}
-
 
 {% endblock %}

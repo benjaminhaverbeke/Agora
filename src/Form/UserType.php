@@ -63,11 +63,8 @@ class UserType extends AbstractType
             ->add('save', SubmitType::class, [
                 "label" => "Enregistrer",
                 "attr" => ["class" => "btn"]
-            ])
-
-        ;
+            ]);
     }
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

@@ -20,9 +20,8 @@
     {% endblock %}
 </head>
 <body data-turbo="true">
-{#    {% autoescape %} #}
-{% block nav %}
 
+{% block nav %}
 
     <header class="header" data-controller="menu" data-action="turbolinks:before-cache@window->menu#animate">
         <a href="{{ path('home') }}"><img id="logo" src="{{ asset('build/images/logo.png') }}"
@@ -60,9 +59,10 @@
 
                 {% else %}
                     <li><a href="{{ path('register') }}">Inscription</a></li>
-                    <li><a class="login-icon" href="{{ path('login') }}"><span class="material-symbols-outlined">
-                        login
-                    </span>
+                    <li><a class="login-icon" href="{{ path('login') }}">
+                            <span class="material-symbols-outlined">
+                            login
+                            </span>
                             Connexion
                         </a>
                     </li>
@@ -75,10 +75,11 @@
             </ul>
         </nav>
 
-        <div data-action="click->menu#animate" data-menu-target="burger"><span
+        <div data-action="click->menu#animate" data-menu-target="burger">
+            <span
                     class="material-symbols-outlined menu-burger">
-menu
-</span>
+                                        menu
+                                        </span>
         </div>
 
     </header>
@@ -89,17 +90,9 @@ menu
     {% block body %}
         {% include 'partials/flash.html.twig' %}
 
-
-
-
-
-
-
-
     {% endblock %}
 </div>
 
-{#    {% endautoescape %} #}
 </body>
 
 </html>

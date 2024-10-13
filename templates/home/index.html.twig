@@ -7,8 +7,6 @@
 
         <h1>Bienvenue sur Agora</h1>
 
-
-
         <section class="box home-box">
             <h2>C'est quoi Agora ?</h2>
             <p>Agora est une application destinée à s’organiser entre militants,
@@ -24,19 +22,14 @@
             </p>
             <p> Prêt à rejoindre votre première assemblée ? </p>
             <a class="btn register-btn" href="{{ path('register') }}">S'inscrire</a>
-
         </section>
 
         {% if app.user %}
-            <section class="create-salon">
-
+            <div class="create-salon">
                 <a class="btn" href="{{ path('salon.create') }}">Nouvelle assemblée</a>
-            </section>
+            </div>
 
         {% endif %}
-
     </section>
-
-
 
 {% endblock %}

@@ -17,15 +17,16 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 class ProfileController extends AbstractController
 {
     #[Route('/profile', name: 'profile')]
-    public function index(SalonRepository $sm, InvitationRepository $im, Request $request, EntityManagerInterface $em, #[CurrentUser] User $currentUser): Response
+    public function index(
+        SalonRepository      $sm,
+        InvitationRepository $im,
+        #[CurrentUser] User  $currentUser
+    ): Response
     {
-
 
         $salons = $currentUser->getSalons();
 
-
         $invits = $im->findByReceiverField($currentUser);
-
 
         return $this->render('profile/index.html.twig', [
             'controller_name' => 'ProfileController',
@@ -35,7 +36,12 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/profile/invit/{id}', name: 'profile.invit', requirements: ['id' => '\d+'])]
-    public function invit(int $id, EntityManagerInterface $em, InvitationRepository $im, #[CurrentUser] User $currentUser): Response
+    public function invit(
+        int                    $id,
+        EntityManagerInterface $em,
+        InvitationRepository   $im,
+        #[CurrentUser] User    $currentUser
+    ): Response
     {
 
         $invit = $im->find($id);
@@ -43,18 +49,19 @@ class ProfileController extends AbstractController
         $salon->addUser($currentUser);
         $salon->removeInvitation($invit);
 
-
         $em->persist($salon);
-
         $em->flush();
-
 
         return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);
 
     }
 
     #[Route('/profile/invit/{id}/refuse', name: 'profile.refuse', requirements: ['id' => '\d+'])]
-    public function refuse(int $id, EntityManagerInterface $em, InvitationRepository $im): Response
+    public function refuse(
+        int                    $id,
+        EntityManagerInterface $em,
+        InvitationRepository   $im
+    ): Response
     {
 
         $invit = $im->find($id);
@@ -66,7 +73,12 @@ class ProfileController extends AbstractController
 
 
     #[Route('profile/edit', name: 'profile.edit')]
-    public function editProfile(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $userPasswordHasher, #[CurrentUser] User $currentUser) : Response
+    public function editProfile(
+        Request                     $request,
+        EntityManagerInterface      $em,
+        UserPasswordHasherInterface $userPasswordHasher,
+        #[CurrentUser] User         $currentUser
+    ): Response
     {
 
         $user = $currentUser;

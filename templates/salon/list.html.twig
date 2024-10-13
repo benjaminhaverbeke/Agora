@@ -5,43 +5,38 @@
 {% block body %}
 
     <h1>Mes assemblées</h1>
-        <section class="salonlist-container">
-    {% for salon in salonlist %}
-        <article class="box salonlist">
-            <h3>{{ salon["salon"].title }}</h3>
-            <div class="list-content">
-                <p>Nombre de sujets : {{ salon["nbSujets"] }}</p>
 
-                <p>Nombre d'utilisateurs : {{ salon["nbUsers"] }}</p>
-                <p>Fin de la campagne : {{ salon["salon"].dateCampagne|date("d/m/Y H:m") }}</p>
-                <p>Clôture des votes : {{ salon["salon"].dateVote|date("d/m/Y H:m") }}</p>
-                <p>Crée par : {{ salon["salon"].user.username }}</p>
-            </div>
+    <div class="salonlist-container">
 
+        {% for salon in salonlist %}
 
-            <a class="btn" href="{{ path('salon.index', {id: salon["salon"].id}) }}">Rejoindre</a>
-        </article>
+            <article class="box salonlist">
+                <h3>{{ salon["salon"].title }}</h3>
+                <div class="list-content">
+                    <p>Nombre de sujets : {{ salon["nbSujets"] }}</p>
+                    <p>Nombre d'utilisateurs : {{ salon["nbUsers"] }}</p>
+                    <p>Fin de la campagne : {{ salon["salon"].dateCampagne|date("d/m/Y H:m") }}</p>
+                    <p>Clôture des votes : {{ salon["salon"].dateVote|date("d/m/Y H:m") }}</p>
+                    <p>Crée par : {{ salon["salon"].user.username }}</p>
+                </div>
+                <a class="btn" href="{{ path('salon.index', {id: salon["salon"].id}) }}">Rejoindre</a>
+            </article>
 
+        {% endfor %}
+    </div>
 
-    {% endfor %}
+    <div class="pagination">
+        {% if page > 1 %}
+            <a class="btn" href="{{ path('salon.list', {page: page - 1 }) }}">Page précédente</a>
+        {% endif %}
+        {% if page < maxPage %}
+            <a class="btn" href="{{ path('salon.list', {page: page + 1 }) }}">Page suivante</a>
+        {% endif %}
+    </div>
 
-    </section>
-
-<div class="pagination">
-    {% if page > 1 %}
-        <a class="btn" href="{{ path('salon.list', {page: page - 1 }) }}">Page précédente</a>
-    {% endif %}
-    {% if page < maxPage %}
-        <a class="btn" href="{{ path('salon.list', {page: page + 1 }) }}">Page suivante</a>
-    {% endif %}
-</div>
-
-
-    <section class="create-salon">
-        <a class="btn" href="{{ path('salon.create') }}" >Nouvelle assemblée</a>
-
-    </section>
-
+    <div class="create-salon">
+        <a class="btn" href="{{ path('salon.create') }}">Nouvelle assemblée</a>
+    </div>
 
 {% endblock %}
 

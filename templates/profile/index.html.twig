@@ -2,7 +2,6 @@
 
 {% block title %}Mon compte{% endblock %}
 
-
 {% block body %}
     <section class="profile-content">
         <h2>Mes informations</h2>
@@ -12,45 +11,12 @@
                 <p><span class="darkgrey-color">Mon Email :</span> {{ app.user.email }}</p>
                 <a class="btn" href="{{ path('profile.edit') }}">Modifier mes informations</a>
             </div>
-
-
-
-
-
     </section>
-    {#    <section> #}
-    {#        <h2>Mes salons</h2> #}
-    {#        <table> #}
-    {#            <thead> #}
-    {#            <tr> #}
-
-    {#                <th>Titre</th> #}
-    {#                <th>Description</th> #}
-    {#                <th>Auteur</th> #}
-    {#                <th>Date de création</th> #}
-    {#                <th>Action</th> #}
-
-    {#            </tr> #}
-    {#            </thead> #}
-    {#            <tbody> #}
-    {#            {% for salon in salons %} #}
-    {#                <tr> #}
-    {#                    <td>{{ salon.title }}</td> #}
-    {#                    <td>{{ salon.description }}</td> #}
-    {#                    <td>{{ salon.user.username }}</td> #}
-    {#                    <td>{{ salon.createdAt|date("m/d/Y") }}</td> #}
-    {#                    <td><a class="btn" href="{{ path('salon.index', {id: salon.id}) }}">Rejoindre</a></td> #}
-    {#                </tr> #}
-    {#            {% endfor %} #}
-    {#            </tbody> #}
-    {#        </table> #}
-    {#    </section> #}
-
 
     <section class="invit-profil-content">
         <h2>Nouvelles invitations</h2>
         {% for invit in invits %}
-        <article class="box invit-box">
+        <div class="box invit-box" data-turbo-temporary>
 
                 <p><span class="darkgrey-color">Invité par</span> {{ invit.sender.username }}</p>
                 <p><span class="darkgrey-color">Nom de l'assemblée :</span> {{ invit.salon.title }}</p>
@@ -60,33 +26,8 @@
                 <a class="btn" href="{{ path('profile.refuse', {id: invit.id}) }}">Refuser</a>
             </div>
 
-        </article>
+        </div>
         {% endfor %}
 
-        {#        <table> #}
-        {#            <thead> #}
-        {#            <tr> #}
-
-        {#                <th>Invité par</th> #}
-        {#                <th>Titre de l'assemblée</th> #}
-        {#                <th>Date  de l'invitation</th> #}
-        {#                <th>Action</th> #}
-
-        {#            </tr> #}
-        {#            </thead> #}
-        {#            <tbody> #}
-        {#            {% for invit in invits %} #}
-        {#                <tr> #}
-        {#                    <td>{{ invit.sender.username }}</td> #}
-        {#                    <td>{{ invit.salon.title }}</td> #}
-        {#                    <td>{{ invit.createdAt|date("d/m/Y") }}</td> #}
-        {#                    <td><a class="btn" href="{{ path('profile.invit', {id: invit.id}) }}">Rejoindre</a></td> #}
-        {#                    <td><a class="btn" href="{{ path('profile.refuse', {id: invit.id}) }}">Refuser</a></td> #}
-        {#                </tr> #}
-
-        {#            {% endfor %} #}
-
-        {#            </tbody> #}
-        {#        </table> #}
     </section>
 {% endblock %}

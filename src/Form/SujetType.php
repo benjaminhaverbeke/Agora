@@ -20,11 +20,7 @@ class SujetType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
-
-
-
-        if($options['vote'] === true) {
-
+        if ($options['vote'] === true) {
 
             $builder
                 ->add('proposals', CollectionType::class, [
@@ -38,11 +34,7 @@ class SujetType extends AbstractType
                     'label' => 'Voter',
                     'attr' => ['class' => 'btn'],
                 ]);
-
-
-
-        }
-        else {
+        } else {
             $builder
                 ->add('title', TextType::class, [
 
@@ -56,21 +48,17 @@ class SujetType extends AbstractType
                 ->add('description', TextareaType::class, [
                     'label' => 'Description',
                     'attr' => [
-                        'rows'=> "15",
+                        'rows' => "15",
                         'class' => 'sujet-input-description',
                         'placeholder' => 'Description',
                     ]
                 ])
-
                 ->add('save', SubmitType::class, [
                     'label' => 'Enregistrer',
                     'attr' => ["class" => "btn"]
                 ]);
         }
-
-
-        }
-
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {

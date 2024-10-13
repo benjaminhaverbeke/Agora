@@ -240,6 +240,8 @@ h1 {
 
 .profil-edit {
 
+  margin-top: 6rem;
+
   input {
     margin: .5rem;
   }
@@ -392,6 +394,9 @@ h1 {
     display: block;
     padding: .5rem;
   }
+
+
+
 }
 
 
@@ -836,6 +841,7 @@ h1 {
   justify-content: center;
   padding: .5rem;
   gap: .5rem;
+  order: 3;
 }
 
 /***SUJET EDIT PAGE***/
@@ -884,7 +890,7 @@ h1 {
 .proposal-li {
 
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: space-between;
   border-radius: 10px;
   border: solid 1px black;
@@ -913,6 +919,7 @@ h1 {
   word-wrap: break-word;
   padding: 1em;
   margin-top: .5rem;
+  flex-basis:100%;
 
 
 }
@@ -983,6 +990,7 @@ h1 {
 #message_save:hover {
 
   cursor: pointer;
+  color: white;
 }
 
 
@@ -1338,6 +1346,7 @@ h1 {
 .voted-section.active {
 
   display: block;
+  flex-basis: 100%;
 
 }
 
@@ -1865,6 +1874,14 @@ h1 {
     }
 
   }
+
+  /***PROFIL EDIT***/
+
+  .profil-edit {
+
+    width: 50%;
+  }
+
 
 
 

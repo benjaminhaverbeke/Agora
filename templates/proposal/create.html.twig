@@ -7,9 +7,7 @@
             <h1>Créer une nouvelle proposition</h1>
 
             {{ form(form, {action: path('proposal.create', {id: sujet.id})}) }}
-
     </section>
-
 
     {% block chat %}
         {{ include('chat/chat.html.twig') }}

@@ -18,20 +18,6 @@ class VoteRepository extends ServiceEntityRepository
         parent::__construct($registry, Vote::class);
     }
 
-    //    /**
-    //     * @return Vote[] Returns an array of Vote objects
-    //     */
-    public function findAllVotesByProposal(int $id): array
-    {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.proposal = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getResult();
-
-
-    }
-
     public function findVotesOnSujetByUser(int $user_id, int $sujet_id): array
     {
         return $this->createQueryBuilder('v')

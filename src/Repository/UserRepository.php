@@ -32,20 +32,4 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
-
-
-        /**
-         * @return User[] Returns an array of User objects
-         */
-        public function findSujetsVotedByUser($value): array
-        {
-            return $this->createQueryBuilder('u')
-                ->andWhere('u.id = :val')
-                ->setParameter('val', $value)
-                ->leftJoin('u.voted', 'v')
-                ->getQuery()
-                ->getResult()
-            ;
-        }
-
 }

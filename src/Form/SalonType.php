@@ -33,26 +33,15 @@ class SalonType extends AbstractType
                 ]
             ])
             ->add('dateCampagne', DateTimeType::class, [
-
                 'label' => "Fin de la campagne",
-                'attr' => [
-                    'placeholder' => 'Fin de la campagne',
-                ]
             ])
             ->add('dateVote', DateTimeType::class, [
                 'label' => "Cloture des votes",
-                'attr' => [
-                    'placeholder' => 'Cloture des votes',
-                ]
-
             ])
-            ->add('save', SubmitType::class ,[
+            ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer',
                 'attr' => ['class' => 'btn'],
-            ])
-
-
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

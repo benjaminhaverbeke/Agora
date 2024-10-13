@@ -40,12 +40,12 @@ class RegistrationFormType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Mot de passe',
-                    'attr'=>[
+                    'attr' => [
                         'placeholder' => 'Mot de passe'
                     ]
-                    ],
+                ],
                 'second_options' => ['label' => 'Confirmation du mot de passe',
-                    'attr'=> [
+                    'attr' => [
                         'placeholder' => 'Confirmation du mot de passe'
                     ]
                 ],
@@ -70,8 +70,7 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Votre mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial',
                     ]),
                 ],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

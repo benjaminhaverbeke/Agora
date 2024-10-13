@@ -9,23 +9,22 @@
                     class="button-chat">
                 <span class="material-symbols-outlined">send</span>
             </div>
-            <span data-action="click->chat#animate" data-chat-target="close"
+                <span data-action="click->chat#animate" data-chat-target="close"
                   class="close_chat material-symbols-outlined">
-close
-</span>
-            <section data-chat-target="messages" id="messages">
+                    close
+                </span>
+            <div data-chat-target="messages" id="messages">
                 {% for message in salon.messages %}
-                    <article class="bulle_chat box">
+                    <div class="bulle_chat box">
                         <p class="message-user">{{ message.user.username }}</p>
                         <p class="message-content">{{ message.content }}</p>
                         <p class="message-date">{{ message.createdAt|date("G:i") }}</p>
-                    </article>
+                    </div>
                 {% endfor %}
-            </section>
+            </div>
 
             {{ form(messageForm, {'action': path('salon.chat', {id: salon.id}) }
                 ) }}
-
 
         </aside>
     {% endblock %}

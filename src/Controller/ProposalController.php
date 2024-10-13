@@ -24,12 +24,11 @@ class ProposalController extends AbstractController
 {
     private MessageRepository $mm;
     private EntityManagerInterface $em;
-
     private SujetRepository $sujm;
-
     private ProposalRepository $pm;
 
-    public function __construct(MessageRepository $mm, EntityManagerInterface $em, ProposalRepository $pm, SujetRepository $sujm)
+    public function __construct(
+        MessageRepository $mm, EntityManagerInterface $em, ProposalRepository $pm, SujetRepository $sujm)
     {
         $this->em = $em;
         $this->mm = $mm;
@@ -39,11 +38,14 @@ class ProposalController extends AbstractController
 
 
     #[Route('/proposal/create/{id}', name: 'proposal.create', requirements: ['id' => '\d+'])]
-    public function create(int $id, Request $request, #[CurrentUser] User $currentUser): Response
+    public function create(
+        int                 $id,
+        Request             $request,
+        #[CurrentUser] User $currentUser
+    ): Response
     {
 
         $sujet = $this->sujm->find($id);
-
 
         $salon = $sujet->getSalon();
         $users = $salon->getUsers();
@@ -52,20 +54,20 @@ class ProposalController extends AbstractController
             return $value === $currentUser;
         });
 
-        if(!$hasAccess){
+        if (!$hasAccess) {
 
             return $this->redirectToRoute('home');
 
         }
 
-        /***chat envoi message***/
+        /***message form***/
 
         $message = new Message();
         $messageForm = $this->createForm(MessageType::class, $message);
 
         $messageForm->handleRequest($request);
 
-        /***chat display messages***/
+        /***display messages***/
 
         $messages = $sujet->getSalon()->getMessages();
 
@@ -93,11 +95,7 @@ class ProposalController extends AbstractController
             $this->addFlash('success', 'La proposition a bien été crée');
 
 
-                return $this->redirectToRoute('salon.index', ['id' => $sujet->getSalon()->getId()]);
-
-
-
-
+            return $this->redirectToRoute('salon.index', ['id' => $sujet->getSalon()->getId()]);
 
         }
 
@@ -112,7 +110,11 @@ class ProposalController extends AbstractController
     }
 
     #[Route('proposal/{id}/edit', name: 'proposal.edit', requirements: ['id' => '\d+'])]
-    public function edit(int $id, Request $request, #[CurrentUser] User $currentUser): Response
+    public function edit(
+        int                 $id,
+        Request             $request,
+        #[CurrentUser] User $currentUser
+    ): Response
     {
 
         $proposal = $this->pm->find($id);
@@ -124,19 +126,21 @@ class ProposalController extends AbstractController
             return $value === $currentUser;
         });
 
-        if(!$hasAccess){
+        if (!$hasAccess) {
 
             return $this->redirectToRoute('home');
 
         }
 
-        /***chat envoi message***/
+        /***CHAT***/
+
+        /***chat form***/
         $message = new Message();
         $messageForm = $this->createForm(MessageType::class, $message);
 
         $messageForm->handleRequest($request);
 
-        /***chat display messages***/
+        /***messages display***/
 
         $messages = $this->mm->findBySalons($salon->getId());
 
@@ -169,7 +173,11 @@ class ProposalController extends AbstractController
 
 
     #[Route('proposal/{id}/delete', name: 'proposal.delete')]
-    public function delete(int $id, ProposalRepository $pm, EntityManagerInterface $em, Request $request, #[CurrentUser] User $currentUser): Response
+    public function delete(
+        int                    $id,
+        EntityManagerInterface $em,
+        #[CurrentUser] User    $currentUser
+    ): Response
     {
         $proposal = $this->pm->find($id);
         $salon = $proposal->getSalon();
@@ -179,20 +187,17 @@ class ProposalController extends AbstractController
             return $value === $currentUser;
         });
 
-        if(!$hasAccess){
+        if (!$hasAccess) {
 
             return $this->redirectToRoute('home');
 
         }
 
 
-
-
         $em->remove($proposal);
         $em->flush();
 
-        $this->addFlash('success', 'La proposition a bien été supprimé');
-
+        $this->addFlash('success', 'La proposition a bien été supprimée');
 
 
         return $this->redirectToRoute('salon.index', ['id' => $salon->getId()]);

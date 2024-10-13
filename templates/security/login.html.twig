@@ -7,6 +7,7 @@
     <section class="box login">
         <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
         <form method="post">
+
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
@@ -19,7 +20,6 @@
                    autocomplete="current-password" required>
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
-
 
             <button class="btn" type="submit">
                 Se connecter

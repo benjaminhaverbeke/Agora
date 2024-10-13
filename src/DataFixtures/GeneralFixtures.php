@@ -69,15 +69,24 @@ class GeneralFixtures extends Fixture
         for($i = 0; $i < 5; $i++ )
         {
             $keySalon = array_rand($userArray, 1);
-            $campagne = new \DateTimeImmutable('2024-10-10 10:00:00');
-            $vote = new \DateTimeImmutable('2024-10-11 11:00:00');
+            $campagne = new \DateTimeImmutable('2024-10-14 10:00:00');
+            $vote = new \DateTimeImmutable('2024-10-15 15:00:00');
 
+            $titleSalon = ($i+1).' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices accumsan enim vitae interdum';
 
+            $contentSalon = ($i+1).' Aenean fermentum tortor imperdiet elit rhoncus tempor. Etiam maximus commodo libero, 
+                nec lobortis massa auctor non. Pellentesque eu turpis id lorem facilisis malesuada. 
+                Etiam gravida vulputate efficitur. Vestibulum vel ullamcorper velit. 
+                Integer nunc magna, auctor vitae semper sed, vulputate sit amet nisl. 
+                Proin in neque vitae turpis vulputate ultrices ut at purus. 
+                Duis vel purus elementum quam iaculis aliquam id ac lectus. 
+                Donec fringilla suscipit aliquam. Donec et erat eget lectus sagittis finibus nec et nunc. 
+                Vestibulum non posuere ipsum, semper condimentum leo.';
 
             $salon = new Salon();
             $salon
-                ->setTitle('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices accumsan enim vitae interdum')
-                ->setDescription('Aenean fermentum tortor imperdiet elit rhoncus tempor. Etiam maximus commodo libero, nec lobortis massa auctor non. Pellentesque eu turpis id lorem facilisis malesuada. Etiam gravida vulputate efficitur. Vestibulum vel ullamcorper velit. Integer nunc magna, auctor vitae semper sed, vulputate sit amet nisl. Proin in neque vitae turpis vulputate ultrices ut at purus. Duis vel purus elementum quam iaculis aliquam id ac lectus. Donec fringilla suscipit aliquam. Donec et erat eget lectus sagittis finibus nec et nunc. Vestibulum non posuere ipsum, semper condimentum leo.')
+                ->setTitle($titleSalon)
+                ->setDescription($contentSalon)
                 ->setUser($userArray[$keySalon])
                 ->setCreatedAt(new \DateTimeImmutable())
                 ->setDateCampagne($campagne)
@@ -98,18 +107,25 @@ class GeneralFixtures extends Fixture
 
             for($n = 0; $n < 6; $n++ ){
                 $keySujet = array_rand($userArray, 1);
+                $contentSujet = ($n+1).' Aenean congue nisl eget aliquet tempus. Maecenas in massa dolor. Mauris vitae pulvinar nisl. Nulla facilisi. Nam maximus interdum pellentesque. Phasellus id blandit lacus. Sed malesuada augue nisl, malesuada bibendum nisl vestibulum et. Mauris ullamcorper consectetur feugiat. Duis sit amet arcu ut velit cursus ultricies. Nam molestie augue sed tellus feugiat aliquet. Duis volutpat elementum ligula, sit amet viverra nisl bibendum vitae. Integer eu lacus aliquet, interdum elit vitae, rutrum nisi.';
+                $titleSujet = ($n+1).' Lorem ipsum dolor sit amet';
+
+
                 $sujet = new Sujet();
-                $sujet->setTitle('Lorem ipsum dolor sit amet')
-                    ->setDescription('Aenean congue nisl eget aliquet tempus. Maecenas in massa dolor. Mauris vitae pulvinar nisl. Nulla facilisi. Nam maximus interdum pellentesque. Phasellus id blandit lacus. Sed malesuada augue nisl, malesuada bibendum nisl vestibulum et. Mauris ullamcorper consectetur feugiat. Duis sit amet arcu ut velit cursus ultricies. Nam molestie augue sed tellus feugiat aliquet. Duis volutpat elementum ligula, sit amet viverra nisl bibendum vitae. Integer eu lacus aliquet, interdum elit vitae, rutrum nisi.')
+                $sujet->setTitle($titleSujet)
+                    ->setDescription($contentSujet)
                     ->setSalon($salon)
                     ->setUser($userArray[$keySujet]);
 
 
                 for($o = 0; $o < 6; $o++ ){
                     $keyProposal = array_rand($userArray, 1);
+                    $contentProposal = ($o+1).' Sed vel ultrices ligula, id hendrerit mauris. Curabitur facilisis, mauris eget accumsan gravida, diam urna ullamcorper felis, eget vehicula dui risus ut risus. Sed mattis, ante ut vestibulum convallis, ipsum purus ultricies magna, sit amet lacinia risus tortor sed ex. Morbi velit nisl, facilisis porttitor sapien vel, dapibus egestas justo. Cras non arcu semper, commodo nunc vitae, imperdiet est. Nullam interdum vel turpis quis auctor. Vivamus ipsum quam, scelerisque ac ipsum at, facilisis sagittis lacus.';
+                    $titleProposal = ($o+1).' Lorem ipsum dolor sit amet';
+
                     $proposal = new Proposal();
-                    $proposal->setTitle('Lorem ipsum dolor sit amet')
-                        ->setDescription('Sed vel ultrices ligula, id hendrerit mauris. Curabitur facilisis, mauris eget accumsan gravida, diam urna ullamcorper felis, eget vehicula dui risus ut risus. Sed mattis, ante ut vestibulum convallis, ipsum purus ultricies magna, sit amet lacinia risus tortor sed ex. Morbi velit nisl, facilisis porttitor sapien vel, dapibus egestas justo. Cras non arcu semper, commodo nunc vitae, imperdiet est. Nullam interdum vel turpis quis auctor. Vivamus ipsum quam, scelerisque ac ipsum at, facilisis sagittis lacus.')
+                    $proposal->setTitle($titleProposal)
+                        ->setDescription($contentProposal)
                         ->setSalon($salon)
                         ->setUser($userArray[$keyProposal])
                         ->setSujet($sujet);

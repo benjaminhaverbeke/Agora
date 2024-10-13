@@ -22,8 +22,6 @@ class MessageType extends AbstractType
                 "attr" => [
                     'placeholder' => 'Message',
                     'data-chat-target' => 'input',
-
-
                 ]
             ])
             ->add('save', SubmitType::class, [
@@ -32,13 +30,8 @@ class MessageType extends AbstractType
                 'attr' => [
                     'class' => "material-symbols-outlined",
                     'data-action' => "click->chat#scrolldown"
-
-    ]
-            ])
-
-
-
-        ;
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

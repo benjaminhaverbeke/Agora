@@ -4,54 +4,47 @@
 
 {% block body %}
 
-
-    <section class="box vote-form">
+    <div class="box vote-form">
 
         {{ form_start(form, {action: path('sujet.vote', {id: sujet.id})}) }}
 
         <input type="hidden" name="token" value="{{ csrf_token('vote') }}">
 
-        <ul >
+        <ul>
             {% for proposal in form.proposals %}
 
                 <li data-controller="vote" class="proposal-vote-content">
-                <p data-vote-target="title">{{ form_row(proposal.title) }}</p>
-                <p>{{ form_row(proposal.description) }}</p>
-                {% for vote in proposal.votes %}
+                    {{ form_row(proposal.title) }}
+                    {{ form_row(proposal.description) }}
+                    {% for vote in proposal.votes %}
 
-                    {% if field_value(vote.user) == app.user.email %}
-                        <div >
-                            {{ form_row(vote.notes) }}
-                            <ul data-vote-target="mentionUl" class="mention-ul">
-                                <li data-mention="inadapte" class="mention-li">Inadapté</li>
-                                <li data-mention="passable" class="mention-li">Passable</li>
-                                <li data-mention="bien" class="mention-li">Bien</li>
-                                <li data-mention="tresbien" class="mention-li">Très bien</li>
-                                <li data-mention="excellent" class="mention-li">Excellent</li>
-                            </ul>
-                        </div>
+                        {% if field_value(vote.user) == app.user.email %}
+                            <div>
+                                {{ form_row(vote.notes) }}
+                                <ul data-vote-target="mentionUl" class="mention-ul">
+                                    <li data-mention="inadapte" class="mention-li">Inadapté</li>
+                                    <li data-mention="passable" class="mention-li">Passable</li>
+                                    <li data-mention="bien" class="mention-li">Bien</li>
+                                    <li data-mention="tresbien" class="mention-li">Très bien</li>
+                                    <li data-mention="excellent" class="mention-li">Excellent</li>
+                                </ul>
+                            </div>
 
-                    {% endif %}
+                        {% endif %}
 
-                {% endfor %}
+                    {% endfor %}
                 </li>
             {% endfor %}
         </ul>
 
-
         {{ form_row(form.save) }}
-
-
 
         {{ form_end(form, {render_rest: false}) }}
 
-
-    </section>
-
+    </div>
 
     {% block chat %}
         {{ include('chat/chat.html.twig') }}
     {% endblock %}
-
 
 {% endblock %}

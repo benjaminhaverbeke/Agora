@@ -3,7 +3,6 @@
 namespace App\Tests;
 
 use App\Entity\User;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UserTest extends KernelTestCase

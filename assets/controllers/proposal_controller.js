@@ -22,6 +22,4 @@ export default class extends Controller {
         this.descriptionTarget.classList.add("active");
     }
 
-
-
 }
