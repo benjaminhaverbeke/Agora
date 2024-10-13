@@ -147,7 +147,7 @@ class SalonController extends AbstractController
                         return $value === $receiver;
                     });
 
-                    if ($alreadyInSalon) {
+                    if (count($alreadyInSalon) !== 0) {
 
                         if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
 

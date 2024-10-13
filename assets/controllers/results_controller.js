@@ -34,7 +34,6 @@ export default class extends Controller {
 
         this.fetchResults().then((result) => {
 
-
             if (result[0].length === 0) {
 
                 return null;
@@ -48,11 +47,9 @@ export default class extends Controller {
                     /***incrementing counter***/
                     index++;
 
-
                     /***get grid to display round results***/
 
                     const grid = this.idTarget.querySelector('.tour_' + index);
-
 
                     tour.forEach((prop) => {
 
@@ -69,21 +66,14 @@ export default class extends Controller {
                         pourcent.forEach((mention) => {
 
                             const vote = mention[1];
-
                             const mentionDom = proposal.querySelector('.' + mention[0]);
-
                             mentionDom.style.flexGrow = vote;
-
                         });
-
                     })
-
 
                     /**********WINNER DISPLAY***********/
 
-
                     const lasttour = result[result.length - 1];
-
 
                     const winnerDisplay = this.idTarget.querySelector('.winner');
 
@@ -102,22 +92,15 @@ export default class extends Controller {
 
                             } else {
                                 winnerDisplay.textContent = winnerDisplay.textContent + " " + prop.proposalTitle;
-
                             }
-
-
                         });
 
                     } else {
 
                         winnerDisplay.textContent = "La proposition " + lasttour[0].proposalTitle + " a gagné !"
                     }
-
-
                 })
             }
-
         })
     }
-
 }

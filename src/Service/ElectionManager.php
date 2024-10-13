@@ -127,15 +127,9 @@ readonly class ElectionManager
 
 
                 break;
-
             }
-
-
         }
-
-
         return $matchingVotes;
-
     }
 
     /***this method aims to differentiate between proposals in cas multiple results remain***/
@@ -199,8 +193,6 @@ readonly class ElectionManager
                         $notesarray[] = $vote->getNotes();
 
                     }
-
-
                     /***We compare the base mentions with the excluded mentions. A new table is outputted without the excluded mentions,
                      * so that we can recalculate the winning mention***/
 
@@ -218,23 +210,12 @@ readonly class ElectionManager
                             "pourcent" => $result->getPourcent()
 
                         ];
-
-
                 }
-
-
                 $lastresult = $this->allWinnerMentions($newresult);
-
             }
-
-
         }
-
-
         return $stocklastresult;
-
     }
-
 
     /***this last method taking a Sujet id in parameter ***/
     /**

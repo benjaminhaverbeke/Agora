@@ -69,7 +69,7 @@ class GeneralFixtures extends Fixture
         for($i = 0; $i < 5; $i++ )
         {
             $keySalon = array_rand($userArray, 1);
-            $campagne = new \DateTimeImmutable('2024-10-14 10:00:00');
+            $campagne = new \DateTimeImmutable('2024-10-12 10:00:00');
             $vote = new \DateTimeImmutable('2024-10-15 15:00:00');
 
             $titleSalon = ($i+1).' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices accumsan enim vitae interdum';

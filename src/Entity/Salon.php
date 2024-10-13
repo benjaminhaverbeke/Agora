@@ -35,7 +35,8 @@ class Salon
 
     #[ORM\Column]
     #[Assert\GreaterThan(value: 'today', message: "Date de vote trop courte")]
-    #[Assert\GreaterThan(propertyPath: 'date_campagne', message: "La date de clôture des votes doit être supérieure à la date de fin de campagne")]
+    #[Assert\GreaterThan(propertyPath: 'date_campagne',
+        message: "La date de clôture des votes doit être supérieure à la date de fin de campagne")]
     private ?\DateTimeImmutable $date_vote;
 
     /**

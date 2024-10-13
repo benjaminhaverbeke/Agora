@@ -37,7 +37,7 @@ class AdminController extends AbstractDashboardController
 
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
 
-        return $this->redirect($adminUrlGenerator->setController(UserCrudController::class)->generateUrl());
+        return $this->redirect($adminUrlGenerator->setController(SalonsCrudController::class)->generateUrl());
 
     }
 

@@ -87,12 +87,19 @@
 {% endblock %}
 
 <div class="container">
-    {% block body %}
-        {% include 'partials/flash.html.twig' %}
-
-    {% endblock %}
+    <main class="main">
+        {% block body %}
+            {% include 'partials/flash.html.twig' %}
+        {% endblock %}
+    </main>
 </div>
+<footer class="footer">
+    <a href="{{ path('site_map') }}">Plan du site</a>
+    <a href="{{ path('confidentiality') }}">Politique de confidentialité</a>
+</footer>
+
 
 </body>
+
 
 </html>

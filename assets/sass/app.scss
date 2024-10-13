@@ -45,6 +45,7 @@ $light: 300;
 
 }
 
+
 html {
   margin: 0;
   font-size: 62.5%;
@@ -54,8 +55,12 @@ html {
 body {
   font-size: 1.4rem;
   margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 
 }
+
 
 /*inputs*/
 
@@ -124,6 +129,11 @@ textarea {
 
 }
 
+.material-symbols-outlined:hover {
+
+  cursor: pointer;
+}
+
 .btn:hover {
 
   background-color: $lightpurple;
@@ -144,12 +154,16 @@ h1 {
   text-align: center;
   font-weight: $light;
   margin-bottom: 2rem;
+  font-size: 3rem;
 }
 
 .container {
 
-  margin: auto;
+  margin: 1rem auto 1rem auto;
   width: 100%;
+  position: relative;
+  min-height: 100%;
+
 }
 
 
@@ -174,8 +188,6 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-
-
 
 
   .profil-info {
@@ -243,7 +255,7 @@ h1 {
   margin-top: 6rem;
 
   input {
-    margin: .5rem;
+    margin-bottom: 1rem;
   }
 
   .btn {
@@ -257,9 +269,9 @@ h1 {
 
 /*contact*/
 
-.contact {
+.contact-content {
 
-  margin-top: 5rem;
+  margin-top: 2rem;
 
   input {
 
@@ -282,6 +294,7 @@ h1 {
 
 
 /*login*/
+
 .login input, .login h1 {
   margin-bottom: 1.5rem;
 }
@@ -289,6 +302,15 @@ h1 {
 .login {
 
   margin-top: 6rem;
+}
+
+.alert-login {
+
+  background-color: $lightred;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  color: white;
 }
 
 
@@ -302,6 +324,31 @@ h1 {
   input {
     margin-bottom: 1rem;
   }
+}
+
+.register-form, .profile-form {
+
+  div:nth-child(3) {
+
+    ul {
+
+      list-style-type: none;
+      padding: 1rem;
+      background-color: $lightred;
+      border-radius: 10px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+
+      li {
+        text-align: left;
+      }
+
+    }
+  }
+
+
 }
 
 
@@ -328,7 +375,6 @@ h1 {
 
 
 /**************************salon list*******************************/
-
 
 
 .salonlist {
@@ -396,13 +442,78 @@ h1 {
   }
 
 
-
 }
 
 
 #salon_save {
 
   margin-bottom: 1rem;
+}
+
+/*************sitemap**************/
+
+.sitemap-content {
+
+
+  article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h2 {
+    margin: .5rem;
+  }
+
+  a {
+
+    margin: 1rem;
+  }
+
+
+}
+
+/********confidentiality********/
+
+
+.confidentiality-content{
+
+
+  padding: 0 1rem 0 1rem;
+  p {
+    padding:1rem;
+  }
+
+
+}
+
+/********************************FOOTER***************************************/
+
+.footer {
+
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  background-color: $lightpurple;
+  color: white;
+  padding: 2rem;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  clear: both;
+  margin-top: auto;
+
+  a {
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: white;
+  }
+
+  a:hover {
+    cursor: pointer;
+    color: $purple;
+  }
+
 }
 
 /********************************HEADER****************************************/
@@ -737,7 +848,7 @@ h1 {
   border-radius: 10px;
 
   h1 {
-
+    font-size: 2rem;
     margin-bottom: .5rem;
   }
 
@@ -754,11 +865,11 @@ h1 {
 
 .proposal-edit, .sujet-edit, .salon-edit {
 
-  margin: 8rem auto 1rem auto;
+  margin: 1rem auto 1rem auto;
 
 }
 
-.salon-edit  {
+.salon-edit {
 
 
   input, textarea {
@@ -779,13 +890,12 @@ h1 {
 /************SUJET ON SALON******************/
 
 
-
 .sujet-campagne {
 
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
 
   span {
     flex-basis: 1%;
@@ -800,8 +910,9 @@ h1 {
     width: 100%;
     order: 1;
   }
+
   section {
-    flex-basis:100%;
+    flex-basis: 100%;
     order: 3;
   }
 
@@ -842,6 +953,7 @@ h1 {
   padding: .5rem;
   gap: .5rem;
   order: 3;
+  flex-basis: 100%;
 }
 
 /***SUJET EDIT PAGE***/
@@ -855,7 +967,6 @@ h1 {
   }
 
 
-
   .btn {
 
     margin: 1rem;
@@ -863,7 +974,6 @@ h1 {
 
 
 }
-
 
 
 /***proposal***/
@@ -891,16 +1001,17 @@ h1 {
 
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   border-radius: 10px;
   border: solid 1px black;
   padding: .5rem;
   margin-bottom: .5rem;
-  align-items: center;
+
 
   p:first-child {
 
-    flex-basis: 60%;
+    flex-basis: 80%;
     overflow-wrap: anywhere;
     text-align: left;
   }
@@ -913,13 +1024,12 @@ h1 {
   display: none;
   background-color: white;
   border-radius: 10px;
-  overflow: scroll;
   text-align: justify;
   width: 100%;
   word-wrap: break-word;
   padding: 1em;
   margin-top: .5rem;
-  flex-basis:100%;
+  flex-basis: 100%;
 
 
 }
@@ -931,7 +1041,7 @@ h1 {
 
 .proposal-btn {
 
-  flex-basis: 25%;
+  flex-basis: 20%;
   display: flex;
   gap: 0.5rem;
   justify-content: flex-end;
@@ -956,7 +1066,6 @@ h1 {
   display: none;
   background-color: white;
   border-radius: 10px;
-  overflow: scroll;
   text-align: justify;
   width: 100%;
   word-wrap: break-word;
@@ -1040,7 +1149,6 @@ h1 {
   padding: 1rem;
 
 
-
 }
 
 .close_chat:hover {
@@ -1100,7 +1208,7 @@ h1 {
 .button-chat:hover {
 
   color: white;
-  cursor:pointer;
+  cursor: pointer;
 
 }
 
@@ -1166,7 +1274,7 @@ h1 {
 
   p:nth-child(2) {
 
-    color: white;
+    color: black;
     padding: .4rem;
     border-radius: 10px;
     width: 5em;
@@ -1216,12 +1324,7 @@ h1 {
 
   h3 {
     font-weight: $light;
-    flex-basis: 50%;
-  }
-
-  span {
-    flex-basis: 10%;
-    width: 20px;
+    flex-basis: 90%;
   }
 
   section {
@@ -1233,8 +1336,14 @@ h1 {
 
 .arrow-sujet:hover {
 
-  cursor:pointer;
+  cursor: pointer;
 }
+
+.arrow-sujet {
+
+  flex-basis: 1%;
+}
+
 
 .select-vote select {
 
@@ -1269,7 +1378,7 @@ h1 {
 
     padding: .2rem 1rem .2rem 1rem;
     border-radius: 10px;
-    color: white;
+    color: black;
     margin: .3rem;
     opacity: 40%;
 
@@ -1364,7 +1473,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
 
-  h3, .tour-title{
+  h3, .tour-title {
     flex-basis: 100%;
   }
 }
@@ -1390,7 +1499,6 @@ h1 {
 }
 
 
-
 .grid-vote {
   width: 95%;
   display: flex;
@@ -1402,8 +1510,6 @@ h1 {
   justify-content: space-evenly;
   height: fit-content;
   flex-basis: 80%;
-
-
 
 
   .row {
@@ -1426,7 +1532,7 @@ h1 {
     color: white;
     height: 0;
     position: relative;
-    top: -20px;
+    top: -5px;
     left: -2px;
     white-space: nowrap;
 
@@ -1561,13 +1667,15 @@ h1 {
 
 .sujet-create, .proposal-create {
 
-  margin-top: 4em;
 
+  h1 {
+    font-size: 2rem;
+  }
 
   input {
 
     margin-bottom: 1rem;
-    text-align:center;
+    text-align: center;
     padding: 0.3rem 0 0.3rem 0;
 
   }
@@ -1599,8 +1707,6 @@ h1 {
   }
 
 
-
-
   .sidenav {
 
     width: 28vw;
@@ -1629,7 +1735,6 @@ h1 {
 
     display: flex;
     justify-content: space-between;
-
 
 
   }
@@ -1702,11 +1807,24 @@ h1 {
   /***LOGIN DESKTOP***/
 
 
-  .login, .register, .contact {
+  #contact {
+
+    width: 100%;
+
+  }
+
+  .login, .register {
+
+    div {
+      width: 100%;
+    }
+  }
+
+  .login, .register, .contact-content {
 
     background-color: $lightgrey;
-    width: 50vw;
-    margin: 9rem auto;
+    width: 60rem;
+    margin: 2rem auto;
     padding: 2rem;
     border-radius: 10px;
     display: flex;
@@ -1720,41 +1838,22 @@ h1 {
       margin: 1rem;
     }
 
-    input {
-
-      width: 20vw;
-    }
-
     form {
-
+      width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       margin: 1rem;
+
+
     }
 
     .btn {
 
       width: 10vw;
-      margin: 0;
+      margin-top: 1.5rem;
     }
 
-
-  }
-
-
-  .contact {
-
-    input {
-
-      width: 45vw;
-    }
-
-    .btn {
-
-      margin-top: 1rem;
-
-    }
 
   }
 
@@ -1795,9 +1894,7 @@ h1 {
   /***SALON EDIT***/
 
 
-
   /***SALON INDEX CAMPAGNE***/
-
 
 
   .proposal-li {
@@ -1808,8 +1905,7 @@ h1 {
   /***SALON PHASE DE VOTE DESKTOP***/
 
 
-
-  .sujet-vote{
+  .sujet-vote {
 
 
     span {
@@ -1835,8 +1931,7 @@ h1 {
 
   /***TIME CONTAINER***/
 
-  .time-container{
-
+  .time-container {
 
 
     p {
@@ -1850,7 +1945,6 @@ h1 {
 
     padding-right: 0.4rem;
   }
-
 
 
   /***CHAT DESKTOP***/
@@ -1882,8 +1976,27 @@ h1 {
     width: 50%;
   }
 
+  .container {
+
+    max-width: 100rem;
+  }
 
 
+  /***sitemap***/
+
+.sitemap-content{
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  h1 {
+
+    flex-basis: 100%;
+
+  }
+
+}
 
 
 
