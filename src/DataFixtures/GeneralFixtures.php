@@ -105,7 +105,7 @@ class GeneralFixtures extends Fixture
             $user5->addSalon($salon);
             $user6->addSalon($salon);
 
-            for($n = 0; $n < 6; $n++ ){
+            for($n = 0; $n < 3; $n++ ){
                 $keySujet = array_rand($userArray, 1);
                 $contentSujet = ($n+1).' Aenean congue nisl eget aliquet tempus. Maecenas in massa dolor. Mauris vitae pulvinar nisl. Nulla facilisi. Nam maximus interdum pellentesque. Phasellus id blandit lacus. Sed malesuada augue nisl, malesuada bibendum nisl vestibulum et. Mauris ullamcorper consectetur feugiat. Duis sit amet arcu ut velit cursus ultricies. Nam molestie augue sed tellus feugiat aliquet. Duis volutpat elementum ligula, sit amet viverra nisl bibendum vitae. Integer eu lacus aliquet, interdum elit vitae, rutrum nisi.';
                 $titleSujet = ($n+1).' Lorem ipsum dolor sit amet';
@@ -118,7 +118,7 @@ class GeneralFixtures extends Fixture
                     ->setUser($userArray[$keySujet]);
 
 
-                for($o = 0; $o < 6; $o++ ){
+                for($o = 0; $o < 5; $o++ ){
                     $keyProposal = array_rand($userArray, 1);
                     $contentProposal = ($o+1).' Sed vel ultrices ligula, id hendrerit mauris. Curabitur facilisis, mauris eget accumsan gravida, diam urna ullamcorper felis, eget vehicula dui risus ut risus. Sed mattis, ante ut vestibulum convallis, ipsum purus ultricies magna, sit amet lacinia risus tortor sed ex. Morbi velit nisl, facilisis porttitor sapien vel, dapibus egestas justo. Cras non arcu semper, commodo nunc vitae, imperdiet est. Nullam interdum vel turpis quis auctor. Vivamus ipsum quam, scelerisque ac ipsum at, facilisis sagittis lacus.';
                     $titleProposal = ($o+1).' Lorem ipsum dolor sit amet';
