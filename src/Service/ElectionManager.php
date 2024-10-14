@@ -3,7 +3,6 @@
 
 namespace App\Service;
 
-use App\Entity\Proposal;
 use App\Repository\ProposalRepository;
 use App\Entity\Sujet;
 use App\Repository\VoteRepository;
@@ -225,9 +224,7 @@ readonly class ElectionManager
     public function isElected(Sujet $sujet): array
     {
 
-
         $all_mentions = $this->allMentionsByProposal($sujet);
-
 
         $all_win_mentions = $this->allWinnerMentions($all_mentions);
 
@@ -240,15 +237,10 @@ readonly class ElectionManager
             if (!empty($match)) {
 
                 $results[] = $match;
-
             }
-
         }
 
-
         return $results;
-
     }
-
 
 }
