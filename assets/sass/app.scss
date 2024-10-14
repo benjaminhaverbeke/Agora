@@ -1517,6 +1517,7 @@ h1 {
     display: flex;
     flex-direction: column-reverse;
     height: 30vh;
+    flex-wrap: wrap;
     min-height: 30vh;
     min-width: 2rem;
 
@@ -1528,13 +1529,12 @@ h1 {
     rotate: 180deg;
     text-align: center;
     font-size: 1.2rem;
-    flex-basis: 0;
-    color: white;
-    height: 0;
-    position: relative;
-    top: -5px;
-    left: -2px;
+    flex-basis: 100%;
+    color: black;
+    overflow: hidden;
     white-space: nowrap;
+    min-width: 1.2rem;
+    padding-top: 0.5rem;
 
   }
 }
@@ -1544,6 +1544,7 @@ h1 {
   font-size: 1rem;
   flex-grow: 0;
   flex-basis: 1rem;
+  min-width: 1.5rem;
 
 
 }
@@ -1968,6 +1969,29 @@ h1 {
     }
 
   }
+
+
+
+
+  .row > * {
+
+      width: 2rem;
+
+    }
+
+  .grid-vote {
+
+    .proposal-title {
+
+      font-size: 1.4rem;
+    }
+
+  }
+
+
+
+
+
 
   /***PROFIL EDIT***/
 
