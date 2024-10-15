@@ -6,7 +6,7 @@ Agora is a Symfony project online voting platform based on majority rule. Groups
 
 ## Online Version
 
-An online version of the site is available at: 
+An online version of the site is available at : /in progress/
 
 Test credentials:
 
