@@ -83,8 +83,7 @@ http://localhost/your-project-directory.
 Wamp Issues: Ensure that no other programs are using the same port as Apache (usually port 80). Composer Issues: Make sure you have the latest version of Composer installed. Node.js Issues: Ensure that Node.js and yarn are correctly installed and their versions are up to date.
 
 ## License
-This project is licensed under the MIT License.
-
+Agora © 2024 by Benjamin Haverbeke is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 
 
