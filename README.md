@@ -18,7 +18,7 @@ Password: Test_1234
 
 Ensure the following softwares are installed in your system:
 
-Wamp
+Apache 2.4, MySql 8.3, PHP 8.3.6 (I used WampServer)
 
 Composer
 
@@ -76,7 +76,9 @@ yarn install
 
 ## Running the Project
 
-Ensure that Wamp is running and the Apache server is started. Open your web browser and navigate to
+Ensure that Wamp is running and the Apache server is started. 
+
+Open your web browser and navigate to
 http://localhost/your-project-directory.
 
 ## Troubleshooting
