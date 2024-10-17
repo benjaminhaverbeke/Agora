@@ -27,6 +27,7 @@ class SalonRepository extends ServiceEntityRepository
                 ->setParameter('userId', $userId)
                 ->setFirstResult(($page - 1) * $limit)
                 ->setMaxResults($limit)
+                ->orderBy('s.id', 'ASC')
                 ->getQuery()
                 ->setHint(Paginator::HINT_ENABLE_DISTINCT, false)
         );
