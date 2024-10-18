@@ -150,6 +150,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/ux-react" />
       <path value="$PROJECT_DIR$/vendor/liip/test-fixtures-bundle" />
       <path value="$PROJECT_DIR$/vendor/doctrine/common" />
+      <path value="$PROJECT_DIR$/vendor/symfony/asset-mapper" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
