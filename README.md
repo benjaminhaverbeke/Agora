@@ -6,7 +6,7 @@ Agora is a Symfony project online voting platform based on majority rule. Groups
 
 ## Online Version
 
-An online version of the site is available at: 
+An online version of the site is available at : /in progress/
 
 Test credentials:
 
@@ -18,7 +18,7 @@ Password: Test_1234
 
 Ensure the following softwares are installed in your system:
 
-Wamp
+Apache 2.4, MySql 8.3, PHP 8.3.6 (I used WampServer)
 
 Composer
 
@@ -76,15 +76,16 @@ yarn install
 
 ## Running the Project
 
-Ensure that Wamp is running and the Apache server is started. Open your web browser and navigate to
+Ensure that Wamp is running and the Apache server is started. 
+
+Open your web browser and navigate to
 http://localhost/your-project-directory.
 
 ## Troubleshooting
 Wamp Issues: Ensure that no other programs are using the same port as Apache (usually port 80). Composer Issues: Make sure you have the latest version of Composer installed. Node.js Issues: Ensure that Node.js and yarn are correctly installed and their versions are up to date.
 
 ## License
-This project is licensed under the MIT License.
-
+Agora © 2024 by Benjamin Haverbeke is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 
 
