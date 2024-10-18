@@ -65,8 +65,7 @@ Encore
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
 
-    // uncomment if you use React
-    .enableReactPreset()
+    // uncomment if you use React
     .copyFiles({
         from: './assets/img',
 
