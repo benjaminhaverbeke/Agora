@@ -19,7 +19,8 @@ class Salon
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 1000)]
+    #[Assert\Length(max: 1000, maxMessage: "La description ne peut pas comporter plus de 1000 signes")]
     private ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'])]

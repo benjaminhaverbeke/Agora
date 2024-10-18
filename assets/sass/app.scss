@@ -326,7 +326,7 @@ h1 {
   }
 }
 
-.register-form, .profile-form {
+.register-form, .profile-form,  {
 
   div:nth-child(3) {
 
@@ -442,6 +442,7 @@ h1 {
   }
 
 
+
 }
 
 
@@ -449,6 +450,35 @@ h1 {
 
   margin-bottom: 1rem;
 }
+#salon, #sujet, #proposal {
+
+  textarea {
+
+    text-align: left;
+  }
+  div:nth-child(2) {
+
+    ul {
+
+      list-style-type: none;
+      padding: 1rem;
+      background-color: $lightred;
+      border-radius: 10px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+
+      li {
+        text-align: left;
+      }
+
+    }
+  }
+
+
+}
+
 
 /*************sitemap**************/
 

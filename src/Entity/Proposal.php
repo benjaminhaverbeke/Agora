@@ -6,6 +6,7 @@ use App\Repository\ProposalRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProposalRepository::class)]
 class Proposal
@@ -24,7 +25,8 @@ class Proposal
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 1000)]
+    #[Assert\Length(max: 1000, maxMessage: "La description ne peut pas comporter plus de 1000 signes")]
     private ?string $description = null;
 
     #[ORM\ManyToOne]
