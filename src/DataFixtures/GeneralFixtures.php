@@ -36,32 +36,32 @@ class GeneralFixtures extends Fixture
         $user->setRoles(['ROLE_ADMIN', 'ROLE_USER'])
             ->setEmail('admin@gmail.com')
             ->setUsername('Admin')
-            ->setPassword($this->hasher->hashPassword($user, 'admin'));
+            ->setPassword($this->hasher->hashPassword($user, 'AZERqsdf1234!'));
         $user2 = new User();
         $user2->setRoles(['ROLE_USER'])
             ->setEmail('benjamin@gmail.com')
             ->setUsername('Benjamin')
-            ->setPassword($this->hasher->hashPassword($user2, 'test'));
+            ->setPassword($this->hasher->hashPassword($user2, 'AZERqsdf1234!'));
         $user3 = new User();
         $user3->setRoles(['ROLE_USER'])
             ->setEmail('lea@gmail.com')
             ->setUsername('Léa')
-            ->setPassword($this->hasher->hashPassword($user3, 'test'));
+            ->setPassword($this->hasher->hashPassword($user3, 'AZERqsdf1234!'));
         $user4 = new User();
         $user4->setRoles(['ROLE_USER'])
             ->setEmail('carmen@gmail.com')
             ->setUsername('Carmen')
-            ->setPassword($this->hasher->hashPassword($user4, 'test'));
+            ->setPassword($this->hasher->hashPassword($user4, 'AZERqsdf1234!'));
         $user5 = new User();
         $user5->setRoles(['ROLE_USER'])
             ->setEmail('mathilde@gmail.com')
             ->setUsername('Mathilde')
-            ->setPassword($this->hasher->hashPassword($user5, 'test'));
+            ->setPassword($this->hasher->hashPassword($user5, 'AZERqsdf1234!'));
         $user6 = new User();
         $user6->setRoles(['ROLE_USER'])
             ->setEmail('bob@gmail.com')
             ->setUsername('Bob')
-            ->setPassword($this->hasher->hashPassword($user6, 'test'));
+            ->setPassword($this->hasher->hashPassword($user6, 'AZERqsdf1234!'));
 
         $userArray = [$user, $user2, $user3, $user4, $user5, $user6];
         $mentions = ['inadapte', 'passable', 'bien', 'tresbien', 'excellent'];
