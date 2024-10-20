@@ -7,6 +7,12 @@
           <mappings>
             <mapping deploy="/domains/agora-vote.fr/public_html" local="$PROJECT_DIR$" web="/" />
           </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/node_modules" />
+            <excludedPath local="true" path="$PROJECT_DIR$/.env" />
+            <excludedPath local="true" path="$PROJECT_DIR$/vendor" />
+            <excludedPath local="true" path="$PROJECT_DIR$/.gitignore" />
+          </excludedPaths>
         </serverdata>
       </paths>
     </serverData>
