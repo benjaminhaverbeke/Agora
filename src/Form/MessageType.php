@@ -29,7 +29,8 @@ class MessageType extends AbstractType
 
                 'attr' => [
                     'class' => "material-symbols-outlined",
-                    'data-action' => "click->chat#scrolldown"
+                    'data-action' => "click->chat#scrolldown",
+                    'data-chat-target' => 'input',
                 ]
             ]);
     }

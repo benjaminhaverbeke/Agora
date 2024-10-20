@@ -19,6 +19,7 @@ export default class extends Controller {
 
     show() {
         this.asideTarget.classList.add("is-chatting");
+        this.inputTarget.focus();
     }
 
     connect() {

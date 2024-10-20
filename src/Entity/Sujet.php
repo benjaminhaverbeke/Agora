@@ -18,6 +18,7 @@ class Sujet
 
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(max: 255, maxMessage: "Le titre ne peut pas comporter plus de 255 signes")]
     private ?string $title = null;
 
     #[ORM\Column(length: 1000)]
