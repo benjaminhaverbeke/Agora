@@ -23,7 +23,7 @@
                 {% endfor %}
             </div>
 
-            {{ form(messageForm, {'action': path('salon.chat', {id: salon.id}) }
+            {{ form(messageForm, {'action': path('salon.chat',  {id: salon.id}), 'attr': {'data-action':'turbo:submit-end->chat#clear'}}
                 ) }}
 
         </aside>

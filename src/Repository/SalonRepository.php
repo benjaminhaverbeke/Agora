@@ -40,6 +40,7 @@ class SalonRepository extends ServiceEntityRepository
             ->select('s', 'm', 'suj', 'p', 'u')
             ->leftJoin('s.users', 'u')
             ->leftJoin('s.messages', 'm')
+            ->orderBy('m.id', 'DESC')
             ->leftJoin('s.sujets', 'suj')
             ->leftJoin('suj.proposals', 'p')
             ->andWhere('s.id = :id')

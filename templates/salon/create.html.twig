@@ -15,6 +15,11 @@
             {{ form_row(form.dateCampagne, { 'attr': {'class': 'date-create'}}) }}
             {{ form_row(form.dateVote, { 'attr': {'class': 'date-create'}}) }}
         </div>
+        <div class="salon-errors">
+            {{ form_errors(form) }}
+
+        </div>
+
 
         {{ form_end(form) }}
     </section>
