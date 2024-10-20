@@ -28,9 +28,6 @@ body {
 
 /*inputs*/
 label {
-  color: #808080;
-  position: absolute;
-  left: 50px;
   display: none;
 }
 
@@ -45,6 +42,10 @@ textarea {
   width: 100%;
   border-radius: 6px;
   border: none;
+  padding: 1rem;
+  font-family: "Inter", sans-serif;
+  text-align: center;
+  resize: none;
 }
 
 /*boutons*/
@@ -66,11 +67,13 @@ h2 {
   word-wrap: break-word;
   font-size: 3rem;
   font-weight: 500;
+  text-align: center;
 }
 
 h1 {
   text-align: center;
   font-weight: 500;
+  margin-bottom: 2rem;
 }
 
 @media screen and (max-width: 425px) {
@@ -83,7 +86,7 @@ h1 {
   /* for mobile phones */
   .box {
     width: 80%;
-    margin: auto;
+    margin: 1rem auto 2rem auto;
     background-color: #D9D9D9;
     padding: 1em;
     text-align: center;
@@ -93,27 +96,30 @@ h1 {
     margin-bottom: 1em;
   }
 }
+/*profil */
 /*login*/
-.login input {
-  margin-bottom: 1rem;
+.login input, .login h1 {
+  margin-bottom: 1.5rem;
 }
 
 .rememberbox {
-  text-align: left;
   display: flex;
-  justify-content: space-between;
   margin-bottom: 0;
-  align-items: flex-end;
 }
-
+.rememberbox input {
+  flex-basis: 10%;
+  margin: 0;
+}
 .rememberbox label {
-  position: relative;
+  display: block;
+  flex-basis: 80%;
+  margin: 0;
 }
 
-/*salon list*/
+/**************************salon list*******************************/
 .salonlist h2 {
   white-space: normal;
-  margin: 0;
+  margin: 0 0 1rem 0;
   font-weight: 300;
 }
 .salonlist p {
@@ -123,7 +129,9 @@ h1 {
 }
 
 .pagination {
-  margin: 1rem;
+  margin: 2rem auto 2rem auto;
+  display: flex;
+  justify-content: center;
 }
 
 .create-salon {
@@ -133,22 +141,19 @@ h1 {
   text-align: center;
 }
 
-/*header*/
+/********************************HEADER****************************************/
 .header {
   display: flex;
   background-color: #805D93;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  height: 5rem;
+  height: 5.2rem;
+  margin-bottom: 3rem;
 }
 
 #logo {
   width: 20%;
-}
-
-#burger {
-  width: 10%;
 }
 
 /* Sidenav menu */
@@ -163,17 +168,6 @@ h1 {
   padding-top: 35px;
   transition: left 0.5s ease;
 }
-
-/* Sidenav menu links */
-.sidenav a, .user-li {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #808080;
-  display: block;
-  transition: 0.3s;
-}
-
 .sidenav ul {
   display: flex;
   flex-direction: column;
@@ -181,18 +175,28 @@ h1 {
   padding: 0;
   margin: 0;
 }
-
-.user-li {
-  padding: 8px 8px 8px 32px;
+.sidenav a {
+  padding: 0.8rem 0.8rem 0.8rem 3.2rem;
   text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
+  font-size: 2.2rem;
+  color: #808080;
   transition: 0.3s;
+  display: flex;
+}
+.sidenav .user-li {
+  padding: 0.8rem 0.8rem 0.8rem 3.2rem;
+  text-decoration: none;
+  font-size: 2.2rem;
+  color: #808080;
+  transition: 0.3s;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .sidenav a:hover {
-  color: #111;
+  color: black;
 }
 
 /* Ordre des li dans la nav selon le role de l'uilisateur */
@@ -241,24 +245,82 @@ h1 {
 }
 
 .uladmin :nth-child(6) {
-  order: 7;
+  order: 8;
 }
 
 .uladmin :nth-child(7) {
   order: 5;
 }
 
-/* sidenav active */
+.uladmin :nth-child(8) {
+  order: 7;
+}
+
 .sidenav.active {
   left: 0;
 }
 
-/* bouton close de la nav */
-.sidenav .close {
+.menu-burger:hover {
+  color: white;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.close {
   position: absolute;
-  top: -6px;
-  right: 10px;
-  font-size: 36px;
+  top: 15px;
+  right: 15px;
+  font-size: 25px;
+  color: #808080;
+}
+
+.close:hover {
+  color: black;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.user-logo {
+  background-color: white;
+  padding: 0.5rem;
+  margin-right: 1rem;
+  border-radius: 50%;
+}
+
+.logout-icon, .login-icon {
+  align-items: center;
+}
+
+.logout-icon {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+/*******************************ASSEMBLEE INDEX**************************************************/
+/*INVITATION*/
+.invit-li {
+  border: 1px #808080 solid;
+  border-radius: 5px;
+  margin: 0.8rem 4.3rem 0.8rem 1.7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 1.5rem 1rem 1.5rem;
+}
+
+.invit-title {
+  text-decoration: none;
+  font-size: 2.2rem;
+  color: #808080;
+  transition: 0.3s;
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+#invitation input {
+  margin-bottom: 1rem;
+  margin-right: 1.5rem;
+  width: 100%;
 }
 
 /* for desktop */

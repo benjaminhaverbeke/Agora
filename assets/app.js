@@ -1,5 +1,6 @@
 
-import './bootstrap';
-import './sass/app.scss';
+import './bootstrap.js';
+import './styles/app.scss';
+import './styles/app.css';
 
 
