@@ -22,12 +22,6 @@ return [
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
-    'react' => [
-        'version' => '18.3.1',
-    ],
-    'react-dom' => [
-        'version' => '18.3.1',
-    ],
     'scheduler' => [
         'version' => '0.23.2',
     ],

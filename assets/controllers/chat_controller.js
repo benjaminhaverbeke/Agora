@@ -20,20 +20,30 @@ export default class extends Controller {
     show() {
         this.asideTarget.classList.add("is-chatting");
         this.inputTarget.focus();
-    }
-
-    connect() {
-
-        this.messagesTarget.scrollTop = this.messagesTarget.scrollHeight;
-
 
     }
 
-    scrolldown() {
 
-        this.messagesTarget.scrollTop = +this.messagesTarget.scrollHeight;
+
+    clear(){
+
+        this.inputTarget.value = "";
+        console.log('test');
 
     }
+
+    // connect() {
+    //
+    //     this.messagesTarget.scrollTop = this.messagesTarget.scrollHeight;
+    //
+    //
+    // }
+    //
+    // scrolldown() {
+    //
+    //     this.messagesTarget.scrollTop = +this.messagesTarget.scrollHeight;
+    //
+    // }
 
 
 

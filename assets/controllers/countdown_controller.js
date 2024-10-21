@@ -64,8 +64,8 @@ export default class extends Controller {
                         this.time()
 
                         if (this._diff <= 0) {
-                            clearInterval(this._timer);
-                            location.reload();
+                            this.disconnect();
+
                         }
 
                     }, 1000);
@@ -80,6 +80,11 @@ export default class extends Controller {
         );
 
 
+    }
+
+    disconnect() {
+        clearInterval(this._timer);
+        window.location.reload();
     }
 
 
