@@ -21,7 +21,9 @@
                 membres.
             </p>
             <p> Prêt à rejoindre votre première assemblée ? </p>
+            {% if not app.user %}
             <a class="btn register-btn" href="{{ path('register') }}">S'inscrire</a>
+            {% endif %}
         </section>
 
         {% if app.user %}
