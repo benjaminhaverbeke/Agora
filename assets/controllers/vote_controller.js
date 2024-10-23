@@ -17,10 +17,12 @@ export default class extends Controller {
 
             let select = this.originalSelectTarget;
 
+            console.log(select);
             mention.addEventListener('click', function() {
 
                 select.value = mention.dataset.mention;
-
+                select.setAttribute('value', mention.dataset.mention);
+                console.log(select)
                 mentions.forEach((mention)=> {
 
                     mention.style.opacity = '100%';

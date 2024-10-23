@@ -158,7 +158,7 @@
                             <li class="hasvoted">
                                 <p>{{ vote.proposal.title }}</p>
 
-                                {% if vote.notes == 'inadapate' %}
+                                {% if vote.notes == 'inadapte' %}
                                 <p class="red">Inadapté</p>
                                 {% elseif vote.notes == 'passable' %}
                                 <p class="brown">Passable</p>
@@ -198,7 +198,7 @@
                             </a>
 
                         </div>
-
+                        <p data-deroulant-target="sujetDescript" class="sujet-content">{{ sujet.sujet.description }}</p>
 
 
                     {% endif %}

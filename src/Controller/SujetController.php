@@ -225,17 +225,6 @@ class SujetController extends AbstractController
 
         /****************/
 
-        $proposals = $sujet->getProposals();
-
-        foreach ($proposals as $proposal) {
-
-            $vote = new Vote();
-            $vote->setProposal($proposal);
-            $vote->setUser($currentUser);
-            $vote->setSujet($sujet);
-            $proposal->addVote($vote);
-        }
-
 
         $form = $this->createForm(SujetType::class, $sujet, ['vote' => true]);
 
@@ -246,11 +235,12 @@ class SujetController extends AbstractController
 
         $token = $this->isCsrfTokenValid('vote', $submittedToken);
 
-        if ($form->isSubmitted() && $token) {
 
+        if ($form->isSubmitted() && $token) {
 
             $sujet->addVoter($currentUser);
             $currentUser->addVoted($sujet);
+
             $em->persist($sujet);
             $em->persist($currentUser);
 

@@ -4,9 +4,12 @@ namespace App\Form;
 
 use App\Entity\Proposal;
 use App\Entity\Sujet;
+use App\Entity\User;
 use App\Entity\Vote;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Event\PostSubmitEvent;
 use Symfony\Component\Form\Event\PreSetDataEvent;
 use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -19,41 +22,47 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+
 
 class VoteType extends AbstractType
 {
+    private Security $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('user', HiddenType::class, [
-                'property_path' => 'user.email',
-                'disabled' => true
-            ])
-            ->add('notes', ChoiceType::class, [
+//            ->add('user', HiddenType::class, [
+//                'property_path' => 'user.email',
+//                'disabled' => true,
+//                'mapped' => false
+//            ])
+            ->add('notes', TextType::class,
+                [
+                'data' => 'bien',
                 'attr' => [
+
                     'class' => 'original-select-vote',
                     'data-vote-target' => 'originalSelect'
                 ],
-                'choices' => [
 
-                    'Inadapté' => 'inadapte',
-                    'Passable' => 'passable',
-                    'Bien' => 'bien',
-                    'Très Bien' => 'tresbien',
-                    'Excellent' => 'excellent',
 
-                ],
-                'choice_attr' => [
-                    'Inadapté' => ['data-mention' => 'inadapte'],
-                    'Passable' => ['data-mention' => 'passable'],
-                    'Bien' => ['data-mention' => 'bien',
-                        'selected' => "selected"],
-                    'Très Bien' => ['data-mention' => 'tresbien'],
-                    'Excellent' => ['data-mention' => 'excellent'],
-                ],
 
-                'empty_data' => 'bien'
-            ]);
+            ])->addEventListener(FormEvents::POST_SUBMIT, function (PostSubmitEvent $event): void {
+                $vote = $event->getData();
+                $proposal = $event->getForm()->getParent()->getData();
+
+                $vote->setProposal($proposal);
+                $vote->setSujet($proposal->getSujet());
+                $vote->setUser($this->security->getUser());
+
+                $proposal->addVote($vote);
+            });
+
 
     }
 

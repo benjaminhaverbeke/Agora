@@ -7,11 +7,14 @@ use App\Entity\Salon;
 use App\Entity\Sujet;
 use App\Entity\User;
 use App\Entity\Vote;
+use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Event\PostSubmitEvent;
+use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -49,16 +52,14 @@ class ProposalType extends AbstractType
                     ],
                     'disabled' => true
                 ])
-                ->add('votes', CollectionType::class,
+                ->add('vote', VoteType::class,
+
                     [
-                        'entry_type' => VoteType::class,
-                        'entry_options' => [
-                            'label' => false
-                        ],
+                        'mapped' => false,
+                        'data' => new Vote
 
 
                     ]);
-
 
         } else {
 

@@ -16,23 +16,18 @@
                 <li data-controller="vote" class="proposal-vote-content">
                     {{ form_row(proposal.title) }}
                     {{ form_row(proposal.description) }}
-                    {% for vote in proposal.votes %}
 
-                        {% if field_value(vote.user) == app.user.email %}
-                            <div>
-                                {{ form_row(vote.notes) }}
-                                <ul data-vote-target="mentionUl" class="mention-ul">
-                                    <li data-mention="inadapte" class="mention-li">Inadapté</li>
-                                    <li data-mention="passable" class="mention-li">Passable</li>
-                                    <li data-mention="bien" class="mention-li">Bien</li>
-                                    <li data-mention="tresbien" class="mention-li">Très bien</li>
-                                    <li data-mention="excellent" class="mention-li">Excellent</li>
-                                </ul>
-                            </div>
+                    {{ form_row(proposal.vote) }}
 
-                        {% endif %}
+                    <ul data-vote-target="mentionUl" class="mention-ul">
+                        <li data-mention="inadapte" class="mention-li">Inadapté</li>
+                        <li data-mention="passable" class="mention-li">Passable</li>
+                        <li data-mention="bien" class="mention-li">Bien</li>
+                        <li data-mention="tresbien" class="mention-li">Très bien</li>
+                        <li data-mention="excellent" class="mention-li">Excellent</li>
+                    </ul>
 
-                    {% endfor %}
+
                 </li>
             {% endfor %}
         </ul>
