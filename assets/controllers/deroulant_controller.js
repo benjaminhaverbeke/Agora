@@ -18,12 +18,12 @@ export default class extends Controller {
 
     hide() {
         this.ulTarget.classList.remove("active");
-        this.arrowTarget.style.rotate = "0deg";
+        this.arrowTarget.style.rotate = "180deg";
     }
 
     show() {
         this.ulTarget.classList.add("active");
-        this.arrowTarget.style.rotate = "180deg";
+        this.arrowTarget.style.rotate = "0deg";
     }
 
 
