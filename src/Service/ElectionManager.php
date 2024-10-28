@@ -30,7 +30,7 @@ readonly class ElectionManager
      * @param Sujet $sujet
      * @return array
      */
-    public function allMentionsByProposal(Sujet $sujet): array
+    public function allMentionsBySujet(Sujet $sujet): array
     {
         $props = $this->pm->proposalsAndVotesBySujet($sujet->getId());
 
@@ -224,7 +224,7 @@ readonly class ElectionManager
     public function isElected(Sujet $sujet): array
     {
 
-        $all_mentions = $this->allMentionsByProposal($sujet);
+        $all_mentions = $this->allMentionsBySujet($sujet);
 
         $all_win_mentions = $this->allWinnerMentions($all_mentions);
 
