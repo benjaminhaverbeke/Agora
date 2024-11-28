@@ -24,6 +24,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\UX\Turbo\TurboBundle;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 
 
 class SalonController extends AbstractController
@@ -538,5 +540,20 @@ class SalonController extends AbstractController
 
         return new JsonResponse($result);
     }
+
+    #[Route('salon.publish/{id}', name: "salon.publish", requirements: ['id' => '\d+'])]
+    public function publish(HubInterface $hub): Response
+    {
+        $update = new Update(
+            'https://localhost:3000/books/1',
+            json_encode(['status' => 'OutOfStock'])
+        );
+
+        $hub->publish($update);
+
+        return new Response('published!');
+    }
+
+
 
 }
