@@ -40,12 +40,19 @@ Clone the GitHub repository into the www directory of your Wamp installation:
 
 Make sure Wamp is running and the Apache server is started.
 
+Create a new SQL user
+
+Log into phpMyAdmin: Access the phpMyAdmin interface using your local server's URL.
+Add a new user: Navigate to the "Users" tab, click "Add user," and fill in the required details (username, password, and host).
+Grant privileges: Select the desired database and check the privileges (e.g., SELECT, INSERT, UPDATE, DELETE) you want to assign to the user.
+Save changes: Click "Go" or "Add user" to create the new user.
+
 ## Configuring Environment Variables
 
 Go to the project's root directory and open .env, ensure DATABASE_URL config like this:
 
 ```
-DATABASE_URL="mysql://root:@127.0.0.1:3306/agora?serverVersion=8.3.0&charset=utf8mb4"
+DATABASE_URL="mysql://newuser:newuserpassword@127.0.0.1:3306/agora?serverVersion=8.3.0&charset=utf8mb4"
 ```
 
 ## Generate Schema Database
