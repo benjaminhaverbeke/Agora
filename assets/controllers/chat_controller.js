@@ -28,22 +28,11 @@ export default class extends Controller {
     clear(){
 
         this.inputTarget.value = "";
-        console.log('test');
+
 
     }
 
-    // connect() {
-    //
-    //     this.messagesTarget.scrollTop = this.messagesTarget.scrollHeight;
-    //
-    //
-    // }
-    //
-    // scrolldown() {
-    //
-    //     this.messagesTarget.scrollTop = +this.messagesTarget.scrollHeight;
-    //
-    // }
+
 
 
 

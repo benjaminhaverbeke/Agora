@@ -13,7 +13,8 @@
                   class="close_chat material-symbols-outlined">
                     close
                 </span>
-            <div data-chat-target="messages" id="messages">
+            <div data-chat-target="messages" id="messages" data-controller="turbo-stream"
+                 data-turbo-stream-url-value="https://localhost:3000/.well-known/mercure?topic=salon/{{salon.id}}/chat">
                 {% for message in salon.messages %}
                     <div class="bulle_chat box">
                         <p class="message-user">{{ message.user.username }}</p>

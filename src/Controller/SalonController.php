@@ -482,7 +482,8 @@ class SalonController extends AbstractController
     public function chat(
         int                 $id,
         Request             $request,
-        #[CurrentUser] User $currentUser
+        #[CurrentUser] User $currentUser,
+        HubInterface $hub
     ): Response
     {
         /***processing chat requests***/
@@ -508,6 +509,17 @@ class SalonController extends AbstractController
 
             $this->em->flush();
 
+            $update = new Update(
+                'salon/'.$id.'/chat',
+                json_encode([
+                    'message' => $content,
+                    'author' => $currentUser->getUsername(),
+                    'date' => date_format($messageForm->getData()->getCreatedAt(), 'G:i')
+                ])
+            );
+
+            $hub->publish($update);
+
             /***message block is streamed***/
 
             if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
@@ -519,6 +531,8 @@ class SalonController extends AbstractController
                     ["message" => $message]
                 );
             }
+
+
 
         }
 

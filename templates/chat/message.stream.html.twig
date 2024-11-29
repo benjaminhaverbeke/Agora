@@ -1,13 +1,10 @@
-{% autoescape %}
 <turbo-stream action="prepend" target="messages">
     <template>
-        <article class="bulle_chat box">
+        <article class="bulle_chat box" >
             <p class="message-user">{{ message.user.username }}</p>
             <p class="message-content">{{ message.content }}</p>
             <p class="message-date">{{ message.createdAt|date("G:i") }}</p>
         </article>
     </template>
 </turbo-stream>
-
-{% endautoescape %}
 
